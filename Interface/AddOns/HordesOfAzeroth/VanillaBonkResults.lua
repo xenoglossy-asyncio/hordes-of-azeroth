@@ -1121,9 +1121,9 @@ end
 
 local function Place()
     if run.difficulty and run.difficulty ~= "" then
-        return run.map .. " (" .. run.difficulty .. ")"
+        return VanillaBonkLocale.L(run.map) .. " (" .. VanillaBonkLocale.L(run.difficulty) .. ")"
     end
-    return run.map ~= "" and run.map or VanillaBonkLocale.L("the arena")
+    return run.map ~= "" and VanillaBonkLocale.L(run.map) or VanillaBonkLocale.L("the arena")
 end
 
 local function FillHeading()

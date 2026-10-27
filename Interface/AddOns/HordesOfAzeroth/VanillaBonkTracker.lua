@@ -96,9 +96,9 @@ local function Refresh()
     local stage = VanillaBonkLocale.L("|cffffd100Stage ") .. run.stage .. "|r"
     local color = DIFFICULTY_COLORS[run.difficulty]
     if run.difficulty ~= "" and color then
-        stage = stage .. format("  |cff9d9d9d·|r  |cff%02x%02x%02x%s|r", color[1] * 255, color[2] * 255, color[3] * 255, run.difficulty)
+        stage = stage .. format("  |cff9d9d9d·|r  |cff%02x%02x%02x%s|r", color[1] * 255, color[2] * 255, color[3] * 255, VanillaBonkLocale.L(run.difficulty))
     elseif run.difficulty ~= "" then
-        stage = stage .. "  |cff9d9d9d·|r  " .. run.difficulty
+        stage = stage .. "  |cff9d9d9d·|r  " .. VanillaBonkLocale.L(run.difficulty)
     end
     tracker.stage:SetText(stage)
 

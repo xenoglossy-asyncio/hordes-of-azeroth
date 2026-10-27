@@ -144,6 +144,12 @@ Yes. Plug in an Xbox or PlayStation controller and play. Button prompts switch t
 </details>
 
 <details>
+<summary><b>Can I play in Chinese?</b></summary>
+<br>
+Yes. The game, the login screen and the launcher all speak Chinese (zhCN). Switch the language under <b>Language</b> in the in-game Interface Options, on the character screen, or in the launcher's <b>⋯</b> menu. English stays the default, and anything not yet translated falls back to English.
+</details>
+
+<details>
 <summary><b>Does it run on Mac or Linux?</b></summary>
 <br>
 Windows only for now. Mac and Linux support is planned.

@@ -362,7 +362,7 @@ confirm.no:SetPoint("BOTTOMLEFT", confirm.box, "BOTTOM", 6, 18)
 local function Refresh()
     if run.inRun then
         menu.title:SetText(VanillaBonkLocale.L("Paused"))
-        local difficulty = run.difficulty ~= "" and ("  |cff9d9d9d·|r  |cff" .. (DIFFICULTY_COLORS[run.difficulty] or "ffffff") .. run.difficulty .. "|r") or ""
+        local difficulty = run.difficulty ~= "" and ("  |cff9d9d9d·|r  |cff" .. (DIFFICULTY_COLORS[run.difficulty] or "ffffff") .. VanillaBonkLocale.L(run.difficulty) .. "|r") or ""
         menu.subtitle:SetText(VanillaBonkLocale.L("|cffffd100Stage ") .. run.stage .. "|r" .. difficulty .. "  |cff9d9d9d·|r  |cffffffff" .. UI.FormatTime(run.elapsed) .. "|r")
         levelRow.value:SetText(run.level or "-")
         killsRow.value:SetText(run.kills or 0)
