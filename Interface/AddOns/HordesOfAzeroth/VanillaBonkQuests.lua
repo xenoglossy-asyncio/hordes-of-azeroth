@@ -1,7 +1,7 @@
 local PREFIX = "BONK~"
 local FLAT = "Interface\\Buttons\\WHITE8X8"
-local FONT = "Fonts\\FRIZQT__.TTF"
-local NUMBER_FONT = "Fonts\\ARIALN.TTF"
+local FONT = VanillaBonkLocale.Font()
+local NUMBER_FONT = VanillaBonkLocale.NumberFont()
 local ICON_PATH = "Interface\\Icons\\"
 
 local WIDTH = 600
@@ -36,19 +36,19 @@ local UI = VanillaBonkUI
 
 local board = UI.Window("VanillaBonkQuestBoard", WIDTH, HEIGHT)
 board:SetPoint("CENTER", UIParent, "CENTER", 0, 40)
-board.title:SetText("Quest Board")
+board.title:SetText(VanillaBonkLocale.L("Quest Board"))
 
 board.pane = UI.Pane(board, UI.CONTENT_LEFT, UI.CONTENT_TOP, WIDTH - UI.CONTENT_LEFT - UI.CONTENT_RIGHT,
     HEIGHT - UI.CONTENT_TOP - UI.CONTENT_BOTTOM, "Interface\\Glues\\LoadingScreens\\LoadScreenStormwindStockade", 0.65)
 board.pane:SetFrameLevel(board:GetFrameLevel() + 1)
 
 local CATEGORIES = {
-    { key = "slayer", label = "Slayer" },
-    { key = "victory", label = "Victory" },
-    { key = "mastery", label = "Mastery" },
-    { key = "challenge", label = "Challenge" },
-    { key = "discovery", label = "Discovery" },
-    { key = "collection", label = "Collection" },
+    { key = "slayer", label = VanillaBonkLocale.L("Slayer") },
+    { key = "victory", label = VanillaBonkLocale.L("Victory") },
+    { key = "mastery", label = VanillaBonkLocale.L("Mastery") },
+    { key = "challenge", label = VanillaBonkLocale.L("Challenge") },
+    { key = "discovery", label = VanillaBonkLocale.L("Discovery") },
+    { key = "collection", label = VanillaBonkLocale.L("Collection") },
 }
 board.tab = "all"
 board.tabKeys = {}
@@ -72,7 +72,7 @@ local function RewardTooltip()
         return
     end
     GameTooltip:SetOwner(this, "ANCHOR_RIGHT")
-    GameTooltip:AddLine("Reward", 1, 0.82, 0)
+    GameTooltip:AddLine(VanillaBonkLocale.L("Reward"), 1, 0.82, 0)
     GameTooltip:AddLine(this.reward, 1, 1, 1, 1)
     GameTooltip:Show()
 end
@@ -176,7 +176,7 @@ function RefreshBoard()
     local keys, labels = {}, {}
     if present["all"] then
         tinsert(keys, "all")
-        tinsert(labels, "General")
+        tinsert(labels, VanillaBonkLocale.L("General"))
     end
     for _, category in ipairs(CATEGORIES) do
         if present[category.key] then
@@ -186,11 +186,11 @@ function RefreshBoard()
     end
     if present["class"] then
         tinsert(keys, "class")
-        tinsert(labels, (UnitClass("player") or "Class") .. " quests")
+        tinsert(labels, (UnitClass("player") or VanillaBonkLocale.L("Class")) .. VanillaBonkLocale.L(" quests"))
     end
     if table.getn(keys) == 0 then
         tinsert(keys, "all")
-        tinsert(labels, "General")
+        tinsert(labels, VanillaBonkLocale.L("General"))
     end
 
     local selected = 1
@@ -228,7 +228,7 @@ function RefreshBoard()
             row:SetBackdropColor(0.03, 0.12, 0.03, 0.7)
             row.name:SetTextColor(0.4, 1, 0.4)
             row.bar:SetVertexColor(0.25, 0.8, 0.25)
-            row.progress:SetText("Complete")
+            row.progress:SetText(VanillaBonkLocale.L("Complete"))
             row.rewardText:SetTextColor(0.6, 0.6, 0.6)
             row.check:Show()
             SetDesaturation(row.rewardIcon, 1)
@@ -249,14 +249,14 @@ function RefreshBoard()
 
     board.list:SetHeight(max(LIST_HEIGHT, table.getn(list) * ROW_HEIGHT))
     board.scroll:UpdateScrollChildRect()
-    board.headerRight:SetText("|cffffffff" .. done .. " / " .. table.getn(list) .. " done|r")
+    board.headerRight:SetText("|cffffffff" .. done .. " / " .. table.getn(list) .. VanillaBonkLocale.L(" done|r"))
     board.scroll:SetVerticalScroll(0)
 end
 
 board:SetScript("OnShow", function()
     PlaySound("igQuestLogOpen")
     UI.SetPortrait(board)
-    board.header:SetText(UnitExists("npc") and UnitName("npc") or "Quest Board")
+    board.header:SetText(UnitExists("npc") and UnitName("npc") or VanillaBonkLocale.L("Quest Board"))
 end)
 
 board:SetScript("OnHide", function()
@@ -397,13 +397,13 @@ handlers["q"] = function(f)
     end
     tinsert(incoming.quests, {
         id = tonumber(f[2]) or 0,
-        name = f[3] or "",
-        description = f[4] or "",
+        name = VanillaBonkLocale.L(f[3] or ""),
+        description = VanillaBonkLocale.L(f[4] or ""),
         icon = f[5] or "",
         progress = tonumber(f[6]) or 0,
         amount = tonumber(f[7]) or 1,
         done = f[8] == "1",
-        reward = f[9] or "",
+        reward = VanillaBonkLocale.L(f[9] or ""),
         rewardIcon = f[10] or "",
         class = f[11] == "1",
         category = strlower(f[12] or ""),
@@ -430,7 +430,7 @@ handlers["qlogend"] = function()
 end
 
 handlers["questdone"] = function(f)
-    tinsert(toast.queue, { name = f[3] or "", reward = f[4] or "", icon = f[5] or "" })
+    tinsert(toast.queue, { name = VanillaBonkLocale.L(f[3] or ""), reward = VanillaBonkLocale.L(f[4] or ""), icon = f[5] or "" })
     if not toast:IsShown() then
         NextToast()
     end

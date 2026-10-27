@@ -4,6 +4,8 @@
 ## Author: jonhaldors
 ## Version: 1
 ## SavedVariables: VanillaBonkChoiceKeys, VanillaBonkMeterMode, VanillaBonkPerfLog, VanillaBonkTutorialDone, VanillaBonkDashShift, VanillaBonkPlateGuideDone, VanillaBonkControllerSettings, VanillaBonkControllerTipDone, VanillaBonkVendorTip, VanillaBonkGearTabTips, VanillaBonkOptions, VanillaBonkHearthTipDone, VanillaBonkKeysGiven, VanillaBonkInnkeeperTip
+VanillaBonkLocale.lua
+VanillaBonkLocaleZhCN.lua
 VanillaBonkUI.lua
 VanillaBonkSpellTip.lua
 VanillaBonkDebuffs.lua

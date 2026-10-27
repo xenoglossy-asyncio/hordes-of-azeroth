@@ -14,8 +14,8 @@ local GOLD_BORDER = "Interface\\DialogFrame\\UI-DialogBox-Gold-Border"
 local STONE_BORDER = "Interface\\DialogFrame\\UI-DialogBox-Border"
 
 local LOOKS = {
-    boss = { fill = { 0.78, 0.12, 0.12 }, name = { 1, 0.82, 0 }, tag = "|cffff4b4bSTAGE BOSS|r", kind = "Stage boss", border = GOLD_BORDER, edge = { 1, 1, 1 } },
-    mini = { fill = { 0.9, 0.48, 0.1 }, name = { 1, 1, 1 }, tag = "|cffffa040MINI-BOSS|r", kind = "Mini-boss", border = STONE_BORDER, edge = { 0.85, 0.85, 0.85 } },
+    boss = { fill = { 0.78, 0.12, 0.12 }, name = { 1, 0.82, 0 }, tag = VanillaBonkLocale.L("|cffff4b4bSTAGE BOSS|r"), kind = VanillaBonkLocale.L("Stage boss"), border = GOLD_BORDER, edge = { 1, 1, 1 } },
+    mini = { fill = { 0.9, 0.48, 0.1 }, name = { 1, 1, 1 }, tag = VanillaBonkLocale.L("|cffffa040MINI-BOSS|r"), kind = VanillaBonkLocale.L("Mini-boss"), border = STONE_BORDER, edge = { 0.85, 0.85, 0.85 } },
 }
 
 local function Short(value)
@@ -119,7 +119,7 @@ bar:EnableMouse(true)
 bar:SetScript("OnEnter", function()
     GameTooltip:SetOwner(this, "ANCHOR_BOTTOM")
     GameTooltip:AddDoubleLine(this.bossName or "", this.look and this.look.kind or "", 1, 0.82, 0, 1, 0.3, 0.3)
-    GameTooltip:AddLine(Short(this.hp or 0) .. " / " .. Short(this.hpMax or 0) .. " health", 1, 1, 1)
+    GameTooltip:AddLine(Short(this.hp or 0) .. " / " .. Short(this.hpMax or 0) .. VanillaBonkLocale.L(" health"), 1, 1, 1)
     if getn(this.affixNames) > 0 then
         GameTooltip:AddLine(table.concat(this.affixNames, ", "), 1, 0.82, 0, 1)
     end
@@ -172,7 +172,7 @@ end
 UI.Listen({
     ["boss"] = function(f)
         if f[2] and f[2] ~= "" then
-            ShowBoss(f[2], tonumber(f[3]) or 0, tonumber(f[4]) or 0, f[5], f[6], f[7], f[8])
+            ShowBoss(VanillaBonkLocale.L(f[2]), tonumber(f[3]) or 0, tonumber(f[4]) or 0, f[5], f[6], f[7], f[8])
         else
             HideBoss()
         end

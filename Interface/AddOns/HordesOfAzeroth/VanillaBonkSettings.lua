@@ -4,43 +4,43 @@ local DEFAULT_KEY_DELAY = 1
 local MODIFIER_KEYS = { SHIFT = true, CTRL = true, ALT = true }
 
 UI.INTERACT_TYPES = {
-    { key = "interactPeople", label = "People", hint = "Talk, shop and bank", units = true },
-    { key = "interactChests", label = "Chests", hint = "Open chests, vaults and hidden finds", objects = { 900001, 900002, 900041, 900060 }, types = { 3 } },
-    { key = "interactShrines", label = "Shrines", hint = "Touch shrines, totems and altars", objects = { 900031, 900032, 900033, 900034 } },
-    { key = "interactPortals", label = "Portals", hint = "Step through portals", objects = { 900003 } },
-    { key = "interactMail", label = "Mailbox", hint = "Read your mail", types = { 19 } },
+    { key = "interactPeople", label = VanillaBonkLocale.L("People"), hint = VanillaBonkLocale.L("Talk, shop and bank"), units = true },
+    { key = "interactChests", label = VanillaBonkLocale.L("Chests"), hint = VanillaBonkLocale.L("Open chests, vaults and hidden finds"), objects = { 900001, 900002, 900041, 900060 }, types = { 3 } },
+    { key = "interactShrines", label = VanillaBonkLocale.L("Shrines"), hint = VanillaBonkLocale.L("Touch shrines, totems and altars"), objects = { 900031, 900032, 900033, 900034 } },
+    { key = "interactPortals", label = VanillaBonkLocale.L("Portals"), hint = VanillaBonkLocale.L("Step through portals"), objects = { 900003 } },
+    { key = "interactMail", label = VanillaBonkLocale.L("Mailbox"), hint = VanillaBonkLocale.L("Read your mail"), types = { 19 } },
 }
 
 UI.AUTO_CHEST_ENTRIES = { 900001, 900002 }
 
 UI.DISPLAY_SETTINGS = {
-    { key = "enemyPlates", label = "Enemy Nameplates", default = true,
-        tooltip = "Shows health bars over enemies near you.", apply = function() UI.ApplyEnemyPlates() end },
-    { key = "damageMeter", label = "Damage Meter", default = true,
-        tooltip = "Shows how much damage each of your spells has done this run.", apply = function() UI.ApplyDamageMeter() end },
-    { key = "incomingNumbers", label = "Damage Taken Numbers", default = true,
-        tooltip = "Shows the damage you take as numbers beside your hero." },
-    { key = "healthNumbers", label = "Health Bar Numbers", default = true,
-        tooltip = "Shows your health as numbers on your health bars.", apply = function() UI.ApplyHealthNumbers() end },
-    { key = "cooldownNumbers", label = "Cooldown Numbers", default = true,
-        tooltip = "Shows the seconds left on spells with a cooldown of 2 seconds or more." },
+    { key = "enemyPlates", label = VanillaBonkLocale.L("Enemy Nameplates"), default = true,
+        tooltip = VanillaBonkLocale.L("Shows health bars over enemies near you."), apply = function() UI.ApplyEnemyPlates() end },
+    { key = "damageMeter", label = VanillaBonkLocale.L("Damage Meter"), default = true,
+        tooltip = VanillaBonkLocale.L("Shows how much damage each of your spells has done this run."), apply = function() UI.ApplyDamageMeter() end },
+    { key = "incomingNumbers", label = VanillaBonkLocale.L("Damage Taken Numbers"), default = true,
+        tooltip = VanillaBonkLocale.L("Shows the damage you take as numbers beside your hero.") },
+    { key = "healthNumbers", label = VanillaBonkLocale.L("Health Bar Numbers"), default = true,
+        tooltip = VanillaBonkLocale.L("Shows your health as numbers on your health bars."), apply = function() UI.ApplyHealthNumbers() end },
+    { key = "cooldownNumbers", label = VanillaBonkLocale.L("Cooldown Numbers"), default = true,
+        tooltip = VanillaBonkLocale.L("Shows the seconds left on spells with a cooldown of 2 seconds or more.") },
 }
 
 UI.INTERACT_SETTINGS = {}
 for _, kind in ipairs(UI.INTERACT_TYPES) do
     tinsert(UI.INTERACT_SETTINGS, { key = kind.key, label = kind.label, default = true,
-        tooltip = "The interact key interacts with " .. string.lower(kind.label) .. ". " .. kind.hint .. ".",
+        tooltip = VanillaBonkLocale.L("The interact key interacts with ") .. string.lower(kind.label) .. ". " .. kind.hint .. ".",
         apply = function() UI.ApplyInteract() end })
 end
-UI.AUTO_CHEST_SETTING = { key = "autoChests", label = "Automatically open chests when you walk up to them", default = false,
-    tooltip = "Chests open by themselves when you get close. People, shrines and portals still wait for the interact key.",
+UI.AUTO_CHEST_SETTING = { key = "autoChests", label = VanillaBonkLocale.L("Automatically open chests when you walk up to them"), default = false,
+    tooltip = VanillaBonkLocale.L("Chests open by themselves when you get close. People, shrines and portals still wait for the interact key."),
     apply = function() UI.ApplyInteract() end }
 
 UI.KEYS = {
-    { command = "VANILLABONK_INTERACT", label = "Interact", default = "F" },
-    { command = "VANILLABONK_HEARTH", label = "Use Hearthstone", default = "T" },
-    { command = "VANILLABONK_DASH", label = "Dash", modifierAllowed = true },
-    { command = "VANILLABONK_SHAPESHIFT", label = "Shapeshift (Druid)" },
+    { command = "VANILLABONK_INTERACT", label = VanillaBonkLocale.L("Interact"), default = "F" },
+    { command = "VANILLABONK_HEARTH", label = VanillaBonkLocale.L("Use Hearthstone"), default = "T" },
+    { command = "VANILLABONK_DASH", label = VanillaBonkLocale.L("Dash"), modifierAllowed = true },
+    { command = "VANILLABONK_SHAPESHIFT", label = VanillaBonkLocale.L("Shapeshift (Druid)") },
 }
 
 local settingsWatchers = {}
@@ -167,14 +167,14 @@ function UI.CaptureKey(binding)
     capture.binding = binding
     capture.modifier = nil
     capture.title:SetText(binding.label)
-    capture.body:SetText("Press the key you want for " .. binding.label .. ". Escape keeps the current key.")
+    capture.body:SetText(VanillaBonkLocale.L("Press the key you want for ") .. binding.label .. VanillaBonkLocale.L(". Escape keeps the current key."))
     capture:Show()
 end
 
 function UI.KeyText(binding)
     local text = UI.BindingText(binding.command)
     if text == "" then
-        return "None"
+        return VanillaBonkLocale.L("None")
     end
     return text
 end

@@ -30,9 +30,9 @@ local function Rarity(glyph)
 end
 
 local function KindText(glyph)
-    local text = Rarity(glyph).name .. " Glyph"
+    local text = Rarity(glyph).name .. VanillaBonkLocale.L(" Glyph")
     if glyph and glyph.drawback ~= "" then
-        text = text .. " with a |cffff4a3adrawback|r"
+        text = text .. VanillaBonkLocale.L(" with a |cffff4a3adrawback|r")
     end
     return text
 end
@@ -86,7 +86,7 @@ frame.title = frame:CreateFontString(nil, "OVERLAY")
 frame.title:SetFont(UI.TITLE_FONT, 44, "OUTLINE")
 frame.title:SetPoint("CENTER", frame, "CENTER", 0, 244)
 frame.title:SetTextColor(1, 0.82, 0)
-frame.title:SetText("Choose a Glyph")
+frame.title:SetText(VanillaBonkLocale.L("Choose a Glyph"))
 
 frame.subtitle = UI.Text(frame, 13)
 frame.subtitle:SetPoint("CENTER", frame, "CENTER", 0, 202)
@@ -242,7 +242,7 @@ frame.mine:SetPoint("CENTER", frame, "CENTER", 0, -182)
 frame.mine.label = UI.Text(frame.mine, 11)
 frame.mine.label:SetPoint("LEFT", frame.mine, "LEFT", 0, 0)
 frame.mine.label:SetTextColor(0.78, 0.72, 0.56)
-frame.mine.label:SetText("Your Glyphs")
+frame.mine.label:SetText(VanillaBonkLocale.L("Your Glyphs"))
 frame.mine.sockets = {}
 for index = 1, SOCKETS do
     local socket = UI.Ring(frame.mine, SOCKET_SIZE, true)
@@ -269,7 +269,7 @@ local function FillCard(card, glyph)
     SetCardLine(card, card.lineColor)
     card.name:SetText(glyph.name)
     card.name:SetTextColor(rarity.r, rarity.g, rarity.b)
-    card.kind:SetText(UI.RarityText(glyph.rarity, rarity.name) .. " Glyph")
+    card.kind:SetText(UI.RarityText(glyph.rarity, rarity.name) .. VanillaBonkLocale.L(" Glyph"))
     card.description:SetText(glyph.description)
     card.drawback:SetText(glyph.drawback)
     for _, part in ipairs({ card.badLeft, card.badRight, card.badLabel, card.drawback }) do
@@ -294,7 +294,7 @@ local function FillMine()
 end
 
 local function Fill()
-    frame.subtitle:SetText("Your " .. (ORDINALS[offer.pick] or "next") .. " Glyph lasts the whole run. The run is paused while you choose.")
+    frame.subtitle:SetText(VanillaBonkLocale.L("Your ") .. (ORDINALS[offer.pick] or "next") .. VanillaBonkLocale.L(" Glyph lasts the whole run. The run is paused while you choose."))
     local glyphs = {}
     for index = 1, MAX_CARDS do
         local glyph = info[offer.ids[index]]
@@ -316,7 +316,7 @@ local function Fill()
         end
     end
     FillMine()
-    frame.hint:SetText("Click a Glyph or press 1-" .. max(1, count) .. " to take it.")
+    frame.hint:SetText(VanillaBonkLocale.L("Click a Glyph or press 1-") .. max(1, count) .. VanillaBonkLocale.L(" to take it."))
 end
 
 frame:SetScript("OnUpdate", function()
@@ -425,11 +425,11 @@ handlers["glyphinfo"] = function(f)
         return
     end
     info[id] = {
-        name = f[3] or "",
+        name = VanillaBonkLocale.L(f[3] or ""),
         icon = f[4] or "",
         rarity = tonumber(f[5] or "") or 0,
-        description = f[6] or "",
-        drawback = f[7] or "",
+        description = VanillaBonkLocale.L(f[6] or ""),
+        drawback = VanillaBonkLocale.L(f[7] or ""),
     }
 end
 

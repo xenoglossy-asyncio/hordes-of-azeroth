@@ -8,7 +8,7 @@ local SLOT_SIZE = 52
 local CARDS_TOP = 40
 local CARDS_ROOM = 320
 local WALK_AWAY = 3
-local SAVED_LABEL = "Your saved piece"
+local SAVED_LABEL = VanillaBonkLocale.L("Your saved piece")
 local RETRY, RETRIES = 0.25, 12
 local STONE_BORDER = { edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border", edgeSize = 24 }
 
@@ -40,7 +40,7 @@ frame.title = frame:CreateFontString(nil, "OVERLAY")
 frame.title:SetFont(UI.TITLE_FONT, 40, "OUTLINE")
 frame.title:SetPoint("CENTER", frame, "CENTER", 0, 262)
 frame.title:SetTextColor(1, 0.82, 0)
-frame.title:SetText("Extraction Vault")
+frame.title:SetText(VanillaBonkLocale.L("Extraction Vault"))
 
 frame.subtitle = UI.Text(frame, 13)
 frame.subtitle:SetPoint("CENTER", frame, "CENTER", 0, 226)
@@ -71,7 +71,7 @@ frame.box:SetBackdrop({
 frame.box.label = UI.Text(frame.box, 12)
 frame.box.label:SetPoint("TOP", frame.box, "TOP", 0, -16)
 frame.box.label:SetTextColor(1, 0.82, 0)
-frame.box.label:SetText("Mailed to you when you leave")
+frame.box.label:SetText(VanillaBonkLocale.L("Mailed to you when you leave"))
 frame.box.slots = {}
 
 local function CursorOnRightHalf()
@@ -102,7 +102,7 @@ local function ShowSaved(find)
         end
         tooltip:AddLine(" ")
         tooltip:AddLine(SAVED_LABEL, 1, 0.82, 0)
-        tooltip:AddLine("You came into the run with it.", 0.7, 0.7, 0.7)
+        tooltip:AddLine(VanillaBonkLocale.L("You came into the run with it."), 0.7, 0.7, 0.7)
         tooltip:Show()
         previous = tooltip
     end
@@ -113,9 +113,9 @@ local function ShowItemTooltip(owner, find, line)
     GameTooltip:SetHyperlink("item:" .. find.entry .. ":0:0:0")
     GameTooltip:AddLine(" ")
     GameTooltip:AddLine(line, 1, 0.82, 0)
-    GameTooltip:AddLine("Sells for " .. UI.FormatGold(find.sell) .. " if you leave it out of the vault.", 0.7, 0.7, 0.7)
+    GameTooltip:AddLine(VanillaBonkLocale.L("Sells for ") .. UI.FormatGold(find.sell) .. VanillaBonkLocale.L(" if you leave it out of the vault."), 0.7, 0.7, 0.7)
     if getn(find.saved) == 0 then
-        GameTooltip:AddLine("You have nothing saved in this slot.", 0.7, 0.7, 0.7)
+        GameTooltip:AddLine(VanillaBonkLocale.L("You have nothing saved in this slot."), 0.7, 0.7, 0.7)
     end
     GameTooltip:Show()
     ShowSaved(find)
@@ -144,11 +144,11 @@ local function VaultSlot(index)
     end)
     slot:SetScript("OnEnter", function()
         if this.find then
-            ShowItemTooltip(this, this.find, "Click to take it out of the vault.")
+            ShowItemTooltip(this, this.find, VanillaBonkLocale.L("Click to take it out of the vault."))
         else
             GameTooltip:SetOwner(this, "ANCHOR_RIGHT")
-            GameTooltip:AddLine("Empty", 1, 1, 1)
-            GameTooltip:AddLine("Click an item below to put it in the vault.", 1, 0.82, 0, 1)
+            GameTooltip:AddLine(VanillaBonkLocale.L("Empty"), 1, 1, 1)
+            GameTooltip:AddLine(VanillaBonkLocale.L("Click an item below to put it in the vault."), 1, 0.82, 0, 1)
             GameTooltip:Show()
         end
     end)
@@ -204,7 +204,7 @@ local function Card(index)
     card.ribbonText = UI.Text(card, 11)
     card.ribbonText:SetPoint("CENTER", card.ribbon, "CENTER", 0, 0)
     card.ribbonText:SetTextColor(1, 0.82, 0)
-    card.ribbonText:SetText("In the vault")
+    card.ribbonText:SetText(VanillaBonkLocale.L("In the vault"))
 
     card.highlight = card:CreateTexture(nil, "HIGHLIGHT")
     card.highlight:SetTexture("Interface\\Buttons\\UI-Panel-Button-Highlight")
@@ -229,7 +229,7 @@ local function Card(index)
     card:SetScript("OnEnter", function()
         local find = this.find
         if find then
-            ShowItemTooltip(this, find, vault.chosen[find.guid] and "Click to take it out of the vault." or "Click to put it in the vault.")
+            ShowItemTooltip(this, find, vault.chosen[find.guid] and VanillaBonkLocale.L("Click to take it out of the vault.") or VanillaBonkLocale.L("Click to put it in the vault."))
         end
     end)
     card:SetScript("OnLeave", function() GameTooltip:Hide() end)
@@ -240,13 +240,13 @@ end
 frame.rest = UI.Text(frame, 12)
 frame.hint = UI.Text(frame, 11)
 frame.hint:SetTextColor(0.72, 0.72, 0.72)
-frame.done = UI.Button(frame, 100, "Done", function()
+frame.done = UI.Button(frame, 100, VanillaBonkLocale.L("Done"), function()
     frame:Hide()
 end)
 
 local function SavedText(find)
     if getn(find.saved) == 0 then
-        return "|cff9d9d9dYours: nothing|r", true
+        return VanillaBonkLocale.L("|cff9d9d9dYours: nothing|r"), true
     end
     local names = {}
     for _, entry in ipairs(find.saved) do
@@ -257,7 +257,7 @@ local function SavedText(find)
         local r, g, b = QualityColor(quality or 2)
         tinsert(names, format("|cff%02x%02x%02x%s|r", r * 255, g * 255, b * 255, name))
     end
-    return "|cff9d9d9dYours:|r " .. table.concat(names, ", "), true
+    return VanillaBonkLocale.L("|cff9d9d9dYours:|r ") .. table.concat(names, ", "), true
 end
 
 local function FillCard(card, find)
@@ -267,7 +267,7 @@ local function FillCard(card, find)
     card.slot.icon:SetTexture(texture or (UI.ICON_PATH .. "INV_Misc_QuestionMark"))
     card.name:SetText(name or "")
     card.name:SetTextColor(r, g, b)
-    card.where:SetText(find.worn and "Equipped" or "In bags")
+    card.where:SetText(find.worn and VanillaBonkLocale.L("Equipped") or VanillaBonkLocale.L("In bags"))
     local saved, savedKnown = SavedText(find)
     card.saved:SetText(saved)
     card.price:SetText(UI.FormatGold(find.sell))
@@ -287,8 +287,8 @@ end
 
 local function Refresh()
     local slots = max(1, vault.slots)
-    frame.subtitle:SetText(slots == 1 and "1 piece comes home with you. The rest sells for gold."
-        or "2 pieces come home with you. The rest sells for gold.")
+    frame.subtitle:SetText(slots == 1 and VanillaBonkLocale.L("1 piece comes home with you. The rest sells for gold.")
+        or VanillaBonkLocale.L("2 pieces come home with you. The rest sells for gold."))
 
     local byGuid = {}
     for _, find in ipairs(vault.finds) do
@@ -323,7 +323,7 @@ local function Refresh()
             else
                 slot.icon:Hide()
                 slot.glow:Hide()
-                slot.caption:SetText(index == 2 and "Empty (Pack Mule)" or "Empty")
+                slot.caption:SetText(index == 2 and VanillaBonkLocale.L("Empty (Pack Mule)") or VanillaBonkLocale.L("Empty"))
                 slot.caption:SetTextColor(0.62, 0.62, 0.62)
             end
             slot:Show()
@@ -366,11 +366,11 @@ local function Refresh()
 
     frame.rest:ClearAllPoints()
     frame.rest:SetPoint("TOP", frame.cards, "BOTTOM", 0, -14)
-    frame.rest:SetText(count == 0 and "|cff9d9d9dNothing found this run yet.|r"
-        or ("The rest sells for " .. UI.FormatGold(rest)))
+    frame.rest:SetText(count == 0 and VanillaBonkLocale.L("|cff9d9d9dNothing found this run yet.|r")
+        or (VanillaBonkLocale.L("The rest sells for ") .. UI.FormatGold(rest)))
     frame.hint:ClearAllPoints()
     frame.hint:SetPoint("TOP", frame.rest, "BOTTOM", 0, -8)
-    frame.hint:SetText("Click an item to put it in the vault. Click it in the vault to take it out.")
+    frame.hint:SetText(VanillaBonkLocale.L("Click an item to put it in the vault. Click it in the vault to take it out."))
     frame.done:ClearAllPoints()
     frame.done:SetPoint("TOP", frame.hint, "BOTTOM", 0, -12)
 

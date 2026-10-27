@@ -16,8 +16,8 @@ local GREY = { 0.7, 0.7, 0.7 }
 local PHYSICAL_SCHOOL = 0
 
 local WORDS = {
-    MISS = "Miss", DODGE = "Dodge", PARRY = "Parry", BLOCK = "Block", RESIST = "Resist",
-    IMMUNE = "Immune", EVADE = "Evade", DEFLECT = "Deflect", ABSORB = "Absorb", REFLECT = "Reflect",
+    MISS = VanillaBonkLocale.L("Miss"), DODGE = VanillaBonkLocale.L("Dodge"), PARRY = VanillaBonkLocale.L("Parry"), BLOCK = VanillaBonkLocale.L("Block"), RESIST = VanillaBonkLocale.L("Resist"),
+    IMMUNE = VanillaBonkLocale.L("Immune"), EVADE = VanillaBonkLocale.L("Evade"), DEFLECT = VanillaBonkLocale.L("Deflect"), ABSORB = VanillaBonkLocale.L("Absorb"), REFLECT = VanillaBonkLocale.L("Reflect"),
 }
 
 local frame = CreateFrame("Frame", "VanillaBonkHurt", UIParent)

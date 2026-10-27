@@ -1,11 +1,11 @@
 local UI = VanillaBonkUI
 
 local SHAPESHIFT = "VANILLABONK_SHAPESHIFT"
-local SPELL_NAME = "Shapeshift"
+local SPELL_NAME = VanillaBonkLocale.L("Shapeshift")
 local DEFAULT_KEY = "R"
 local FREE_ACTIONS = { [""] = true, REPLY = true }
 local SEND_INTERVAL = 0.25
-BINDING_NAME_VANILLABONK_SHAPESHIFT = "Shapeshift"
+BINDING_NAME_VANILLABONK_SHAPESHIFT = VanillaBonkLocale.L("Shapeshift")
 
 local FORM_ICONS = {
     moonkin = "Interface\\Icons\\Spell_Nature_ForceOfNature",

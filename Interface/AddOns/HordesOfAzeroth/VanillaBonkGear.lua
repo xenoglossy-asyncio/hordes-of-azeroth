@@ -11,7 +11,7 @@ local CARD_HEAD = 84
 local CARD_FOOT = 16
 local EMPTY_HEIGHT = 170
 local CARD_GAP = 24
-local SLOT_NAMES = { [10] = "Ring 1", [11] = "Ring 2", [12] = "Trinket 1", [13] = "Trinket 2", [15] = "Main Hand", [16] = "Off Hand" }
+local SLOT_NAMES = { [10] = VanillaBonkLocale.L("Ring 1"), [11] = VanillaBonkLocale.L("Ring 2"), [12] = VanillaBonkLocale.L("Trinket 1"), [13] = VanillaBonkLocale.L("Trinket 2"), [15] = VanillaBonkLocale.L("Main Hand"), [16] = VanillaBonkLocale.L("Off Hand") }
 
 local offer = nil
 
@@ -30,12 +30,12 @@ frame.title = frame:CreateFontString(nil, "OVERLAY")
 frame.title:SetFont(UI.TITLE_FONT, 40, "OUTLINE")
 frame.title:SetPoint("CENTER", frame, "CENTER", 0, 210)
 frame.title:SetTextColor(1, 0.82, 0)
-frame.title:SetText("Loot")
+frame.title:SetText(VanillaBonkLocale.L("Loot"))
 
 frame.subtitle = UI.Text(frame, 13)
 frame.subtitle:SetPoint("CENTER", frame, "CENTER", 0, 172)
 frame.subtitle:SetTextColor(0.9, 0.83, 0.64)
-frame.subtitle:SetText("Wear it, carry it, or salvage it for Valor")
+frame.subtitle:SetText(VanillaBonkLocale.L("Wear it, carry it, or salvage it for Valor"))
 for side = 1, 2 do
     local line = frame:CreateTexture(nil, "ARTWORK")
     line:SetTexture(UI.FLAT)
@@ -86,13 +86,13 @@ local function Card(name, label)
     card.empty = UI.Text(card, 13)
     card.empty:SetPoint("CENTER", card, "CENTER", 0, -10)
     card.empty:SetTextColor(0.6, 0.6, 0.6)
-    card.empty:SetText("Nothing equipped in this slot")
+    card.empty:SetText(VanillaBonkLocale.L("Nothing equipped in this slot"))
     card:Hide()
     return card
 end
-local newCard = Card("VanillaBonkGearNewTip", "New")
-local wornCard = Card("VanillaBonkGearWornTip", "Equipped")
-local otherCard = Card("VanillaBonkGearOtherTip", "Equipped")
+local newCard = Card("VanillaBonkGearNewTip", VanillaBonkLocale.L("New"))
+local wornCard = Card("VanillaBonkGearWornTip", VanillaBonkLocale.L("Equipped"))
+local otherCard = Card("VanillaBonkGearOtherTip", VanillaBonkLocale.L("Equipped"))
 local newTip, wornTip, otherTip = newCard.tip, wornCard.tip, otherCard.tip
 
 frame.rule = UI.Text(frame, 12)
@@ -115,30 +115,30 @@ local function EquipIn(slot)
     end
 end
 
-frame.equip = UI.Button(frame, 140, "Equip", function()
+frame.equip = UI.Button(frame, 140, VanillaBonkLocale.L("Equip"), function()
     EquipIn(offer and offer.slot)
 end)
 frame.equip:SetHeight(26)
 frame.equip:SetPoint("CENTER", frame, "CENTER", -80, -186)
-frame.equipOther = UI.Button(frame, 140, "Replace", function()
+frame.equipOther = UI.Button(frame, 140, VanillaBonkLocale.L("Replace"), function()
     EquipIn(offer and offer.otherSlot)
 end)
 frame.equipOther:SetHeight(26)
 frame.equipOther:Hide()
-frame.salvage = UI.Button(frame, 160, "Salvage", function()
+frame.salvage = UI.Button(frame, 160, VanillaBonkLocale.L("Salvage"), function()
     Send("salvage")
 end)
 frame.salvage:SetHeight(26)
 frame.salvage:SetPoint("CENTER", frame, "CENTER", 80, -186)
-frame.loot = UI.Button(frame, 90, "Loot", function()
+frame.loot = UI.Button(frame, 90, VanillaBonkLocale.L("Loot"), function()
     Send("loot")
 end)
 frame.loot:SetHeight(26)
 frame.loot:SetScript("OnEnter", function()
     GameTooltip:SetOwner(this, "ANCHOR_TOP")
-    GameTooltip:SetText("Loot")
-    GameTooltip:AddLine("Carry it in your bags and equip it whenever you like.", 1, 1, 1, 1)
-    GameTooltip:AddLine("Found gear is only kept if you put it in the Extraction Vault and extract.", 1, 0.82, 0, 1)
+    GameTooltip:SetText(VanillaBonkLocale.L("Loot"))
+    GameTooltip:AddLine(VanillaBonkLocale.L("Carry it in your bags and equip it whenever you like."), 1, 1, 1, 1)
+    GameTooltip:AddLine(VanillaBonkLocale.L("Found gear is only kept if you put it in the Extraction Vault and extract."), 1, 0.82, 0, 1)
     GameTooltip:Show()
 end)
 frame.loot:SetScript("OnLeave", function()
@@ -236,8 +236,8 @@ local function RefreshOneSlot()
     otherCard:Hide()
     otherCard.label:Hide()
     frame.equipOther:Hide()
-    wornCard.label:SetText(ReplacesTwoHander() and "Main Hand" or "Equipped")
-    frame.equip:SetText(offer.replaced > 0 and "Replace" or "Equip")
+    wornCard.label:SetText(ReplacesTwoHander() and VanillaBonkLocale.L("Main Hand") or VanillaBonkLocale.L("Equipped"))
+    frame.equip:SetText(offer.replaced > 0 and VanillaBonkLocale.L("Replace") or VanillaBonkLocale.L("Equip"))
     local tallest = max(Fill(newCard, offer.entry), Fill(wornCard, offer.replaced))
     local center = LayoutRow({ wornCard, newCard })
     local below = CARD_TOP - tallest
@@ -247,10 +247,10 @@ local function RefreshOneSlot()
 end
 
 local function RefreshTwoSlots()
-    wornCard.label:SetText(SLOT_NAMES[offer.slot] or "Equipped")
-    otherCard.label:SetText(SLOT_NAMES[offer.otherSlot] or "Equipped")
-    frame.equip:SetText(offer.replaced > 0 and "Replace" or "Equip")
-    frame.equipOther:SetText(offer.otherReplaced > 0 and "Replace" or "Equip")
+    wornCard.label:SetText(SLOT_NAMES[offer.slot] or VanillaBonkLocale.L("Equipped"))
+    otherCard.label:SetText(SLOT_NAMES[offer.otherSlot] or VanillaBonkLocale.L("Equipped"))
+    frame.equip:SetText(offer.replaced > 0 and VanillaBonkLocale.L("Replace") or VanillaBonkLocale.L("Equip"))
+    frame.equipOther:SetText(offer.otherReplaced > 0 and VanillaBonkLocale.L("Replace") or VanillaBonkLocale.L("Equip"))
     local tallest = max(Fill(newCard, offer.entry), Fill(wornCard, offer.replaced), Fill(otherCard, offer.otherReplaced))
     local center = LayoutRow({ wornCard, otherCard, newCard })
     local below = CARD_TOP - tallest
@@ -301,14 +301,14 @@ local function HideSheet()
 end
 
 local function Open()
-    frame.salvage:SetText("Salvage  |cffffe873+" .. offer.valor .. " Valor|r")
-    local keep = "Worn or looted, found gear is only kept if you put it in the Extraction Vault and leave through a stage portal or the Hearthstone."
+    frame.salvage:SetText(VanillaBonkLocale.L("Salvage  |cffffe873+") .. offer.valor .. VanillaBonkLocale.L(" Valor|r"))
+    local keep = VanillaBonkLocale.L("Worn or looted, found gear is only kept if you put it in the Extraction Vault and leave through a stage portal or the Hearthstone.")
     if offer.quality >= QUALITY_EPIC then
-        frame.ruleText = "|cffffd100" .. keep .. " A permanent copy then arrives by mail. If you die, it is lost.|r"
+        frame.ruleText = "|cffffd100" .. keep .. VanillaBonkLocale.L(" A permanent copy then arrives by mail. If you die, it is lost.|r")
     else
-        frame.ruleText = "|cffbbbbbb" .. keep .. " Otherwise it sells for gold when the run ends.|r"
+        frame.ruleText = "|cffbbbbbb" .. keep .. VanillaBonkLocale.L(" Otherwise it sells for gold when the run ends.|r")
     end
-    frame.twoHanderText = "\n|cffff8040Replacing puts your two-handed weapon in your bags. You can equip it again from there.|r"
+    frame.twoHanderText = VanillaBonkLocale.L("\n|cffff8040Replacing puts your two-handed weapon in your bags. You can equip it again from there.|r")
     frame.waitUntil = nil
     frame.retries = RETRIES
     frame.retryIn = RETRY

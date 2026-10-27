@@ -485,6 +485,21 @@
 					</Layer>
 				</Layers>
 				<Frames>
+					<Button name="BonkLanguageButton" inherits="GlueButtonTemplate">
+						<Size>
+							<AbsDimension x="130" y="36"/>
+						</Size>
+						<Anchors>
+							<Anchor point="BOTTOMLEFT">
+								<Offset>
+									<AbsDimension x="16" y="12"/>
+								</Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts>
+							<OnClick>BonkHero_ToggleLanguage();</OnClick>
+						</Scripts>
+					</Button>
 					<Button name="BonkCharRow1" inherits="BonkCharRowTemplate" id="1"/>
 					<Button name="BonkCharRow2" inherits="BonkCharRowTemplate" id="2"/>
 					<Button name="BonkCharRow3" inherits="BonkCharRowTemplate" id="3"/>

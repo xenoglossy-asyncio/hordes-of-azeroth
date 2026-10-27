@@ -18,6 +18,9 @@ MovieFrame.xml
 GlueTooltip.xml
 RealmWizard.xml
 CreditsFrame.xml
+VanillaBonkLocale.lua
+VanillaBonkLocaleZhCN.lua
+VanillaBonkGlueFonts.lua
 BonkAccount.lua
 BonkStats.lua
 BonkGlue.xml

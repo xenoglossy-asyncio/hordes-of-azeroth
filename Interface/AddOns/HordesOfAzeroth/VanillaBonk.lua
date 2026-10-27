@@ -1,6 +1,6 @@
 local PREFIX = "BONK~"
 local ICON_PATH = "Interface\\Icons\\"
-local FONT = "Fonts\\FRIZQT__.TTF"
+local FONT = VanillaBonkLocale.Font()
 
 local VB = {
     tiers = {},
@@ -36,12 +36,12 @@ local function FormatGold(copper)
     copper = tonumber(copper) or 0
     local gold = floor(copper / 10000)
     local silver = floor(mod(copper, 10000) / 100)
-    local text = format("|cffeda55f%dc|r", mod(copper, 100))
+    local text = format(VanillaBonkLocale.L("|cffeda55f%dc|r"), mod(copper, 100))
     if silver > 0 or gold > 0 then
-        text = format("|cffc7c7cf%ds|r ", silver) .. text
+        text = format(VanillaBonkLocale.L("|cffc7c7cf%ds|r "), silver) .. text
     end
     if gold > 0 then
-        text = format("|cffffd700%dg|r ", gold) .. text
+        text = format(VanillaBonkLocale.L("|cffffd700%dg|r "), gold) .. text
     end
     return text
 end
@@ -97,11 +97,11 @@ end
 UseAction = function() end
 
 local RARITIES = {
-    [0] = { name = "Common", r = 1, g = 1, b = 1 },
-    [1] = { name = "Uncommon", r = 0.12, g = 1, b = 0 },
-    [2] = { name = "Rare", r = 0, g = 0.44, b = 0.87 },
-    [3] = { name = "Epic", r = 0.64, g = 0.21, b = 0.93 },
-    [4] = { name = "Legendary", r = 1, g = 0.5, b = 0 },
+    [0] = { name = VanillaBonkLocale.L("Common"), r = 1, g = 1, b = 1 },
+    [1] = { name = VanillaBonkLocale.L("Uncommon"), r = 0.12, g = 1, b = 0 },
+    [2] = { name = VanillaBonkLocale.L("Rare"), r = 0, g = 0.44, b = 0.87 },
+    [3] = { name = VanillaBonkLocale.L("Epic"), r = 0.64, g = 0.21, b = 0.93 },
+    [4] = { name = VanillaBonkLocale.L("Legendary"), r = 1, g = 0.5, b = 0 },
 }
 
 local function RarityText(rarity, text)
@@ -130,7 +130,7 @@ offerFrame.chrome = CreateFrame("Frame", nil, offerFrame)
 offerFrame.chrome:SetAllPoints(offerFrame)
 
 offerFrame.title = offerFrame.chrome:CreateFontString(nil, "OVERLAY")
-offerFrame.title:SetFont("Fonts\\MORPHEUS.TTF", 46, "OUTLINE")
+offerFrame.title:SetFont(VanillaBonkLocale.TitleFont(), 46, "OUTLINE")
 offerFrame.title:SetPoint("CENTER", offerFrame, "CENTER", 0, 230)
 offerFrame.title:SetTextColor(1, 0.82, 0)
 
@@ -140,7 +140,7 @@ offerFrame.subtitle:SetShadowColor(0, 0, 0, 1)
 offerFrame.subtitle:SetShadowOffset(1, -1)
 offerFrame.subtitle:SetPoint("CENTER", offerFrame, "CENTER", 0, 186)
 offerFrame.subtitle:SetTextColor(0.9, 0.83, 0.64)
-offerFrame.subtitle:SetText("Choose an upgrade")
+offerFrame.subtitle:SetText(VanillaBonkLocale.L("Choose an upgrade"))
 
 for side = 1, 2 do
     local line = offerFrame.chrome:CreateTexture(nil, "ARTWORK")
@@ -203,9 +203,9 @@ local function SetBanishMode(on)
         end
     end
     if offerFrame.banish then
-        offerFrame.banish:SetText(on and "Cancel" or ("|cffff6060Banish (" .. (VB.banishes or 0) .. ")|r"))
+        offerFrame.banish:SetText(on and VanillaBonkLocale.L("Cancel") or (VanillaBonkLocale.L("|cffff6060Banish (") .. (VB.banishes or 0) .. ")|r"))
     end
-    offerFrame.hint:SetText(on and "|cffff6060Click a card to banish it, or press Escape to cancel.|r" or (offerFrame.hintText or ""))
+    offerFrame.hint:SetText(on and VanillaBonkLocale.L("|cffff6060Click a card to banish it, or press Escape to cancel.|r") or (offerFrame.hintText or ""))
     if on then
         offerFrame.banishEscape:Show()
     else
@@ -297,11 +297,11 @@ local DARKMOON_CLOTH = "World\\ENVIRONMENT\\DOODAD\\Carnival\\bm_Carnie_tarp01"
 local DARKMOON_BANNER = "World\\ENVIRONMENT\\DOODAD\\Carnival\\Darkmoon_Banner01"
 local MAX_CARDS = 6
 local KEYWORD_ALIASES = {
-    ["Chill"] = { "Chilled" },
-    ["Frozen"] = { "Freezes", "Freeze", "Shatter" },
-    ["Hunter's Mark"] = { "Marked" },
-    ["Poison"] = { "Poisoned" },
-    ["Bleed"] = { "Bleeding" },
+    ["Chill"] = { VanillaBonkLocale.L("Chilled") },
+    ["Frozen"] = { VanillaBonkLocale.L("Freezes"), VanillaBonkLocale.L("Freeze"), VanillaBonkLocale.L("Shatter") },
+    ["Hunter's Mark"] = { VanillaBonkLocale.L("Marked") },
+    ["Poison"] = { VanillaBonkLocale.L("Poisoned") },
+    ["Bleed"] = { VanillaBonkLocale.L("Bleeding") },
     ["Dazed"] = { "Dazes", "Daze" },
 }
 VB.keywords = {}
@@ -316,7 +316,7 @@ local function KeywordTerms()
     end
     local terms = {}
     for id, keyword in pairs(VB.keywords) do
-        tinsert(terms, { text = keyword.name, id = id })
+        tinsert(terms, { text = VanillaBonkLocale.L(keyword.name), id = id })
         for _, alias in ipairs(KEYWORD_ALIASES[keyword.name] or {}) do
             tinsert(terms, { text = alias, id = id })
         end
@@ -450,8 +450,8 @@ function VanillaBonkUI.FillKeywordTip(tooltip, id)
         return
     end
     local keyword = VB.keywords[id]
-    tooltip:AddLine(keyword.name, VB.KeywordRGB(id))
-    tooltip:AddLine(keyword.description, 1, 1, 1, 1)
+    tooltip:AddLine(VanillaBonkLocale.L(keyword.name), VB.KeywordRGB(id))
+    tooltip:AddLine(VanillaBonkLocale.L(keyword.description), 1, 1, 1, 1)
 end
 
 local function ShowKeywordTooltip(id)
@@ -791,13 +791,13 @@ local CHOICE_KEYS = {
     ["4"] = "VANILLABONK_CHOICE4", ["5"] = "VANILLABONK_CHOICE5", ["6"] = "VANILLABONK_CHOICE6",
     ["R"] = "VANILLABONK_REROLL", ["X"] = "VANILLABONK_SKIP", ["B"] = "VANILLABONK_BANISH",
 }
-BINDING_HEADER_VANILLABONK = "Hordes of Azeroth"
+BINDING_HEADER_VANILLABONK = VanillaBonkLocale.L("Hordes of Azeroth")
 for index = 1, 6 do
-    setglobal("BINDING_NAME_VANILLABONK_CHOICE" .. index, "Level-up choice: card " .. index)
+    setglobal("BINDING_NAME_VANILLABONK_CHOICE" .. index, VanillaBonkLocale.L("Level-up choice: card ") .. index)
 end
-BINDING_NAME_VANILLABONK_REROLL = "Level-up choice: reroll"
-BINDING_NAME_VANILLABONK_SKIP = "Level-up choice: skip"
-BINDING_NAME_VANILLABONK_BANISH = "Level-up choice: banish"
+BINDING_NAME_VANILLABONK_REROLL = VanillaBonkLocale.L("Level-up choice: reroll")
+BINDING_NAME_VANILLABONK_SKIP = VanillaBonkLocale.L("Level-up choice: skip")
+BINDING_NAME_VANILLABONK_BANISH = VanillaBonkLocale.L("Level-up choice: banish")
 
 local function GiveBackChoiceKeys()
     if not VanillaBonkChoiceKeys or (VanillaBonkGlyphs and VanillaBonkGlyphs.open) then
@@ -868,7 +868,7 @@ local function LayoutDamageRow(card, option, hasLock)
     local before = option.damageBefore or ""
     local label = option.damageLabel or ""
     if label == "" then
-        label = "Damage"
+        label = VanillaBonkLocale.L("Damage")
     end
     row.label:SetText(label ~= "" and label .. ":" or "")
     row.before:SetText(before)
@@ -1011,12 +1011,12 @@ local function LayoutStats(card, stats, width, room)
         block:SetPoint("TOP", card.divider, "BOTTOMRIGHT", 0, -8 - (index - 1) * step)
         block.label:SetFont(FONT, labelSize)
         block.label:SetWidth(width - 24)
-        block.label:SetText(ColorKeywords(stat.label))
+        block.label:SetText(ColorKeywords(VanillaBonkLocale.L(stat.label)))
         STAT_BLOCK.PlaceKeyword(block, stat.label, labelSize)
         block.before:SetFont(FONT, valueSize)
         block.after:SetFont(FONT, valueSize)
         local capped = stat.before == stat.after
-        block.before:SetText(capped and (stat.before .. " (at cap)") or stat.before)
+        block.before:SetText(capped and (stat.before .. VanillaBonkLocale.L(" (at cap)")) or stat.before)
         block.after:SetText(capped and "" or stat.after)
         block.arrow:SetWidth(arrowSize)
         block.arrow:SetHeight(arrowSize)
@@ -1084,7 +1084,7 @@ end
 
 function offerFrame.Subtitle()
     if VB.offerSource == "ley" then
-        return "Choose a blessing"
+        return VanillaBonkLocale.L("Choose a blessing")
     end
     local cards, upgrades = 0, 0
     for _, option in ipairs(VB.offer) do
@@ -1095,9 +1095,9 @@ function offerFrame.Subtitle()
         end
     end
     if cards > 0 and upgrades > 0 then
-        return "Choose a reward"
+        return VanillaBonkLocale.L("Choose a reward")
     end
-    return cards > 0 and "Choose a Darkmoon Card" or "Choose an upgrade"
+    return cards > 0 and VanillaBonkLocale.L("Choose a Darkmoon Card") or VanillaBonkLocale.L("Choose an upgrade")
 end
 
 local function ShowOffer(level)
@@ -1111,11 +1111,11 @@ local function ShowOffer(level)
     end
 
     if VB.offerSource == "chest" then
-        offerFrame.title:SetText("Chest")
+        offerFrame.title:SetText(VanillaBonkLocale.L("Chest"))
     elseif VB.offerSource == "ley" then
-        offerFrame.title:SetText("Ley Line")
+        offerFrame.title:SetText(VanillaBonkLocale.L("Ley Line"))
     else
-        offerFrame.title:SetText("Level " .. level)
+        offerFrame.title:SetText(VanillaBonkLocale.L("Level ") .. level)
     end
     offerFrame.subtitle:SetText(offerFrame.Subtitle())
 
@@ -1166,7 +1166,7 @@ local function ShowOffer(level)
                 card.name:SetPoint("TOP", card, "TOP", 0, -104)
             end
             card.slot.icon:SetTexture(ICON_PATH .. option.icon)
-            card.name:SetText(option.name)
+            card.name:SetText(VanillaBonkLocale.L(option.name))
 
             local rarity = option.kind == "e" and 4 or option.rarity
             local color = rarity and RARITIES[rarity]
@@ -1182,28 +1182,28 @@ local function ShowOffer(level)
             end
             local rarityName = option.rarity and RARITIES[option.rarity] and RarityText(option.rarity, RARITIES[option.rarity].name)
             if option.kind == "e" then
-                card.level:SetText(RarityText(4, "Legendary") .. " Evolution")
+                card.level:SetText(RarityText(4, VanillaBonkLocale.L("Legendary")) .. VanillaBonkLocale.L(" Evolution"))
             elseif option.kind == "ley" then
                 card.level:SetText((rarityName and rarityName .. " " or "") .. "Blessing")
             elseif option.kind == "c" then
-                card.level:SetText((rarityName and rarityName .. " " or "") .. "Darkmoon Card")
+                card.level:SetText((rarityName and rarityName .. " " or "") .. VanillaBonkLocale.L("Darkmoon Card"))
             elseif option.newLevel == 1 then
-                card.level:SetText(option.kind == "p" and "|cff20ff20New passive|r" or "|cff20ff20New spell|r")
+                card.level:SetText(option.kind == "p" and VanillaBonkLocale.L("|cff20ff20New passive|r") or VanillaBonkLocale.L("|cff20ff20New spell|r"))
             elseif option.kind == "p" then
-                card.level:SetText((rarityName and rarityName .. " " or "") .. "Passive")
+                card.level:SetText((rarityName and rarityName .. " " or "") .. VanillaBonkLocale.L("Passive"))
             else
-                card.level:SetText((rarityName and rarityName .. " " or "") .. "Spell")
+                card.level:SetText((rarityName and rarityName .. " " or "") .. VanillaBonkLocale.L("Spell"))
             end
             if option.kind == "ley" or option.kind == "e" then
                 card.count:SetText("")
             elseif option.kind == "c" and option.maxLevel > 1 then
-                card.count:SetText(option.newLevel .. "/" .. option.maxLevel .. " copies")
+                card.count:SetText(option.newLevel .. "/" .. option.maxLevel .. VanillaBonkLocale.L(" copies"))
             elseif option.kind == "c" and option.newLevel > 1 then
-                card.count:SetText(option.newLevel .. " copies")
+                card.count:SetText(option.newLevel .. VanillaBonkLocale.L(" copies"))
             elseif option.maxLevel > 1 then
-                card.count:SetText("Rank " .. option.newLevel .. "/" .. option.maxLevel)
+                card.count:SetText(VanillaBonkLocale.L("Rank ") .. option.newLevel .. "/" .. option.maxLevel)
             elseif option.newLevel > 1 then
-                card.count:SetText("Rank " .. option.newLevel)
+                card.count:SetText(VanillaBonkLocale.L("Rank ") .. option.newLevel)
             else
                 card.count:SetText("")
             end
@@ -1212,7 +1212,7 @@ local function ShowOffer(level)
             card:SetBackdropBorderColor(card.borderColor[1], card.borderColor[2], card.borderColor[3])
             offerFrame.FitCard(card, option, width, hasLock)
             if hasLock then
-                card.lock:SetText(option.locked and "Locked" or "Lock")
+                card.lock:SetText(option.locked and VanillaBonkLocale.L("Locked") or VanillaBonkLocale.L("Lock"))
                 card.lock:Show()
             else
                 card.lock:Hide()
@@ -1229,27 +1229,27 @@ local function ShowOffer(level)
     local hint = ""
     local keys = {}
     if (VB.skips or 0) > 0 then
-        tinsert(keys, "X to skip")
+        tinsert(keys, VanillaBonkLocale.L("X to skip"))
     end
     local canBanish = (VB.banishes or 0) > 0 and VB.offerSource ~= "ley"
     if (VB.rerolls or 0) > 0 then
-        tinsert(keys, "R to reroll")
+        tinsert(keys, VanillaBonkLocale.L("R to reroll"))
     end
     if canBanish then
-        tinsert(keys, "|cffff8080B to banish|r")
+        tinsert(keys, VanillaBonkLocale.L("|cffff8080B to banish|r"))
     end
     if getn(keys) > 0 then
         local text = keys[1]
         for index = 2, getn(keys) do
-            text = text .. (index == getn(keys) and " or " or ", ") .. keys[index]
+            text = text .. (index == getn(keys) and VanillaBonkLocale.L(" or ") or VanillaBonkLocale.L(", ")) .. keys[index]
         end
-        hint = "Press " .. text .. "."
+        hint = VanillaBonkLocale.L("Press ") .. text .. VanillaBonkLocale.L(".")
     end
     offerFrame.hintText = hint
 
     local buttons = {}
     if (VB.rerolls or 0) > 0 then
-        offerFrame.reroll:SetText("Reroll (" .. VB.rerolls .. ")")
+        offerFrame.reroll:SetText(VanillaBonkLocale.L("Reroll (") .. VB.rerolls .. ")")
         tinsert(buttons, offerFrame.reroll)
     else
         offerFrame.reroll:Hide()
@@ -1260,7 +1260,7 @@ local function ShowOffer(level)
         offerFrame.banish:Hide()
     end
     if (VB.skips or 0) > 0 then
-        offerFrame.skip:SetText("Skip (" .. VB.skips .. ")")
+        offerFrame.skip:SetText(VanillaBonkLocale.L("Skip (") .. VB.skips .. ")")
         tinsert(buttons, offerFrame.skip)
     else
         offerFrame.skip:Hide()
@@ -1412,7 +1412,7 @@ results.close = CreateFrame("Button", nil, results, "UIPanelButtonTemplate")
 results.close:SetWidth(100)
 results.close:SetHeight(22)
 results.close:SetPoint("BOTTOM", results, "BOTTOM", 0, 18)
-results.close:SetText("Close")
+results.close:SetText(VanillaBonkLocale.L("Close"))
 results.close:SetScript("OnClick", function()
     results:Hide()
 end)
@@ -1460,7 +1460,7 @@ local ARENA_RIGHT_X, ARENA_BOX_TOP, ARENA_BOX_WIDTH, ARENA_BOX_HEIGHT = 372, 446
 
 local arena = UI.Window("VanillaBonkArena", ARENA_WIDTH, ARENA_HEIGHT)
 arena:SetPoint("CENTER", UIParent, "CENTER", 0, 40)
-arena.title:SetText("Choose your challenge")
+arena.title:SetText(VanillaBonkLocale.L("Choose your challenge"))
 
 arena.pane = UI.Pane(arena, UI.CONTENT_LEFT, UI.CONTENT_TOP, ARENA_WIDTH - UI.CONTENT_LEFT - UI.CONTENT_RIGHT,
     ARENA_HEIGHT - UI.CONTENT_TOP - UI.CONTENT_BOTTOM, "Interface\\Glues\\LoadingScreens\\LoadScreenEnviroment", 0.55)
@@ -1479,7 +1479,7 @@ arena.lock = content:CreateFontString(nil, "OVERLAY")
 arena.lock:SetFont(UI.TITLE_FONT, 22, "OUTLINE")
 arena.lock:SetPoint("LEFT", arena.name, "RIGHT", 14, -2)
 arena.lock:SetTextColor(1, 0.3, 0.3)
-arena.lock:SetText("Locked")
+arena.lock:SetText(VanillaBonkLocale.L("Locked"))
 
 arena.description = UI.Text(content, 12)
 arena.description:SetPoint("TOPLEFT", arena, "TOPLEFT", 38, -124)
@@ -1495,7 +1495,7 @@ arena.DETAILS_X = 470
 arena.detailsLabel = UI.Text(content, 12)
 arena.detailsLabel:SetPoint("TOPLEFT", arena, "TOPLEFT", arena.DETAILS_X, -88)
 arena.detailsLabel:SetTextColor(1, 0.82, 0)
-arena.detailsLabel:SetText("Difficulty changes")
+arena.detailsLabel:SetText(VanillaBonkLocale.L("Difficulty changes"))
 
 arena.details = UI.Text(content, 10)
 arena.details:SetPoint("TOPLEFT", arena.detailsLabel, "BOTTOMLEFT", 0, -3)
@@ -1509,7 +1509,7 @@ arena.strip:SetHeight(ARENA_BOX_HEIGHT)
 arena.challengesLabel = UI.Text(arena.strip, 13)
 arena.challengesLabel:SetPoint("TOPLEFT", arena.strip, "TOPLEFT", 12, -10)
 arena.challengesLabel:SetTextColor(1, 0.82, 0)
-arena.challengesLabel:SetText("Dark Fortunes")
+arena.challengesLabel:SetText(VanillaBonkLocale.L("Dark Fortunes"))
 arena.challenges = UI.Text(arena.strip, 12)
 arena.challenges:SetPoint("TOPLEFT", arena.challengesLabel, "BOTTOMLEFT", 0, -6)
 arena.challenges:SetWidth(ARENA_BOX_WIDTH - 24)
@@ -1538,15 +1538,15 @@ local function ShowStarterTooltip(owner, option)
     end
     GameTooltip:SetOwner(owner, "ANCHOR_RIGHT")
     if option.unlocked then
-        GameTooltip:AddLine(option.name, 1, 0.82, 0)
+        GameTooltip:AddLine(VanillaBonkLocale.L(option.name), 1, 0.82, 0)
     else
-        GameTooltip:AddLine(option.name, 0.6, 0.6, 0.6)
+        GameTooltip:AddLine(VanillaBonkLocale.L(option.name), 0.6, 0.6, 0.6)
     end
-    GameTooltip:AddLine(option.description, 1, 1, 1, 1)
+    GameTooltip:AddLine(ColorKeywords(option.description), 1, 1, 1, 1)
     if option.chosen then
-        GameTooltip:AddLine("Your runs start with this spell.", 0.25, 1, 0.25, 1)
+        GameTooltip:AddLine(VanillaBonkLocale.L("Your runs start with this spell."), 0.25, 1, 0.25, 1)
     elseif option.unlocked then
-        GameTooltip:AddLine("Click to start your runs with it.", 1, 0.82, 0, 1)
+        GameTooltip:AddLine(VanillaBonkLocale.L("Click to start your runs with it."), 1, 0.82, 0, 1)
     else
         GameTooltip:AddLine(option.hint, 1, 0.3, 0.3, 1)
     end
@@ -1581,7 +1581,7 @@ starterBox:SetHeight(ARENA_BOX_HEIGHT)
 starterBox.label = UI.Text(starterBox, 13)
 starterBox.label:SetPoint("TOPLEFT", starterBox, "TOPLEFT", 12, -10)
 starterBox.label:SetTextColor(1, 0.82, 0)
-starterBox.label:SetText("Starter spell")
+starterBox.label:SetText(VanillaBonkLocale.L("Starter spell"))
 starterBox.slot = StarterButton(starterBox, 36)
 starterBox.slot:SetPoint("TOPLEFT", starterBox, "TOPLEFT", 14, -34)
 starterBox.name = UI.Text(starterBox, 13)
@@ -1590,7 +1590,7 @@ starterBox.name:SetJustifyH("LEFT")
 starterBox.swap = UI.Text(starterBox, 10)
 starterBox.swap:SetPoint("BOTTOMLEFT", starterBox, "BOTTOMLEFT", 14, 22)
 starterBox.swap:SetTextColor(0.7, 0.7, 0.7)
-starterBox.swap:SetText("Swap for")
+starterBox.swap:SetText(VanillaBonkLocale.L("Swap for"))
 starterBox.others = {}
 
 local function RefreshStarters()
@@ -1633,7 +1633,7 @@ local function RefreshStarters()
     starterBox:Show()
 end
 
-arena.button = UI.Button(content, 110, "Start run", function()
+arena.button = UI.Button(content, 110, VanillaBonkLocale.L("Start run"), function()
     local tier = arena.tier
     if not tier or not tier.unlocked or VB.inRun then
         return
@@ -1646,14 +1646,14 @@ arena.button:SetPoint("BOTTOMRIGHT", arena, "BOTTOMRIGHT", -30, 28)
 arena:SetScript("OnShow", function()
     PlaySound("igCharacterInfoOpen")
     UI.SetPortrait(arena)
-    arena.header:SetText(UnitExists("npc") and UnitName("npc") or "Run Master")
+    arena.header:SetText(UnitExists("npc") and UnitName("npc") or VanillaBonkLocale.L("Run Master"))
     local _, classToken = UnitClass("player")
     local color = RAID_CLASS_COLORS and RAID_CLASS_COLORS[classToken]
     local name = UnitName("player") or ""
     if color then
         name = format("|cff%02x%02x%02x%s|r", color.r * 255, color.g * 255, color.b * 255, name)
     end
-    arena.headerRight:SetText("|cffffffffHero:|r " .. name .. "|cffffffff, " .. (UnitClass("player") or "") .. "|r")
+    arena.headerRight:SetText(VanillaBonkLocale.L("|cffffffffHero:|r ") .. name .. "|cffffffff, " .. (UnitClass("player") or "") .. "|r")
 end)
 
 arena:SetScript("OnHide", function()
@@ -1690,30 +1690,30 @@ ShowArenaDetail = function(tier)
 
     local length = ""
     if tier.stages then
-        length = tier.stages .. (tier.stages == 1 and " stage" or " stages") .. (tier.endless and ", then Endless. " or ". ")
+        length = tier.stages .. (tier.stages == 1 and VanillaBonkLocale.L(" stage") or VanillaBonkLocale.L(" stages")) .. (tier.endless and VanillaBonkLocale.L(", then Endless. ") or ". ")
     end
     if tier.unlocked then
         arena.lock:Hide()
         arena.name:SetTextColor(1, 0.82, 0)
         local progress
         if tier.stages and tier.best > tier.stages then
-            progress = "|cffffd100Cleared.|r"
+            progress = VanillaBonkLocale.L("|cffffd100Cleared.|r")
             if tier.endless and tier.best > tier.stages + 1 then
-                progress = progress .. " |cffff8040Best in Endless: stage " .. tier.best .. ".|r"
+                progress = progress .. VanillaBonkLocale.L(" |cffff8040Best in Endless: stage ") .. tier.best .. ".|r"
             end
         elseif tier.best > 0 then
-            progress = "|cff40ff40Best: stage " .. tier.best .. ".|r"
+            progress = VanillaBonkLocale.L("|cff40ff40Best: stage ") .. tier.best .. ".|r"
         else
-            progress = "|cff9d9d9dNot played yet.|r"
+            progress = VanillaBonkLocale.L("|cff9d9d9dNot played yet.|r")
         end
         arena.best:SetText("|cffffffff" .. length .. "|r" .. progress)
-        arena.button:SetText("Start run")
+        arena.button:SetText(VanillaBonkLocale.L("Start run"))
         arena.button:Enable()
     else
         arena.lock:Show()
         arena.name:SetTextColor(0.6, 0.6, 0.6)
         arena.best:SetText("|cffffffff" .. length .. "|r|cffff6060" .. tier.hint .. "|r")
-        arena.button:SetText("Locked")
+        arena.button:SetText(VanillaBonkLocale.L("Locked"))
         arena.button:Disable()
     end
 end
@@ -1761,21 +1761,21 @@ RefreshArena = function()
                 lines = lines .. (lines ~= "" and ", " or "") .. trimmed
             end
         end
-        arena.challenges:SetText("|cffffffff" .. lines .. "|r\n|cffffe873+" .. (info.goldBonus or 0) .. "% gold|r")
+        arena.challenges:SetText("|cffffffff" .. lines .. "|r\n|cffffe873+" .. (info.goldBonus or 0) .. VanillaBonkLocale.L("% gold|r"))
     else
-        arena.challenges:SetText("|cff9d9d9dNo Dark Fortunes active. Sayge sells them for Darkmoon Tickets.|r")
+        arena.challenges:SetText(VanillaBonkLocale.L("|cff9d9d9dNo Dark Fortunes active. Sayge sells them for Darkmoon Tickets.|r"))
     end
     if info.perks and info.perks ~= "" then
-        arena.perks:SetText("|cff80c0ffYour perks:|r " .. info.perks)
+        arena.perks:SetText(VanillaBonkLocale.L("|cff80c0ffYour perks:|r ") .. info.perks)
     else
-        arena.perks:SetText("|cff9d9d9dNo perks yet.|r")
+        arena.perks:SetText(VanillaBonkLocale.L("|cff9d9d9dNo perks yet.|r"))
     end
     arena.strip:SetHeight(max(ARENA_BOX_HEIGHT, 10 + arena.challengesLabel:GetHeight() + 6 + arena.challenges:GetHeight() + 6 +
         arena.perks:GetHeight() + 10))
 end
 
 StaticPopupDialogs["VANILLABONK_LEAVE_RUN"] = {
-    text = "End this run? It counts as a defeat. You keep the gold and Darkmoon Tickets you earned, but loot you haven't extracted is lost.",
+    text = VanillaBonkLocale.L("End this run? It counts as a defeat. You keep the gold and Darkmoon Tickets you earned, but loot you haven't extracted is lost."),
     button1 = YES,
     button2 = NO,
     OnAccept = function()
@@ -1799,22 +1799,22 @@ SlashCmdList["VANILLABONK"] = function(message)
     end
 end
 
-local SHOP_TITLES = { ["1"] = "Upgrades", ["2"] = "Sayge's Fortunes", ["3"] = "Talents" }
+local SHOP_TITLES = { ["1"] = VanillaBonkLocale.L("Upgrades"), ["2"] = VanillaBonkLocale.L("Sayge's Fortunes"), ["3"] = VanillaBonkLocale.L("Talents") }
 local SHOP_HINTS = {
-    ["1"] = "Upgrades count for all your heroes. Right-click to refund a rank.",
-    ["2"] = "Click a Dark Fortune to buy it or switch it on or off. Right-click to refund it.",
-    ["3"] = "Talent points come from Mastery levels. Right-click to refund one.",
+    ["1"] = VanillaBonkLocale.L("Upgrades count for all your heroes. Right-click to refund a rank."),
+    ["2"] = VanillaBonkLocale.L("Click a Dark Fortune to buy it or switch it on or off. Right-click to refund it."),
+    ["3"] = VanillaBonkLocale.L("Talent points come from Mastery levels. Right-click to refund one."),
 }
 local MASTERY_SHOP = "3"
 local FORTUNE_SHOP = "2"
 local SHOP_UNLOCK_TABS = {
-    [2] = { kind = "c", hint = "Unlock a Darkmoon Card to find it during runs." },
-    [3] = { kind = "g", hint = "Unlock a Glyph to find it during runs." },
+    [2] = { kind = "c", hint = VanillaBonkLocale.L("Unlock a Darkmoon Card to find it during runs.") },
+    [3] = { kind = "g", hint = VanillaBonkLocale.L("Unlock a Glyph to find it during runs.") },
 }
 local SHOP_REFUNDS = {
-    ["1"] = { label = "Refund all", text = "Refunds every upgrade you bought. You get all your gold back." },
-    ["2"] = { label = "Refund all", text = "Refunds every Dark Fortune you bought. You get all your Darkmoon Tickets back." },
-    ["3"] = { label = "Reset points", text = "Refunds every talent point you spent." },
+    ["1"] = { label = VanillaBonkLocale.L("Refund all"), text = VanillaBonkLocale.L("Refunds every upgrade you bought. You get all your gold back.") },
+    ["2"] = { label = VanillaBonkLocale.L("Refund all"), text = VanillaBonkLocale.L("Refunds every Dark Fortune you bought. You get all your Darkmoon Tickets back.") },
+    ["3"] = { label = VanillaBonkLocale.L("Reset points"), text = VanillaBonkLocale.L("Refunds every talent point you spent.") },
 }
 
 local TREE_LAYOUTS = {
@@ -1849,7 +1849,7 @@ shop.respec = CreateFrame("Button", nil, shop, "UIPanelButtonTemplate")
 shop.respec:SetWidth(110)
 shop.respec:SetHeight(22)
 shop.respec:SetPoint("BOTTOMRIGHT", shop, "BOTTOMRIGHT", -28, 22)
-shop.respec:SetText("Reset points")
+shop.respec:SetText(VanillaBonkLocale.L("Reset points"))
 shop.respec:SetScript("OnClick", function()
     if VB.shopBusy then
         return
@@ -1877,11 +1877,11 @@ local function ShopBalance()
 end
 
 local function FormatPoints(count)
-    return "|cff80d0ff" .. count .. (count == 1 and " Talent point" or " Talent points") .. "|r"
+    return "|cff80d0ff" .. count .. (count == 1 and VanillaBonkLocale.L(" Talent point") or VanillaBonkLocale.L(" Talent points")) .. "|r"
 end
 
 local function FormatShards(count)
-    return "|cffc080ff" .. count .. (count == 1 and " Darkmoon Ticket" or " Darkmoon Tickets") .. "|r"
+    return "|cffc080ff" .. count .. (count == 1 and VanillaBonkLocale.L(" Darkmoon Ticket") or VanillaBonkLocale.L(" Darkmoon Tickets")) .. "|r"
 end
 
 local function FormatCost(amount)
@@ -1914,7 +1914,7 @@ end
 
 local function MissingRequirement(node)
     if node.locked then
-        local text = "Requires the quest \"" .. node.quest .. "\""
+        local text = VanillaBonkLocale.L("Requires the quest \"") .. node.quest .. "\""
         if node.questDescription ~= "" then
             local what = gsub(node.questDescription, "%.$", "")
             what = strlower(strsub(what, 1, 1)) .. strsub(what, 2)
@@ -1924,16 +1924,16 @@ local function MissingRequirement(node)
     end
     local perRow = VB.shop.pointsPerRow or 0
     if perRow > 0 and node.row > 1 and TreeSpent(node.tree) < (node.row - 1) * perRow then
-        return "Requires " .. ((node.row - 1) * perRow) .. " points in " .. TreeName(node.tree)
+        return VanillaBonkLocale.L("Requires ") .. ((node.row - 1) * perRow) .. VanillaBonkLocale.L(" points in ") .. TreeName(node.tree)
     end
     local required = VB.shop.nodes[node.requiredId]
     if not required or node.requiredRank < 1 or required.rank >= node.requiredRank then
         return nil
     end
     if required.maxRank <= 1 then
-        return "Requires " .. required.name
+        return VanillaBonkLocale.L("Requires ") .. required.name
     end
-    return "Requires " .. node.requiredRank .. (node.requiredRank == 1 and " rank in " or " ranks in ") .. required.name
+    return VanillaBonkLocale.L("Requires ") .. node.requiredRank .. (node.requiredRank == 1 and VanillaBonkLocale.L(" rank in ") or VanillaBonkLocale.L(" ranks in ")) .. required.name
 end
 
 local function DescribeRanks(node, ranks)
@@ -1974,7 +1974,7 @@ local function RefundBlocker(node)
     for _, other in pairs(VB.shop.nodes) do
         if other ~= node and other.rank > 0 then
             if other.requiredId == node.id and node.rank - 1 < other.requiredRank then
-                return "Refund " .. other.name .. " first. It depends on this one."
+                return "Refund " .. other.name .. VanillaBonkLocale.L(" first. It depends on this one.")
             end
             if perRow > 0 and other.tree == node.tree and other.row > node.row then
                 local above = 0
@@ -1995,11 +1995,11 @@ end
 local function ShowNodeTooltip(button)
     local node = button.node
     GameTooltip:SetOwner(button, "ANCHOR_RIGHT")
-    GameTooltip:AddLine(node.name, 1, 1, 1)
+    GameTooltip:AddLine(VanillaBonkLocale.L(node.name), 1, 1, 1)
     if node.toggle then
-        GameTooltip:AddLine("Dark Fortune", 1, 1, 1)
+        GameTooltip:AddLine(VanillaBonkLocale.L("Dark Fortune"), 1, 1, 1)
     else
-        GameTooltip:AddLine("Rank " .. node.rank .. "/" .. node.maxRank, 1, 1, 1)
+        GameTooltip:AddLine(VanillaBonkLocale.L("Rank ") .. node.rank .. "/" .. node.maxRank, 1, 1, 1)
     end
 
     local missing = MissingRequirement(node)
@@ -2014,47 +2014,47 @@ local function ShowNodeTooltip(button)
         if node.rank > 0 then
             GameTooltip:AddLine(DescribeRanks(node, node.rank), 1, 0.82, 0, 1)
             if node.rank < node.maxRank then
-                GameTooltip:AddLine("Next rank: |cff20ff20" .. nextValue .. "|r", 1, 1, 1)
+                GameTooltip:AddLine(VanillaBonkLocale.L("Next rank: |cff20ff20") .. nextValue .. "|r", 1, 1, 1)
             end
         else
             GameTooltip:AddLine(nextRank, 1, 0.82, 0, 1)
         end
     elseif node.maxRank > 1 then
-        GameTooltip:AddLine("Each rank: " .. node.description, 1, 0.82, 0, 1)
+        GameTooltip:AddLine(VanillaBonkLocale.L("Each rank: ") .. ColorKeywords(VanillaBonkLocale.L(node.description)), 1, 0.82, 0, 1)
     else
-        GameTooltip:AddLine(node.description, 1, 0.82, 0, 1)
+        GameTooltip:AddLine(ColorKeywords(VanillaBonkLocale.L(node.description)), 1, 0.82, 0, 1)
     end
     if node.description and string.find(node.description, "Valor") then
-        GameTooltip:AddLine("Valor is spent during a run to open chests and buy from shops. Resets every run, it's not kept.", 0.6, 0.6, 0.6, 1)
+        GameTooltip:AddLine(VanillaBonkLocale.L("Valor is spent during a run to open chests and buy from shops. Resets every run, it's not kept."), 0.6, 0.6, 0.6, 1)
     end
 
     GameTooltip:AddLine(" ")
     if node.rank < node.maxRank then
-        GameTooltip:AddLine("Cost: " .. FormatCost(node.cost), 1, 1, 1)
+        GameTooltip:AddLine(VanillaBonkLocale.L("Cost: ") .. FormatCost(node.cost), 1, 1, 1)
         if ShopBalance() < node.cost then
-            GameTooltip:AddLine("You have " .. FormatCost(ShopBalance()), 1, 0.1, 0.1)
+            GameTooltip:AddLine(VanillaBonkLocale.L("You have ") .. FormatCost(ShopBalance()), 1, 0.1, 0.1)
         elseif not missing then
-            GameTooltip:AddLine("Click to learn", 0.1, 1, 0.1)
+            GameTooltip:AddLine(VanillaBonkLocale.L("Click to learn"), 0.1, 1, 0.1)
         end
     elseif node.toggle then
         if node.enabled then
-            GameTooltip:AddLine("Switched on", 0.1, 1, 0.1)
-            GameTooltip:AddLine("Click to switch off", 0.7, 0.7, 0.7)
+            GameTooltip:AddLine(VanillaBonkLocale.L("Switched on"), 0.1, 1, 0.1)
+            GameTooltip:AddLine(VanillaBonkLocale.L("Click to switch off"), 0.7, 0.7, 0.7)
         else
-            GameTooltip:AddLine("Switched off", 0.6, 0.6, 0.6)
-            GameTooltip:AddLine("Click to switch on", 0.7, 0.7, 0.7)
+            GameTooltip:AddLine(VanillaBonkLocale.L("Switched off"), 0.6, 0.6, 0.6)
+            GameTooltip:AddLine(VanillaBonkLocale.L("Click to switch on"), 0.7, 0.7, 0.7)
         end
     else
-        GameTooltip:AddLine("Fully learned", 1, 0.82, 0)
+        GameTooltip:AddLine(VanillaBonkLocale.L("Fully learned"), 1, 0.82, 0)
     end
     if node.rank > 0 then
         local blocker = RefundBlocker(node)
         if blocker then
             GameTooltip:AddLine(blocker, 0.6, 0.6, 0.6, 1)
         elseif node.refund > 0 then
-            GameTooltip:AddLine("Right-click to refund " .. FormatCost(node.refund), 0.7, 0.7, 0.7)
+            GameTooltip:AddLine(VanillaBonkLocale.L("Right-click to refund ") .. FormatCost(node.refund), 0.7, 0.7, 0.7)
         else
-            GameTooltip:AddLine("Right-click to refund", 0.7, 0.7, 0.7)
+            GameTooltip:AddLine(VanillaBonkLocale.L("Right-click to refund"), 0.7, 0.7, 0.7)
         end
     end
     GameTooltip:Show()
@@ -2090,7 +2090,7 @@ local function ShopNode_OnClick()
             return
         end
         if ShopBalance() < node.cost then
-            Notice("You need " .. FormatCost(node.cost))
+            Notice(VanillaBonkLocale.L("You need ") .. FormatCost(node.cost))
             return
         end
         command = "learn " .. node.id
@@ -2147,7 +2147,7 @@ local function SetNode(button, node)
             r, g, b, text = 0.1, 1, 0.1, "On"
             button.slot:SetVertexColor(1, 0.82, 0)
         else
-            r, g, b, text, grey = 0.5, 0.5, 0.5, "Off", 1
+            r, g, b, text, grey = 0.5, 0.5, 0.5, VanillaBonkLocale.L("Off"), 1
             button.slot:SetVertexColor(0.5, 0.5, 0.5)
         end
     elseif not missing and node.rank < node.maxRank and ShopBalance() >= node.cost then
@@ -2294,7 +2294,7 @@ local function DrawTree(panel, tree)
         end
     end
     panel.header:SetText(tree.name)
-    panel.spent:SetText(spent .. (spent == 1 and " point spent" or " points spent"))
+    panel.spent:SetText(spent .. (spent == 1 and VanillaBonkLocale.L(" point spent") or VanillaBonkLocale.L(" points spent")))
 
     for _, node in pairs(nodes) do
         local required = nodes[node.requiredId]
@@ -2346,7 +2346,7 @@ local function UpdateShopTabs(data)
         UI.Tabs(shop, {}, nil)
         return
     end
-    UI.Tabs(shop, { "Dark Fortunes", "Darkmoon Cards", "Glyphs" }, function(id)
+    UI.Tabs(shop, { VanillaBonkLocale.L("Dark Fortunes"), VanillaBonkLocale.L("Darkmoon Cards"), VanillaBonkLocale.L("Glyphs") }, function(id)
         shop.tab = id
         RefreshShop()
     end)
@@ -2394,12 +2394,12 @@ RefreshShop = function()
     count = max(count, 1)
     VanillaBonkUI.SetWindowSize(shop, max(360, 30 + count * width + (count - 1) * TREE_GAP), TREE_TOP + height + SHOP_FOOTER + 9)
     shop.title:SetText((data.className and (data.className .. " ") or "") .. (SHOP_TITLES[data.kind] or ""))
-    shop.header:SetText(data.npc)
+    shop.header:SetText(VanillaBonkLocale.L(data.npc))
     shop.hint:SetText(SHOP_HINTS[data.kind] or "")
     if data.currency == "shards" then
         shop.gold:SetText(FormatShards(data.balance))
     elseif data.currency == "points" then
-        local level = "|cffffffffMastery " .. data.level .. "/" .. data.maxLevel .. "|r"
+        local level = VanillaBonkLocale.L("|cffffffffMastery ") .. data.level .. "/" .. data.maxLevel .. "|r"
         if data.xpNext > 0 then
             level = level .. " |cff9d9d9d(" .. data.xp .. "/" .. data.xpNext .. ")|r"
         end
@@ -2465,24 +2465,24 @@ handlers["tier"] = function(f)
     for _, item in ipairs(Split(f[10] or "", ",")) do
         if item ~= "" then
             local parts = Split(item, ":")
-            tinsert(maps, { icon = parts[1] or "", name = parts[2] or parts[1], type = parts[3], reward = tonumber(parts[4] or ""), key = parts[5] or "" })
+            tinsert(maps, { icon = parts[1] or "", name = VanillaBonkLocale.L(parts[2] or parts[1]), type = parts[3], reward = tonumber(parts[4] or ""), key = parts[5] or "" })
         end
     end
     local dungeons = {}
     for _, item in ipairs(Split(f[13] or "", ",")) do
         local parts = Split(item, ":")
         if parts[1] and parts[1] ~= "" then
-            tinsert(dungeons, { key = parts[1], icon = parts[2] or "", name = parts[3] or parts[1], open = parts[4] == "1" })
+            tinsert(dungeons, { key = parts[1], icon = parts[2] or "", name = VanillaBonkLocale.L(parts[3] or parts[1]), open = parts[4] == "1" })
         end
     end
-    tinsert(VB.pendingTiers, { id = f[2], key = f[3], name = f[4], unlocked = f[5] == "1", hint = f[6] or "", best = tonumber(f[7]) or 0,
-        description = f[8] or "", art = f[9] or "", maps = maps, stages = tonumber(f[11] or ""), endless = f[12] == "1",
-        dungeons = dungeons, details = f[14] or "" })
+    tinsert(VB.pendingTiers, { id = f[2], key = f[3], name = VanillaBonkLocale.L(f[4]), unlocked = f[5] == "1", hint = VanillaBonkLocale.L(f[6] or ""), best = tonumber(f[7]) or 0,
+        description = VanillaBonkLocale.L(f[8] or ""), art = f[9] or "", maps = maps, stages = tonumber(f[11] or ""), endless = f[12] == "1",
+        dungeons = dungeons, details = VanillaBonkLocale.L(f[14] or "") })
 end
 
 handlers["starter"] = function(f)
-    tinsert(VB.pendingStarters, { id = f[2], icon = f[3] or "", name = f[4] or "", unlocked = f[5] == "1", chosen = f[6] == "1",
-        hint = f[7] or "", description = f[8] or "" })
+    tinsert(VB.pendingStarters, { id = f[2], icon = f[3] or "", name = VanillaBonkLocale.L(f[4] or ""), unlocked = f[5] == "1", chosen = f[6] == "1",
+        hint = VanillaBonkLocale.L(f[7] or ""), description = VanillaBonkLocale.L(f[8] or "") })
 end
 
 handlers["starterend"] = function()
@@ -2567,7 +2567,7 @@ handlers["offer"] = function(f)
 end
 
 handlers["opt"] = function(f)
-    local description = gsub(f[8] or "", "|n", "\n")
+    local description = gsub(VanillaBonkLocale.L(f[8] or ""), "|n", "\n")
     if f[3] == "c" then
         description = gsub(description, "%s*You hold %d+%.?$", "")
     end
@@ -2575,14 +2575,14 @@ handlers["opt"] = function(f)
         kind = f[3],
         newLevel = tonumber(f[4]) or 1,
         maxLevel = tonumber(f[5]) or 0,
-        name = f[6],
+        name = VanillaBonkLocale.L(f[6]),
         icon = f[7],
         description = description,
         rarity = tonumber(f[9] or ""),
         locked = f[10] == "1",
         damageBefore = f[11] or "",
         damageAfter = f[12] or "",
-        damageLabel = f[13] or "",
+        damageLabel = VanillaBonkLocale.L(f[13] or ""),
         stats = {},
     }
 end
@@ -2590,7 +2590,7 @@ end
 handlers["ostat"] = function(f)
     local option = VB.offer[tonumber(f[2])]
     if option then
-        tinsert(option.stats, { label = f[3] or "", before = f[4] or "", after = f[5] or "" })
+        tinsert(option.stats, { label = VanillaBonkLocale.L(f[3] or ""), before = f[4] or "", after = f[5] or "" })
     end
 end
 
@@ -2620,9 +2620,9 @@ handlers["leyopt"] = function(f)
         kind = card and "c" or "ley",
         newLevel = card and tonumber(f[8] or "") or 1,
         maxLevel = card and tonumber(f[9] or "") or 0,
-        name = f[3] or "",
+        name = VanillaBonkLocale.L(f[3] or ""),
         icon = f[4] or "",
-        description = card and gsub(f[5] or "", "%s*You hold %d+%.?$", "") or (f[5] or ""),
+        description = card and gsub(VanillaBonkLocale.L(f[5] or ""), "%s*You hold %d+%.?$", "") or VanillaBonkLocale.L(f[5] or ""),
         rarity = tonumber(f[6] or ""),
     }
 end
@@ -2642,28 +2642,28 @@ handlers["end"] = function(f)
     VB.offer = {}
     offerFrame:Hide()
     if f[9] == "1" then
-        results.title:SetText("|cffffd100Victory!|r")
+        results.title:SetText(VanillaBonkLocale.L("|cffffd100Victory!|r"))
         PlaySound("QUESTCOMPLETED")
     elseif f[2] == "1" then
-        results.title:SetText("|cff20ff20Run complete!|r")
+        results.title:SetText(VanillaBonkLocale.L("|cff20ff20Run complete!|r"))
         PlaySound("QUESTCOMPLETED")
     else
-        results.title:SetText("|cffff3030Defeated|r")
+        results.title:SetText(VanillaBonkLocale.L("|cffff3030Defeated|r"))
     end
-    results.body:SetText("Reached stage " .. (f[7] or "1") .. " in " .. FormatTime(f[3]) .. "\n" ..
-        "Kills: " .. f[4] .. "    Level: " .. f[6] .. "\n" ..
-        "Gold earned: " .. FormatGold(f[5]) .. "\n" ..
-        "Darkmoon Tickets: |cffc080ff" .. (f[8] or "0") .. "|r\n\n" ..
-        "|cffaaaaaaReturning to the Inn...|r")
+    results.body:SetText(VanillaBonkLocale.L("Reached stage ") .. (f[7] or "1") .. VanillaBonkLocale.L(" in ") .. FormatTime(f[3]) .. "\n" ..
+        VanillaBonkLocale.L("Kills: ") .. f[4] .. VanillaBonkLocale.L("    Level: ") .. f[6] .. "\n" ..
+        VanillaBonkLocale.L("Gold earned: ") .. FormatGold(f[5]) .. "\n" ..
+        VanillaBonkLocale.L("Darkmoon Tickets: |cffc080ff") .. (f[8] or "0") .. "|r\n\n" ..
+        VanillaBonkLocale.L("|cffaaaaaaReturning to the Inn...|r"))
     results:Show()
 end
 
 handlers["msg"] = function(f)
-    Notice(f[2])
+    Notice(VanillaBonkLocale.L(f[2]))
 end
 
 handlers["find"] = function(f)
-    UIErrorsFrame:AddMessage(f[2], 0.3, 0.8, 1.0, 1.0, 10)
+    UIErrorsFrame:AddMessage(VanillaBonkLocale.L(f[2]), 0.3, 0.8, 1.0, 1.0, 10)
     PlaySound("igQuestListComplete")
 end
 
@@ -2676,7 +2676,7 @@ handlers["valor"] = function()
 end
 
 handlers["shop"] = function(f)
-    VB.shopIncoming = { kind = f[2], open = f[3] == "1", npc = f[4] or "", currency = f[5] or "gold", balance = tonumber(f[6]) or 0,
+    VB.shopIncoming = { kind = f[2], open = f[3] == "1", npc = VanillaBonkLocale.L(f[4] or ""), currency = f[5] or "gold", balance = tonumber(f[6]) or 0,
         trees = {}, nodes = {} }
     if f[2] == MASTERY_SHOP then
         local data = VB.shopIncoming
@@ -2693,7 +2693,7 @@ end
 
 handlers["tree"] = function(f)
     if VB.shopIncoming then
-        tinsert(VB.shopIncoming.trees, { id = f[2], name = f[3] or "", background = f[4] or "MageFire" })
+        tinsert(VB.shopIncoming.trees, { id = f[2], name = VanillaBonkLocale.L(f[3] or ""), background = f[4] or "MageFire" })
     end
 end
 
@@ -2714,13 +2714,13 @@ handlers["node"] = function(f)
         requiredRank = tonumber(f[11]) or 0,
         toggle = f[12] == "1",
         enabled = f[13] == "1",
-        name = f[14] or "",
+        name = VanillaBonkLocale.L(f[14] or ""),
         description = f[15] or "",
         locked = f[16] == "1",
         quest = f[17] or "",
         valuePerRank = f[18] or "",
         refund = tonumber(f[19]) or 0,
-        questDescription = f[20] or "",
+        questDescription = VanillaBonkLocale.L(f[20] or ""),
     }
 end
 
@@ -2793,45 +2793,45 @@ handlers["shopclose"] = function()
 end
 
 local STATS = {
-    [0]  = { name = "Power", pct = true, text = "You deal %s more damage." },
-    [1]  = { name = "Haste", pct = true, curve = 75, gearCap = 20, text = "Your attacks and dots tick %s more often." },
-    [2]  = { name = "Count", cap = 5, text = "Your spells fire %s more bolts or shots, swing that many more times, and place or summon that many more. AoE spells are not affected." },
-    [3]  = { name = "Movement speed", pct = true, cap = 50, text = "You run %s faster." },
-    [4]  = { name = "Max health", pct = true, text = "You have %s more maximum health." },
+    [0]  = { name = VanillaBonkLocale.L("Power"), pct = true, text = "You deal %s more damage." },
+    [1]  = { name = VanillaBonkLocale.L("Haste"), pct = true, curve = 75, gearCap = 20, text = "Your attacks and dots tick %s more often." },
+    [2]  = { name = VanillaBonkLocale.L("Count"), cap = 5, text = "Your spells fire %s more bolts or shots, swing that many more times, and place or summon that many more. AoE spells are not affected." },
+    [3]  = { name = VanillaBonkLocale.L("Movement speed"), pct = true, cap = 50, text = "You run %s faster." },
+    [4]  = { name = VanillaBonkLocale.L("Max health"), pct = true, text = "You have %s more maximum health." },
     [5]  = { name = "Regen", pct = true, text = "You regain %s of your maximum health every second." },
-    [6]  = { name = "Gold", pct = true, text = "You find %s more gold." },
-    [7]  = { name = "Experience", pct = true, text = "You gain %s more experience." },
-    [8]  = { name = "Pickup range", pct = true, cap = 400, text = "Experience orbs and turkey legs come to you from %s further away." },
+    [6]  = { name = VanillaBonkLocale.L("Gold"), pct = true, text = "You find %s more gold." },
+    [7]  = { name = VanillaBonkLocale.L("Experience"), pct = true, text = "You gain %s more experience." },
+    [8]  = { name = VanillaBonkLocale.L("Pickup range"), pct = true, cap = 400, text = "Experience orbs and turkey legs come to you from %s further away." },
     [9]  = { name = "Leech", pct = true, text = "Each hit has a %s chance to heal 1%% of your maximum health (at most 2%% a second)." },
-    [10] = { name = "Area", pct = true, cap = 50, text = "AoE spells are %s bigger." },
-    [11] = { name = "Duration", pct = true, text = "Damage over time and ground spells last %s longer." },
+    [10] = { name = VanillaBonkLocale.L("Area"), pct = true, cap = 50, text = "AoE spells are %s bigger." },
+    [11] = { name = VanillaBonkLocale.L("Duration"), pct = true, text = "Damage over time and ground spells last %s longer." },
     [12] = { name = "Armor", text = "Enemies deal %s less damage to you." },
-    [13] = { name = "Hit chance", short = "Hit", pct = true, cap = 100, text = "Elites and bosses dodge your hits %s less often. Normal enemies never dodge." },
-    [14] = { name = "Dodge chance", short = "Dodge", pct = true, cap = 60, text = "You have a %s chance to dodge enemy swings." },
-    [15] = { name = "Critical strike chance", short = "Crit chance", pct = true, text = "Your hits have a %s chance to be a critical strike. Above 100%%, the excess is your chance to strike critically twice." },
-    [16] = { name = "Critical strike damage", short = "Crit damage", pct = true, text = "Critical strikes deal %s more damage, on top of the base +50%% for spells and +100%% for weapon attacks." },
+    [13] = { name = VanillaBonkLocale.L("Hit chance"), short = "Hit", pct = true, cap = 100, text = "Elites and bosses dodge your hits %s less often. Normal enemies never dodge." },
+    [14] = { name = VanillaBonkLocale.L("Dodge chance"), short = VanillaBonkLocale.L("Dodge"), pct = true, cap = 60, text = "You have a %s chance to dodge enemy swings." },
+    [15] = { name = VanillaBonkLocale.L("Critical strike chance"), short = VanillaBonkLocale.L("Crit chance"), pct = true, text = "Your hits have a %s chance to be a critical strike. Above 100%%, the excess is your chance to strike critically twice." },
+    [16] = { name = VanillaBonkLocale.L("Critical strike damage"), short = VanillaBonkLocale.L("Crit damage"), pct = true, text = "Critical strikes deal %s more damage, on top of the base +50%% for spells and +100%% for weapon attacks." },
     [17] = { name = "Shield", pct = true, text = "Absorbs damage equal to %s of your maximum health. Refills after 4 seconds without taking damage." },
-    [18] = { name = "Luck", text = "Chests and level-ups offer rarer choices." },
-    [19] = { name = "Poison damage", pct = true, text = "Your Poison deals %s more damage." },
+    [18] = { name = VanillaBonkLocale.L("Luck"), text = VanillaBonkLocale.L("Chests and level-ups offer rarer choices.") },
+    [19] = { name = VanillaBonkLocale.L("Poison damage"), pct = true, text = "Your Poison deals %s more damage." },
 }
 local STAT_ORDER = { 0, 12, 14, 13, 15, 16, 17, 1, 10, 8, 18, 4, 3, 5, 9, 11, 19, 6, 7, 2 }
 
 VB.statTips = {
-    s0 = { name = "Power", text = "Increases the damage of all your spells and pets." },
-    s1 = { name = "Haste", text = "Your attacks and dots tick more often. Each point is worth a little less than the last, up to at most 75%." },
-    s2 = { name = "Count", text = "Your spells fire more bolts or shots, swing more times, and place or summon more. AoE spells are not affected." },
-    s3 = { name = "Movement speed", text = "You run faster." },
-    s4 = { name = "Maximum health", text = "Raises your maximum health." },
-    s5 = { name = "Health regeneration", text = "You regain a share of your maximum health every second." },
-    s7 = { name = "Experience", text = "You gain more experience, so you level up and get upgrades sooner." },
-    s8 = { name = "Pickup range", text = "Experience orbs and turkey legs come to you from further away." },
-    s10 = { name = "Area", text = "AoE spells are bigger." },
-    s12 = { name = "Armor", text = "Enemies deal less damage to you." },
-    s13 = { name = "Hit chance", text = "Elites and bosses dodge your hits less often. Normal enemies never dodge." },
-    s14 = { name = "Dodge chance", text = "Your chance to dodge enemy swings and take no damage." },
-    s15 = { name = "Critical strike chance", text = "Your chance for a hit to deal extra damage. Above 100%, the excess is your chance to strike critically twice." },
-    s16 = { name = "Critical strike damage", text = "Critical strikes deal more damage, on top of the base +50% for spells and +100% for weapon attacks." },
-    s18 = { name = "Luck", text = "Chests and level-ups offer rarer choices." },
+    s0 = { name = VanillaBonkLocale.L("Power"), text = VanillaBonkLocale.L("Increases the damage of all your spells and pets.") },
+    s1 = { name = VanillaBonkLocale.L("Haste"), text = VanillaBonkLocale.L("Your attacks and dots tick more often. Each point is worth a little less than the last, up to at most 75%.") },
+    s2 = { name = VanillaBonkLocale.L("Count"), text = VanillaBonkLocale.L("Your spells fire more bolts or shots, swing more times, and place or summon more. AoE spells are not affected.") },
+    s3 = { name = VanillaBonkLocale.L("Movement speed"), text = VanillaBonkLocale.L("You run faster.") },
+    s4 = { name = VanillaBonkLocale.L("Maximum health"), text = VanillaBonkLocale.L("Raises your maximum health.") },
+    s5 = { name = VanillaBonkLocale.L("Health regeneration"), text = VanillaBonkLocale.L("You regain a share of your maximum health every second.") },
+    s7 = { name = VanillaBonkLocale.L("Experience"), text = VanillaBonkLocale.L("You gain more experience, so you level up and get upgrades sooner.") },
+    s8 = { name = VanillaBonkLocale.L("Pickup range"), text = VanillaBonkLocale.L("Experience orbs and turkey legs come to you from further away.") },
+    s10 = { name = VanillaBonkLocale.L("Area"), text = VanillaBonkLocale.L("AoE spells are bigger.") },
+    s12 = { name = "Armor", text = VanillaBonkLocale.L("Enemies deal less damage to you.") },
+    s13 = { name = VanillaBonkLocale.L("Hit chance"), text = VanillaBonkLocale.L("Elites and bosses dodge your hits less often. Normal enemies never dodge.") },
+    s14 = { name = VanillaBonkLocale.L("Dodge chance"), text = VanillaBonkLocale.L("Your chance to dodge enemy swings and take no damage.") },
+    s15 = { name = VanillaBonkLocale.L("Critical strike chance"), text = VanillaBonkLocale.L("Your chance for a hit to deal extra damage. Above 100%, the excess is your chance to strike critically twice.") },
+    s16 = { name = VanillaBonkLocale.L("Critical strike damage"), text = VanillaBonkLocale.L("Critical strikes deal more damage, on top of the base +50% for spells and +100% for weapon attacks.") },
+    s18 = { name = VanillaBonkLocale.L("Luck"), text = VanillaBonkLocale.L("Chests and level-ups offer rarer choices.") },
 }
 function VB.BuildStatTerms(names)
     VB.statTerms = {}
@@ -3267,7 +3267,7 @@ for column, ids in ipairs(STAT_LAYOUT) do
     end
 end
 local setsLine = CreateStatLine(2, 7)
-setsLine.label:SetText("Set bonuses:")
+setsLine.label:SetText(VanillaBonkLocale.L("Set bonuses:"))
 
 local function RefreshHeroStats()
     if CharacterAttributesFrame then
@@ -3275,7 +3275,7 @@ local function RefreshHeroStats()
     end
 
     local gear, active = GearTotals()
-    local source = VB.statsInRun and "upgrades, talents and this run's picks" or "Inn upgrades and talents"
+    local source = VB.statsInRun and VanillaBonkLocale.L("upgrades, talents and this run's picks") or VanillaBonkLocale.L("Inn upgrades and talents")
 
     for statId, line in pairs(statLines) do
         local stat = STATS[statId]
@@ -3295,35 +3295,35 @@ local function RefreshHeroStats()
             explained = Percent(floor(1000 * max(0, shown) / (100 + max(0, shown)) + 0.5) / 10)
         end
         line.lines = { format(stat.text, explained),
-            FormatStat(statId, fromGear) .. " from gear, " .. FormatStat(statId, fromRest) .. " from " .. source .. "." }
+            FormatStat(statId, fromGear) .. VanillaBonkLocale.L(" from gear, ") .. FormatStat(statId, fromRest) .. VanillaBonkLocale.L(" from ") .. source .. "." }
         if statId == 15 then
-            tinsert(line.lines, "Every hero starts with " .. Percent(5) .. ".")
+            tinsert(line.lines, VanillaBonkLocale.L("Every hero starts with ") .. Percent(5) .. ".")
         end
         if stat.gearCap then
-            tinsert(line.lines, "Gear gives at most " .. FormatStat(statId, stat.gearCap) .. ".")
+            tinsert(line.lines, VanillaBonkLocale.L("Gear gives at most ") .. FormatStat(statId, stat.gearCap) .. ".")
         end
         if stat.curve then
-            tinsert(line.lines, "Each point is worth a little less than the last, up to at most " .. FormatStat(statId, stat.curve) .. ".")
+            tinsert(line.lines, VanillaBonkLocale.L("Each point is worth a little less than the last, up to at most ") .. FormatStat(statId, stat.curve) .. ".")
             if FormatStat(statId, total) ~= FormatStat(statId, shown) then
-                tinsert(line.lines, "Your " .. FormatStat(statId, total) .. " counts as " .. FormatStat(statId, shown) .. ".")
+                tinsert(line.lines, VanillaBonkLocale.L("Your ") .. FormatStat(statId, total) .. VanillaBonkLocale.L(" counts as ") .. FormatStat(statId, shown) .. ".")
             end
         end
         if stat.cap then
-            tinsert(line.lines, "Capped at " .. FormatStat(statId, stat.cap) .. ".")
+            tinsert(line.lines, VanillaBonkLocale.L("Capped at ") .. FormatStat(statId, stat.cap) .. ".")
             if total > stat.cap then
-                tinsert(line.lines, "Yours adds up to " .. FormatStat(statId, total) .. ", so " .. FormatStat(statId, total - stat.cap) .. " is wasted.")
+                tinsert(line.lines, VanillaBonkLocale.L("Yours adds up to ") .. FormatStat(statId, total) .. ", so " .. FormatStat(statId, total - stat.cap) .. VanillaBonkLocale.L(" is wasted."))
             end
         end
     end
 
     setsLine.value:SetText(tostring(getn(active)))
-    setsLine.title = "Set bonuses"
+    setsLine.title = VanillaBonkLocale.L("Set bonuses")
     setsLine.lines = {}
     for _, bonus in ipairs(active) do
         tinsert(setsLine.lines, bonus.set .. " (" .. bonus.pieces .. "): " .. bonus.text)
     end
     if getn(active) == 0 then
-        tinsert(setsLine.lines, "Wear 2 or more pieces of an epic set from the Inn's gear vendor.")
+        tinsert(setsLine.lines, VanillaBonkLocale.L("Wear 2 or more pieces of an epic set from the Inn's gear vendor."))
     end
 end
 
@@ -3348,7 +3348,7 @@ handlers["gear"] = function(f)
 end
 
 handlers["set"] = function(f)
-    local set = { name = f[3], pieces = {}, bonuses = {} }
+    local set = { name = VanillaBonkLocale.L(f[3]), pieces = {}, bonuses = {} }
     local byName = {}
     for _, piece in ipairs(Split(f[4] or "", ",")) do
         local colon = strfind(piece, ":", 1, true)
@@ -3357,7 +3357,7 @@ handlers["set"] = function(f)
             if byName[name] then
                 tinsert(byName[name].entries, entry)
             else
-                byName[name] = { entry = entry, name = name, entries = { entry } }
+                byName[name] = { entry = entry, name = VanillaBonkLocale.L(name), entries = { entry } }
                 tinsert(set.pieces, byName[name])
             end
         end
@@ -3368,7 +3368,7 @@ end
 handlers["setbonus"] = function(f)
     local set = VB.sets[tonumber(f[2])]
     if set then
-        tinsert(set.bonuses, { pieces = tonumber(f[3]) or 0, stats = ParseStats(f[4]), text = f[5] or "" })
+        tinsert(set.bonuses, { pieces = tonumber(f[3]) or 0, stats = ParseStats(f[4]), text = VanillaBonkLocale.L(f[5] or "") })
     end
 end
 
@@ -3420,7 +3420,7 @@ necroticText:SetTextColor(0.4, 1, 0.3)
 handlers["necrotic"] = function(f)
     local stacks = tonumber(f[2]) or 0
     if stacks > 0 then
-        necroticText:SetText("Necrotic x" .. stacks .. ": " .. (f[3] or "") .. " less healing")
+        necroticText:SetText(VanillaBonkLocale.L("Necrotic x") .. stacks .. ": " .. (f[3] or "") .. VanillaBonkLocale.L(" less healing"))
     else
         necroticText:SetText("")
     end
@@ -3435,7 +3435,7 @@ do
     handlers["wounds"] = function(f)
         local stacks = tonumber(f[2]) or 0
         if stacks > 0 then
-            woundsText:SetText("Wounded x" .. stacks .. ": " .. (f[3] or "") .. " less healing")
+            woundsText:SetText(VanillaBonkLocale.L("Wounded x") .. stacks .. ": " .. (f[3] or "") .. VanillaBonkLocale.L(" less healing"))
         else
             woundsText:SetText("")
         end

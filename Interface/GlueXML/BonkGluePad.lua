@@ -132,12 +132,12 @@ local function PadPrompts()
 		return nil;
 	end
 	if ( PadCreating() ) then
-		return { { "a", "Create" }, { "lbrb", "Race" }, { "x", "Male or female" }, { "y", "New look" }, { "rs", "Turn" }, { "b", "Back" } };
+		return { { "a", VanillaBonkLocale.L("Create") }, { "lbrb", VanillaBonkLocale.L("Race") }, { "x", VanillaBonkLocale.L("Male or female") }, { "y", VanillaBonkLocale.L("New look") }, { "rs", VanillaBonkLocale.L("Turn") }, { "b", VanillaBonkLocale.L("Back") } };
 	end
 	if ( PadPreviewing() ) then
-		return { { "a", "Create " .. BONK_CLASSES[Bonk.classIndex].name }, { "dpad", "Class" }, { "rs", "Turn" }, { "b", "Quit" } };
+		return { { "a", VanillaBonkLocale.L("Create ") .. BONK_CLASSES[Bonk.classIndex].name }, { "dpad", VanillaBonkLocale.L("Class") }, { "rs", VanillaBonkLocale.L("Turn") }, { "b", VanillaBonkLocale.L("Quit") } };
 	end
-	return { { "a", "Play" }, { "dpad", "Class" }, { "view", "Delete" }, { "rs", "Turn" }, { "b", "Quit" } };
+	return { { "a", VanillaBonkLocale.L("Play") }, { "dpad", VanillaBonkLocale.L("Class") }, { "view", VanillaBonkLocale.L("Delete") }, { "rs", VanillaBonkLocale.L("Turn") }, { "b", VanillaBonkLocale.L("Quit") } };
 end
 
 local function PadSetGlyph(texture, name)

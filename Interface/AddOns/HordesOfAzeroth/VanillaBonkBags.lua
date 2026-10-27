@@ -145,8 +145,8 @@ local function Layout()
     local rows = max(1, ceil(index / COLUMNS))
     frame:SetWidth(PADDING * 2 + COLUMNS * SLOT + (COLUMNS - 1) * SPACING)
     frame:SetHeight(TITLE_HEIGHT + rows * SLOT + (rows - 1) * SPACING + FOOTER_HEIGHT + 4)
-    frame.title:SetText((UnitName("player") or "Hero") .. "'s Bags")
-    frame.free:SetText(free .. " of " .. total .. " slots free")
+    frame.title:SetText((UnitName("player") or VanillaBonkLocale.L("Hero")) .. VanillaBonkLocale.L("'s Bags"))
+    frame.free:SetText(free .. VanillaBonkLocale.L(" of ") .. total .. VanillaBonkLocale.L(" slots free"))
     MoneyFrame_Update("VanillaBonkBagsMoney", GetMoney())
 end
 

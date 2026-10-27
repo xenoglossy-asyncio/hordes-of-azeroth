@@ -95,9 +95,9 @@ local function ShowEntryTooltip()
         return
     end
     GameTooltip:SetOwner(this, "ANCHOR_BOTTOMRIGHT")
-    GameTooltip:AddDoubleLine(keyword.name, this.stacks > 1 and (this.stacks .. " stacks") or "", 1, 0.82, 0, 1, 1, 1)
+    GameTooltip:AddDoubleLine(VanillaBonkLocale.L(keyword.name), this.stacks > 1 and (this.stacks .. VanillaBonkLocale.L(" stacks")) or "", 1, 0.82, 0, 1, 1, 1)
     if keyword.description ~= "" then
-        GameTooltip:AddLine(keyword.description, 1, 1, 1, 1)
+        GameTooltip:AddLine(VanillaBonkLocale.L(keyword.description), 1, 1, 1, 1)
     end
     GameTooltip:Show()
 end

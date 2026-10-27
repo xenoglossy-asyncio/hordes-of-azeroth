@@ -133,7 +133,7 @@ function Tip:SpellTags(school, aoe)
         tinsert(tags, { text = school, color = SCHOOL_COLORS[school], plain = true })
     end
     if aoe then
-        tinsert(tags, { text = "AoE", color = AOE_COLOR })
+        tinsert(tags, { text = VanillaBonkLocale.L("AoE"), color = AOE_COLOR })
     end
     return tags
 end

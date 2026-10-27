@@ -16,9 +16,9 @@ local ARROW_TEXTURE = "Interface\\ChatFrame\\UI-ChatIcon-ScrollDown"
 local BAR_SPEED = 8
 local MODE_SPELLS, MODE_TYPES, MODE_HEALING = 1, 2, 3
 local MODES = {
-    { mode = MODE_SPELLS, label = "Damage Done" },
-    { mode = MODE_TYPES, label = "Damage Types" },
-    { mode = MODE_HEALING, label = "Healing Done" },
+    { mode = MODE_SPELLS, label = VanillaBonkLocale.L("Damage Done") },
+    { mode = MODE_TYPES, label = VanillaBonkLocale.L("Damage Types") },
+    { mode = MODE_HEALING, label = VanillaBonkLocale.L("Healing Done") },
 }
 local HEAL_COLOR = UI.HEAL_COLOR
 local ABSORB_COLOR = UI.ABSORB_COLOR
@@ -184,10 +184,10 @@ end
 
 local function SpellTooltip(entry, share)
     GameTooltip:AddLine(entry.name, 1, 1, 1)
-    GameTooltip:AddDoubleLine("Damage", Short(entry.damage), 1, 0.82, 0, 1, 1, 1)
-    GameTooltip:AddDoubleLine("Per second", Short(seconds > 0 and entry.damage / seconds or 0), 1, 0.82, 0, 1, 1, 1)
-    GameTooltip:AddDoubleLine("Share", share .. "%", 1, 0.82, 0, 1, 1, 1)
-    GameTooltip:AddDoubleLine("Kills", entry.kills or 0, 1, 0.82, 0, 1, 1, 1)
+    GameTooltip:AddDoubleLine(VanillaBonkLocale.L("Damage"), Short(entry.damage), 1, 0.82, 0, 1, 1, 1)
+    GameTooltip:AddDoubleLine(VanillaBonkLocale.L("Per second"), Short(seconds > 0 and entry.damage / seconds or 0), 1, 0.82, 0, 1, 1, 1)
+    GameTooltip:AddDoubleLine(VanillaBonkLocale.L("Share"), share .. "%", 1, 0.82, 0, 1, 1, 1)
+    GameTooltip:AddDoubleLine(VanillaBonkLocale.L("Kills"), entry.kills or 0, 1, 0.82, 0, 1, 1, 1)
     if getn(entry.parts) > 1 then
         AddPartLines(entry)
     end
@@ -206,10 +206,10 @@ end
 
 local function HealTooltip(entry, share)
     GameTooltip:AddLine(entry.name, 1, 1, 1)
-    GameTooltip:AddDoubleLine("Healed", Short(entry.healed), HEAL_COLOR.r, HEAL_COLOR.g, HEAL_COLOR.b, 1, 1, 1)
-    GameTooltip:AddDoubleLine("Absorbed", Short(entry.absorbed), ABSORB_COLOR.r, ABSORB_COLOR.g, ABSORB_COLOR.b, 1, 1, 1)
-    GameTooltip:AddDoubleLine("Per second", Short(seconds > 0 and entry.damage / seconds or 0), 1, 0.82, 0, 1, 1, 1)
-    GameTooltip:AddDoubleLine("Share", share .. "%", 1, 0.82, 0, 1, 1, 1)
+    GameTooltip:AddDoubleLine(VanillaBonkLocale.L("Healed"), Short(entry.healed), HEAL_COLOR.r, HEAL_COLOR.g, HEAL_COLOR.b, 1, 1, 1)
+    GameTooltip:AddDoubleLine(VanillaBonkLocale.L("Absorbed"), Short(entry.absorbed), ABSORB_COLOR.r, ABSORB_COLOR.g, ABSORB_COLOR.b, 1, 1, 1)
+    GameTooltip:AddDoubleLine(VanillaBonkLocale.L("Per second"), Short(seconds > 0 and entry.damage / seconds or 0), 1, 0.82, 0, 1, 1, 1)
+    GameTooltip:AddDoubleLine(VanillaBonkLocale.L("Share"), share .. "%", 1, 0.82, 0, 1, 1, 1)
 end
 
 local function ShowRowTooltip()
@@ -426,7 +426,7 @@ Refresh = function()
         end
     end
     if count == 0 then
-        meter.empty:SetText(mode == MODE_HEALING and "No healing yet." or "No damage yet.")
+        meter.empty:SetText(mode == MODE_HEALING and VanillaBonkLocale.L("No healing yet.") or VanillaBonkLocale.L("No damage yet."))
         meter.empty:Show()
     else
         meter.empty:Hide()

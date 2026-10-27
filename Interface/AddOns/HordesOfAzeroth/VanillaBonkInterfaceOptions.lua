@@ -18,16 +18,17 @@ local healthBar = { pending = nil }
 local SECTION_ROWS = {
     {
         {
-            name = "Hordes of Azeroth",
+            name = VanillaBonkLocale.L("Hordes of Azeroth"),
             height = 3 * ROW + 20,
             columns = 3,
             own = { { DISPLAY[1], 1, 0 }, { DISPLAY[2], 1, 1 }, { DISPLAY[3], 1, 2 }, { DISPLAY[4], 2, 2 }, { DISPLAY[5], 3, 0 } },
             healthBar = { 2, 0, -22 },
+            language = { 3, 2 },
         },
     },
     {
         {
-            name = "Interact Key",
+            name = VanillaBonkLocale.L("Interact Key"),
             height = 3 * ROW + 20,
             columns = 3,
             own = {
@@ -40,7 +41,7 @@ local SECTION_ROWS = {
     },
     {
         {
-            name = "Controls",
+            name = VanillaBonkLocale.L("Controls"),
             height = 88,
             columns = 2,
             sliders = { { 1, 1, 0 } },
@@ -48,7 +49,7 @@ local SECTION_ROWS = {
             dropdowns = { { "UIOptionsFrameClickCameraDropDown", 2, 1 } },
         },
         {
-            name = "Camera",
+            name = VanillaBonkLocale.L("Camera"),
             height = 6 * ROW + 20,
             columns = 2,
             dropdowns = { { "UIOptionsFrameCameraDropDown", 1, 0 } },
@@ -58,7 +59,7 @@ local SECTION_ROWS = {
     },
     {
         {
-            name = "Display",
+            name = VanillaBonkLocale.L("Display"),
             height = 6 * ROW + 20,
             columns = 2,
             checks = {
@@ -68,7 +69,7 @@ local SECTION_ROWS = {
             },
         },
         {
-            name = "Floating Combat Text",
+            name = VanillaBonkLocale.L("Floating Combat Text"),
             height = 6 * ROW + 20,
             columns = 2,
             checks = {
@@ -149,7 +150,7 @@ local function BuildHealthBarDropdown(box)
     local dropdown = CreateFrame("Frame", "VanillaBonkOptionsHealthBar", box, "UIDropDownMenuTemplate")
     local label = dropdown:CreateFontString(nil, "BACKGROUND", "GameFontNormalSmall")
     label:SetPoint("BOTTOMLEFT", dropdown, "TOPLEFT", 16, 3)
-    label:SetText("Your Health Bar")
+    label:SetText(VanillaBonkLocale.L("Your Health Bar"))
     UIDropDownMenu_SetWidth(110, dropdown)
     UIDropDownMenu_Initialize(dropdown, function()
         for _, mode in ipairs(UI.HEALTH_BAR_MODES) do
@@ -168,6 +169,28 @@ end
 
 local interactKey
 
+local function BuildLanguageRow(box)
+    local row = CreateFrame("Frame", nil, box)
+    row:SetWidth(box.columnWidth - 10)
+    row:SetHeight(26)
+    row.label = row:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
+    row.label:SetPoint("LEFT", row, "LEFT", 0, 0)
+    row.label:SetText(VanillaBonkLocale.L("Language"))
+    row.value = row:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
+    row.value:SetPoint("LEFT", row, "LEFT", 120, 0)
+    local function Current()
+        return GetCVar("bonkLanguage") == "zhCN" and "884{h]" or "English"
+    end
+    row.value:SetText(Current())
+    row.change = UI.Button(row, 70, VanillaBonkLocale.L("Change"), function()
+        PlaySound("igMainMenuOptionCheckBoxOn")
+        SetCVar("bonkLanguage", GetCVar("bonkLanguage") == "zhCN" and "enUS" or "zhCN")
+        ReloadUI()
+    end)
+    row.change:SetPoint("RIGHT", row, "RIGHT", 0, 0)
+    return row
+end
+
 local function BuildInteractKey(box)
     local binding = UI.KEYS[1]
     local row = CreateFrame("Frame", nil, box)
@@ -175,8 +198,8 @@ local function BuildInteractKey(box)
     row:SetHeight(26)
     row.label = row:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
     row.label:SetPoint("LEFT", row, "LEFT", 0, 0)
-    row.label:SetText("Interact key")
-    row.change = UI.Button(row, 70, "Change", function()
+    row.label:SetText(VanillaBonkLocale.L("Interact key"))
+    row.change = UI.Button(row, 70, VanillaBonkLocale.L("Change"), function()
         PlaySound("igMainMenuOptionCheckBoxOn")
         UI.CaptureKey(binding)
     end)
@@ -211,6 +234,10 @@ local function BuildSection(section, width, height, x, y)
         checks[setting] = check
         Place(check, box, own[2], own[3])
     end
+    if section.language then
+        local languageRow = BuildLanguageRow(box)
+        Place(languageRow, box, section.language[1], section.language[2], 4, -6)
+    end
     if section.interactKey then
         interactKey = BuildInteractKey(box)
         Place(interactKey, box, section.interactKey[1], section.interactKey[2], 4, -6)
@@ -242,7 +269,7 @@ end
 local function BuildButtons(last)
     local reset = CreateFrame("Button", "VanillaBonkOptionsResetTutorial", frame, "OptionsButtonTemplate")
     reset:SetWidth(130)
-    reset:SetText("Reset Tutorial")
+    reset:SetText(VanillaBonkLocale.L("Reset Tutorial"))
     reset:SetPoint("TOPLEFT", last, "BOTTOMLEFT", 0, -12)
     reset:SetScript("OnClick", function()
         PlaySound("igMainMenuOptionCheckBoxOn")
@@ -252,7 +279,7 @@ local function BuildButtons(last)
     end)
     reset:SetScript("OnEnter", function()
         GameTooltip:SetOwner(this, "ANCHOR_RIGHT")
-        GameTooltip:SetText("Shows the Hordes of Azeroth tips again from the start.", 1, 1, 1, 1, 1)
+        GameTooltip:SetText(VanillaBonkLocale.L("Shows the Hordes of Azeroth tips again from the start."), 1, 1, 1, 1, 1)
     end)
     reset:SetScript("OnLeave", function()
         GameTooltip:Hide()

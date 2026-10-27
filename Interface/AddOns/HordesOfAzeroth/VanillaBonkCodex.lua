@@ -1,7 +1,7 @@
 local PREFIX = "BONK~"
 local FLAT = "Interface\\Buttons\\WHITE8X8"
-local FONT = "Fonts\\FRIZQT__.TTF"
-local NUMBER_FONT = "Fonts\\ARIALN.TTF"
+local FONT = VanillaBonkLocale.Font()
+local NUMBER_FONT = VanillaBonkLocale.NumberFont()
 local ICON_PATH = "Interface\\Icons\\"
 local CLASS_ICONS = "Interface\\Glues\\CharacterCreate\\UI-CharacterCreate-Classes"
 
@@ -20,15 +20,15 @@ local EVOLUTION_ARROW = "Interface\\ChatFrame\\ChatFrameExpandArrow"
 local EVOLVE_RANK = 10
 
 local CLASSES = {
-    { mask = 1,    name = "Warrior", color = { 0.78, 0.61, 0.43 }, coords = { 0, 0.25, 0, 0.25 } },
-    { mask = 2,    name = "Paladin", color = { 0.96, 0.55, 0.73 }, coords = { 0, 0.25, 0.5, 0.75 } },
-    { mask = 4,    name = "Hunter",  color = { 0.67, 0.83, 0.45 }, coords = { 0, 0.25, 0.25, 0.5 } },
-    { mask = 8,    name = "Rogue",   color = { 1.00, 0.96, 0.41 }, coords = { 0.49609375, 0.7421875, 0, 0.25 } },
-    { mask = 16,   name = "Priest",  color = { 1.00, 1.00, 1.00 }, coords = { 0.49609375, 0.7421875, 0.25, 0.5 } },
-    { mask = 64,   name = "Shaman",  color = { 0.00, 0.44, 0.87 }, coords = { 0.25, 0.49609375, 0.25, 0.5 } },
-    { mask = 128,  name = "Mage",    color = { 0.41, 0.80, 0.94 }, coords = { 0.25, 0.49609375, 0, 0.25 } },
-    { mask = 256,  name = "Warlock", color = { 0.58, 0.51, 0.79 }, coords = { 0.7421875, 0.98828125, 0.25, 0.5 } },
-    { mask = 1024, name = "Druid",   color = { 1.00, 0.49, 0.04 }, coords = { 0.7421875, 0.98828125, 0, 0.25 } },
+    { mask = 1,    name = VanillaBonkLocale.L("Warrior"), color = { 0.78, 0.61, 0.43 }, coords = { 0, 0.25, 0, 0.25 } },
+    { mask = 2,    name = VanillaBonkLocale.L("Paladin"), color = { 0.96, 0.55, 0.73 }, coords = { 0, 0.25, 0.5, 0.75 } },
+    { mask = 4,    name = VanillaBonkLocale.L("Hunter"),  color = { 0.67, 0.83, 0.45 }, coords = { 0, 0.25, 0.25, 0.5 } },
+    { mask = 8,    name = VanillaBonkLocale.L("Rogue"),   color = { 1.00, 0.96, 0.41 }, coords = { 0.49609375, 0.7421875, 0, 0.25 } },
+    { mask = 16,   name = VanillaBonkLocale.L("Priest"),  color = { 1.00, 1.00, 1.00 }, coords = { 0.49609375, 0.7421875, 0.25, 0.5 } },
+    { mask = 64,   name = VanillaBonkLocale.L("Shaman"),  color = { 0.00, 0.44, 0.87 }, coords = { 0.25, 0.49609375, 0.25, 0.5 } },
+    { mask = 128,  name = VanillaBonkLocale.L("Mage"),    color = { 0.41, 0.80, 0.94 }, coords = { 0.25, 0.49609375, 0, 0.25 } },
+    { mask = 256,  name = VanillaBonkLocale.L("Warlock"), color = { 0.58, 0.51, 0.79 }, coords = { 0.7421875, 0.98828125, 0.25, 0.5 } },
+    { mask = 1024, name = VanillaBonkLocale.L("Druid"),   color = { 1.00, 0.49, 0.04 }, coords = { 0.7421875, 0.98828125, 0, 0.25 } },
 }
 
 VanillaBonkCodex = {}
@@ -86,7 +86,7 @@ end
 
 local function ClassNames(mask)
     if mask == 0 then
-        return "All classes"
+        return VanillaBonkLocale.L("All classes")
     end
     local names = {}
     for _, class in ipairs(CLASSES) do
@@ -123,7 +123,7 @@ local function EvolutionNames(evolutions)
     local count = getn(evolutions)
     for index, evolved in ipairs(evolutions) do
         if index > 1 then
-            text = text .. (index == count and " or " or ", ")
+            text = text .. (index == count and VanillaBonkLocale.L(" or ") or ", ")
         end
         text = text .. evolved.name
     end
@@ -134,9 +134,9 @@ local tooltip = GameTooltip
 
 local function AddLock(lock)
     tooltip:AddLine(" ")
-    tooltip:AddLine("Locked", 1, 0.3, 0.3)
+    tooltip:AddLine(VanillaBonkLocale.L("Locked"), 1, 0.3, 0.3)
     if lock then
-        tooltip:AddLine("Quest: " .. lock.name, 1, 0.6, 0.6)
+        tooltip:AddLine(VanillaBonkLocale.L("Quest: ") .. lock.name, 1, 0.6, 0.6)
         tooltip:AddLine(lock.description, 0.9, 0.9, 0.9, 1)
     end
 end
@@ -147,28 +147,28 @@ end
 
 local function PriceText(entry)
     if SoldBySayge(entry) then
-        return entry.price .. (entry.price == 1 and " Darkmoon Ticket" or " Darkmoon Tickets")
+        return entry.price .. (entry.price == 1 and VanillaBonkLocale.L(" Darkmoon Ticket") or VanillaBonkLocale.L(" Darkmoon Tickets"))
     end
     return VanillaBonkUI.FormatGold(entry.price)
 end
 
 local function UnlockHint(entry, atSayge)
     if SoldBySayge(entry) and not atSayge then
-        return "Unlock it from Sayge at the Inn to find it during runs."
+        return VanillaBonkLocale.L("Unlock it from Sayge at the Inn to find it during runs.")
     end
     if not SoldBySayge(entry) and not atKeeper then
-        return "Unlock it from the Spellbook Keeper at the Inn to find it during runs."
+        return VanillaBonkLocale.L("Unlock it from the Spellbook Keeper at the Inn to find it during runs.")
     end
-    return "Unlock it to find it during runs."
+    return VanillaBonkLocale.L("Unlock it to find it during runs.")
 end
 
 local function AddState(entry, atSayge)
     if entry.forSale then
         tooltip:AddLine(" ")
-        tooltip:AddDoubleLine("Unlock", PriceText(entry), 1, 0.82, 0, 1, 1, 1)
+        tooltip:AddDoubleLine(VanillaBonkLocale.L("Unlock"), PriceText(entry), 1, 0.82, 0, 1, 1, 1)
         tooltip:AddLine(UnlockHint(entry, atSayge), 0.6, 0.8, 1, 1)
         if not SoldBySayge(entry) and not CanAfford(entry) then
-            tooltip:AddLine("You need " .. VanillaBonkUI.FormatGold(entry.price - GetMoney()) .. " more.", 1, 0.3, 0.3)
+            tooltip:AddLine(VanillaBonkLocale.L("You need ") .. VanillaBonkUI.FormatGold(entry.price - GetMoney()) .. VanillaBonkLocale.L(" more."), 1, 0.3, 0.3)
         end
     elseif entry.locked then
         AddLock(book.locks[entry.kind .. entry.id])
@@ -186,7 +186,7 @@ local function ShowSpellTooltip(owner, spell)
     Tip:AddDoubleLine(spell.spec or "", classes, Tip.SPEC[1], Tip.SPEC[2], Tip.SPEC[3], 0.62, 0.62, 0.62)
     local base = evolved and book.weapons[spell.evolvesFrom]
     if base then
-        Tip:AddDoubleLine("Evolved from " .. base.name, "", 1, 0.5, 0, 1, 1, 1, 11)
+        Tip:AddDoubleLine(VanillaBonkLocale.L("Evolved from ") .. base.name, "", 1, 0.5, 0, 1, 1, 1, 11)
     end
     if spell.description ~= "" then
         Tip:AddLine(spell.description, 1, 0.82, 0)
@@ -194,15 +194,15 @@ local function ShowSpellTooltip(owner, spell)
 
     Tip:AddRule()
     if base then
-        Tip:AddSmallLine(base.name .. " evolves into this through a Legendary rank, offered from rank " .. EVOLVE_RANK .. ".", Tip.ORANGE)
+        Tip:AddSmallLine(base.name .. VanillaBonkLocale.L(" evolves into this through a Legendary rank, offered from rank ") .. EVOLVE_RANK .. ".", Tip.ORANGE)
     else
         local evolutions = book.evolutionOf[spell.id]
         if evolutions then
-            Tip:AddSmallLine("From rank " .. EVOLVE_RANK .. ", a Legendary rank can evolve it into " .. EvolutionNames(evolutions) .. ".", Tip.ORANGE)
+            Tip:AddSmallLine(VanillaBonkLocale.L("From rank ") .. EVOLVE_RANK .. VanillaBonkLocale.L(", a Legendary rank can evolve it into ") .. EvolutionNames(evolutions) .. ".", Tip.ORANGE)
         end
     end
     if spell.starterMask > 0 then
-        Tip:AddSmallLine(gsub(ClassNames(spell.starterMask), ",", "s,") .. "s can choose it as their starter spell at the Run Master.", { 0.6, 0.8, 1 })
+        Tip:AddSmallLine(ClassNames(spell.starterMask) .. VanillaBonkLocale.L(" can choose it as their starter spell at the Run Master."), { 0.6, 0.8, 1 })
     end
     AddState(spell)
     tooltip:Show()
@@ -212,10 +212,10 @@ local function ShowPassiveTooltip(owner, passive)
     tooltip = GameTooltip
     GameTooltip:SetOwner(owner, "ANCHOR_RIGHT")
     tooltip:AddLine(passive.name, 1, 0.82, 0)
-    tooltip:AddLine("Passive (all classes)", 0.7, 0.7, 0.7)
+    tooltip:AddLine(VanillaBonkLocale.L("Passive (all classes)"), 0.7, 0.7, 0.7)
     tooltip:AddLine(passive.description, 1, 1, 1, 1)
     tooltip:AddLine(" ")
-    tooltip:AddLine("Max rank " .. passive.maxRank, 1, 0.82, 0)
+    tooltip:AddLine(VanillaBonkLocale.L("Max rank ") .. passive.maxRank, 1, 0.82, 0)
     AddState(passive)
     tooltip:Show()
 end
@@ -225,12 +225,12 @@ local function ShowCardTooltip(owner, card, atSayge)
     tooltip = GameTooltip
     GameTooltip:SetOwner(owner, "ANCHOR_RIGHT")
     tooltip:AddLine(card.name, rarity.r, rarity.g, rarity.b)
-    tooltip:AddLine(rarity.name .. " Darkmoon Card (all classes)", 0.7, 0.7, 0.7)
+    tooltip:AddLine(rarity.name .. VanillaBonkLocale.L(" Darkmoon Card (all classes)"), 0.7, 0.7, 0.7)
     if card.description ~= "" then
         tooltip:AddLine(card.description, 1, 1, 1, 1)
     end
     tooltip:AddLine(" ")
-    tooltip:AddLine(card.maxCopies == 1 and "1 copy per run" or ("Up to " .. card.maxCopies .. " copies per run"), 1, 0.82, 0)
+    tooltip:AddLine(card.maxCopies == 1 and VanillaBonkLocale.L("1 copy per run") or (VanillaBonkLocale.L("Up to ") .. card.maxCopies .. VanillaBonkLocale.L(" copies per run")), 1, 0.82, 0)
     AddState(card, atSayge)
     tooltip:Show()
 end
@@ -240,7 +240,7 @@ local function ShowGlyphTooltip(owner, glyph, atSayge)
     tooltip = GameTooltip
     GameTooltip:SetOwner(owner, "ANCHOR_RIGHT")
     tooltip:AddLine(glyph.name, rarity.r, rarity.g, rarity.b)
-    tooltip:AddLine(rarity.name .. " Glyph (all classes)", 0.7, 0.7, 0.7)
+    tooltip:AddLine(rarity.name .. VanillaBonkLocale.L(" Glyph (all classes)"), 0.7, 0.7, 0.7)
     if glyph.description ~= "" then
         tooltip:AddLine(glyph.description, 1, 1, 1, 1)
     end
@@ -248,7 +248,7 @@ local function ShowGlyphTooltip(owner, glyph, atSayge)
         tooltip:AddLine(glyph.drawback, 1, 0.29, 0.23, 1)
     end
     tooltip:AddLine(" ")
-    tooltip:AddLine("Offered after the first timed mini-boss of a run and after every stage boss except the last. The Foresight upgrade adds one at the start of a run.", 1, 0.82, 0, 1)
+    tooltip:AddLine(VanillaBonkLocale.L("Offered after the first timed mini-boss of a run and after every stage boss except the last. The Foresight upgrade adds one at the start of a run."), 1, 0.82, 0, 1)
     AddState(glyph, atSayge)
     tooltip:Show()
 end
@@ -265,15 +265,15 @@ local function ShowEntryTooltip(owner, entry)
         if CanSwitch(entry) then
             tooltip:AddLine(" ")
             if entry.off then
-                tooltip:AddLine("Switched off. It won't be offered in runs.", 1, 0.3, 0.3)
-                tooltip:AddLine("Right-click to switch it back on.", 0.4, 1, 0.4)
+                tooltip:AddLine(VanillaBonkLocale.L("Switched off. It won't be offered in runs."), 1, 0.3, 0.3)
+                tooltip:AddLine(VanillaBonkLocale.L("Right-click to switch it back on."), 0.4, 1, 0.4)
             else
-                tooltip:AddLine("Right-click to switch it off. It won't be offered in runs.", 0.7, 0.7, 0.7, 1)
+                tooltip:AddLine(VanillaBonkLocale.L("Right-click to switch it off. It won't be offered in runs."), 0.7, 0.7, 0.7, 1)
             end
             tooltip:Show()
         elseif book and entry.owned and POOL_KINDS[entry.kind] and book.pool.slots > 0 then
             tooltip:AddLine(" ")
-            tooltip:AddLine("Every Stacked Deck slot is in use (" .. book.pool.used .. "/" .. book.pool.slots .. ").", 0.7, 0.7, 0.7, 1)
+            tooltip:AddLine(VanillaBonkLocale.L("Every Stacked Deck slot is in use (") .. book.pool.used .. "/" .. book.pool.slots .. ").", 0.7, 0.7, 0.7, 1)
             tooltip:Show()
         end
     end
@@ -287,7 +287,7 @@ local UI = VanillaBonkUI
 
 local window = UI.Window("VanillaBonkSpellbook", WIDTH, HEIGHT)
 window:SetPoint("CENTER", UIParent, "CENTER", 0, 30)
-window.title:SetText("Spellbook")
+window.title:SetText(VanillaBonkLocale.L("Spellbook"))
 window.subtitle = window.headerRight
 
 window.pane = UI.Pane(window, UI.CONTENT_LEFT, UI.CONTENT_TOP, WIDTH - UI.CONTENT_LEFT - UI.CONTENT_RIGHT,
@@ -314,13 +314,13 @@ local Refresh
 local Buy
 
 local TABS = {
-    { key = "spells",     label = "Spells" },
-    { key = "unlocks",    label = "Passives" },
-    { key = "cards",      label = "Cards" },
-    { key = "glyphs",     label = "Glyphs" },
-    { key = "debuffs",    label = "Debuffs" },
-    { key = "affixes",    label = "Affixes" },
-    { key = "evolutions", label = "Evolutions" },
+    { key = "spells",     label = VanillaBonkLocale.L("Spells") },
+    { key = "unlocks",    label = VanillaBonkLocale.L("Passives") },
+    { key = "cards",      label = VanillaBonkLocale.L("Cards") },
+    { key = "glyphs",     label = VanillaBonkLocale.L("Glyphs") },
+    { key = "debuffs",    label = VanillaBonkLocale.L("Debuffs") },
+    { key = "affixes",    label = VanillaBonkLocale.L("Affixes") },
+    { key = "evolutions", label = VanillaBonkLocale.L("Evolutions") },
 }
 
 local eliteAffixes = {}
@@ -399,11 +399,11 @@ local function CreateFilterButton(index, mask, name)
 end
 
 do
-    local all = CreateFilterButton(1, 0, "All classes")
+    local all = CreateFilterButton(1, 0, VanillaBonkLocale.L("All classes"))
     all.label = all:CreateFontString(nil, "OVERLAY")
     SetFont(all.label, NUMBER_FONT, 11, "OUTLINE")
     all.label:SetPoint("CENTER", all, "CENTER", 0, 0)
-    all.label:SetText("All")
+    all.label:SetText(VanillaBonkLocale.L("All"))
 
     for index, class in ipairs(CLASSES) do
         local button = CreateFilterButton(index + 1, class.mask, class.name)
@@ -508,7 +508,7 @@ local function CreateCard(index)
     card.buy:SetWidth(60)
     card.buy:SetHeight(20)
     card.buy:SetPoint("BOTTOMRIGHT", card, "BOTTOMRIGHT", -6, 6)
-    card.buy:SetText("Unlock")
+    card.buy:SetText(VanillaBonkLocale.L("Unlock"))
     card.buy:SetScript("OnClick", function()
         Buy(this:GetParent().entry)
     end)
@@ -720,23 +720,23 @@ local function ShowCards(entries)
 
         local lock = book.locks[entry.kind .. entry.id]
         if entry.forSale and SoldBySayge(entry) then
-            card.detail:SetText("Unlock at Sayge: " .. PriceText(entry))
+            card.detail:SetText(VanillaBonkLocale.L("Unlock at Sayge: ") .. PriceText(entry))
         elseif entry.forSale then
-            card.detail:SetText("Unlock: " .. VanillaBonkUI.FormatGold(entry.price))
+            card.detail:SetText(VanillaBonkLocale.L("Unlock: ") .. VanillaBonkUI.FormatGold(entry.price))
         elseif entry.locked then
-            card.detail:SetText("Locked by " .. (lock and ("\"" .. lock.name .. "\"") or "a quest"))
+            card.detail:SetText(VanillaBonkLocale.L("Locked by ") .. (lock and ("\"" .. lock.name .. "\"") or VanillaBonkLocale.L("a quest")))
         elseif entry.kind == "p" then
-            card.detail:SetText("Unlocked, max rank " .. entry.maxRank)
+            card.detail:SetText(VanillaBonkLocale.L("Unlocked, max rank ") .. entry.maxRank)
         elseif entry.kind == "c" then
             local rarity = VanillaBonkUI.RARITY[entry.rarity] or VanillaBonkUI.RARITY[0]
-            card.detail:SetText(rarity.name .. ", " .. (entry.maxCopies == 1 and "1 copy" or ("up to " .. entry.maxCopies .. " copies")) .. " per run")
+            card.detail:SetText(rarity.name .. ", " .. (entry.maxCopies == 1 and VanillaBonkLocale.L("1 copy") or (VanillaBonkLocale.L("up to ") .. entry.maxCopies .. VanillaBonkLocale.L(" copies"))) .. VanillaBonkLocale.L(" per run"))
         elseif entry.kind == "g" then
             local rarity = VanillaBonkUI.RARITY[entry.rarity] or VanillaBonkUI.RARITY[0]
-            card.detail:SetText(rarity.name .. " Glyph" .. (entry.drawback ~= "" and " with a |cffff4a3adrawback|r" or ""))
+            card.detail:SetText(rarity.name .. VanillaBonkLocale.L(" Glyph") .. (entry.drawback ~= "" and VanillaBonkLocale.L(" with a |cffff4a3adrawback|r") or ""))
         else
             local text = ClassNames(entry.classMask)
             if entry.starterMask > 0 and (classFilter == 0 or HasFlag(entry.starterMask, classFilter)) then
-                text = text .. " starting spell"
+                text = text .. VanillaBonkLocale.L(" starting spell")
             end
             card.detail:SetText(text)
         end
@@ -768,7 +768,7 @@ local function ShowCards(entries)
         end
         if entry.off then
             card.name:SetTextColor(0.55, 0.55, 0.55)
-            card.detail:SetText("|cffff6060Switched off: never offered|r")
+            card.detail:SetText(VanillaBonkLocale.L("|cffff6060Switched off: never offered|r"))
             SetDesaturation(card.icon, 1)
             card:SetBackdropColor(0.04, 0.04, 0.04, 0.6)
             card.offTag:Show()
@@ -833,10 +833,10 @@ end
 local function DescribeDebuffLimits(debuff)
     local parts = {}
     if debuff.maxStacks > 1 then
-        tinsert(parts, "Up to " .. debuff.maxStacks .. " stacks")
+        tinsert(parts, VanillaBonkLocale.L("Up to ") .. debuff.maxStacks .. VanillaBonkLocale.L(" stacks"))
     end
     if debuff.durationMs > 0 then
-        tinsert(parts, (getn(parts) > 0 and "lasts " or "Lasts ") .. format("%g", debuff.durationMs / 1000) .. " sec")
+        tinsert(parts, (getn(parts) > 0 and VanillaBonkLocale.L("lasts ") or VanillaBonkLocale.L("Lasts ")) .. format("%g", debuff.durationMs / 1000) .. VanillaBonkLocale.L(" sec"))
     end
     return table.concat(parts, ", ")
 end
@@ -929,13 +929,13 @@ function Refresh(keepScroll)
         else
             height, count = ShowInfoRows(book.debuffs, DescribeDebuffLimits)
         end
-        window.empty:SetText(count == 0 and "Nothing here yet." or "")
+        window.empty:SetText(count == 0 and VanillaBonkLocale.L("Nothing here yet.") or "")
     elseif currentTab == "evolutions" then
         for _, card in ipairs(window.cards) do
             card:Hide()
         end
         height, count = ShowEvolutions()
-        window.empty:SetText(count == 0 and "No evolutions for this class." or "")
+        window.empty:SetText(count == 0 and VanillaBonkLocale.L("No evolutions for this class.") or "")
     else
         for _, row in ipairs(window.evolutionRows) do
             row:Hide()
@@ -954,9 +954,9 @@ function Refresh(keepScroll)
         if table.getn(entries) > 0 then
             window.empty:SetText("")
         elseif TabHasClasses() and classFilter ~= 0 then
-            window.empty:SetText("Nothing here for this class.")
+            window.empty:SetText(VanillaBonkLocale.L("Nothing here for this class."))
         else
-            window.empty:SetText("Nothing here yet.")
+            window.empty:SetText(VanillaBonkLocale.L("Nothing here yet."))
         end
     end
 
@@ -974,8 +974,8 @@ function Refresh(keepScroll)
             end
         end
     end
-    local still = "|cffffd100" .. forSale .. " to unlock|r"
-    window.subtitle:SetText(still .. "|cffffffff, " .. locked .. " locked by quests|r")
+    local still = "|cffffd100" .. forSale .. VanillaBonkLocale.L(" to unlock|r")
+    window.subtitle:SetText(still .. "|cffffffff, " .. locked .. VanillaBonkLocale.L(" locked by quests|r"))
 
     if TabHasClasses() or TabHasInfoRows() then
         window.tally:SetText("")
@@ -996,20 +996,20 @@ function Refresh(keepScroll)
                 held = held + 1
             end
         end
-        window.tally:SetText("|cffffffff" .. owned .. " owned|r|cff9d9d9d,|r |cffffd100" .. sale .. " to unlock|r|cff9d9d9d,|r |cffff6666"
-            .. held .. " locked by quests|r")
+        window.tally:SetText("|cffffffff" .. owned .. VanillaBonkLocale.L(" owned|r|cff9d9d9d,|r |cffffd100") .. sale .. " to unlock|r|cff9d9d9d,|r |cffff6666"
+            .. held .. VanillaBonkLocale.L(" locked by quests|r"))
     end
 
     local pool = book.pool
     if currentTab ~= "cards" and currentTab ~= "glyphs" then
         window.pool:SetText("")
     elseif pool.slots > 0 then
-        window.pool:SetText("|cffffd100Switched off:|r |cffffffff" .. pool.used .. "/" .. pool.slots .. ".|r |cff9d9d9dRight-click a Darkmoon Card or Glyph to switch it off.|r")
+        window.pool:SetText(VanillaBonkLocale.L("|cffffd100Switched off:|r |cffffffff") .. pool.used .. "/" .. pool.slots .. VanillaBonkLocale.L(".|r |cff9d9d9dRight-click a Darkmoon Card or Glyph to switch it off.|r"))
     else
-        window.pool:SetText("|cff9d9d9dBuy Stacked Deck from the Upgrades vendor to switch off Darkmoon Cards and Glyphs.|r")
+        window.pool:SetText(VanillaBonkLocale.L("|cff9d9d9dBuy Stacked Deck from the Upgrades vendor to switch off Darkmoon Cards and Glyphs.|r"))
     end
 
-    local className = "All classes"
+    local className = VanillaBonkLocale.L("All classes")
     if TabHasClasses() then
         for _, class in ipairs(CLASSES) do
             if class.mask == classFilter then
@@ -1017,8 +1017,8 @@ function Refresh(keepScroll)
             end
         end
     end
-    window.header:SetText(className .. "|cff9d9d9d: " .. book.spellCount .. " spells, " .. book.passiveCount .. " passives, "
-        .. book.cardCount .. " Darkmoon Cards, " .. book.glyphCount .. " Glyphs|r")
+    window.header:SetText(className .. VanillaBonkLocale.L("|cff9d9d9d: ") .. book.spellCount .. VanillaBonkLocale.L(" spells, ") .. book.passiveCount .. VanillaBonkLocale.L(" passives, ")
+        .. book.cardCount .. " Darkmoon Cards, " .. book.glyphCount .. VanillaBonkLocale.L(" Glyphs|r"))
 end
 
 TogglePool = function(entry)
@@ -1098,7 +1098,7 @@ local handlers = {}
 
 handlers["cdx"] = function(f)
     incoming = {
-        npc = f[2] or "",
+        npc = VanillaBonkLocale.L(f[2] or ""),
         classMask = tonumber(f[3]) or 0,
         weapons = {},
         passives = {},
@@ -1119,7 +1119,7 @@ handlers["cdxw"] = function(f)
     local spell = {
         kind = "w",
         id = id,
-        name = f[3] or "",
+        name = VanillaBonkLocale.L(f[3] or ""),
         icon = f[4] or "",
         classMask = tonumber(f[5]) or 0,
         starterMask = tonumber(f[6]) or 0,
@@ -1133,7 +1133,7 @@ end
 handlers["cdxwd"] = function(f)
     local spell = incoming and incoming.weapons[tonumber(f[2]) or 0]
     if spell then
-        spell.description = f[3] or ""
+        spell.description = VanillaBonkLocale.L(f[3] or "")
         spell.school = f[4] or ""
         spell.spec = f[5] or ""
         spell.aoe = f[6] == "1"
@@ -1148,10 +1148,10 @@ handlers["cdxp"] = function(f)
     local passive = {
         kind = "p",
         id = id,
-        name = f[3] or "",
+        name = VanillaBonkLocale.L(f[3] or ""),
         icon = f[4] or "",
         maxRank = tonumber(f[5]) or 1,
-        description = f[7] or "",
+        description = VanillaBonkLocale.L(f[7] or ""),
     }
     ReadState(passive, f[6], f[8])
     incoming.passives[id] = passive
@@ -1165,7 +1165,7 @@ handlers["cdxc"] = function(f)
     local card = {
         kind = "c",
         id = id,
-        name = f[3] or "",
+        name = VanillaBonkLocale.L(f[3] or ""),
         icon = f[4] or "",
         rarity = tonumber(f[5]) or 0,
         maxCopies = tonumber(f[6]) or 1,
@@ -1178,7 +1178,7 @@ end
 handlers["cdxcd"] = function(f)
     local card = incoming and incoming.cards[tonumber(f[2]) or 0]
     if card then
-        card.description = f[3] or ""
+        card.description = VanillaBonkLocale.L(f[3] or "")
     end
 end
 
@@ -1188,11 +1188,11 @@ handlers["cdxk"] = function(f)
     end
     tinsert(incoming.debuffs, {
         id = tonumber(f[2]) or 0,
-        name = f[3] or "",
+        name = VanillaBonkLocale.L(f[3] or ""),
         icon = f[4] or "",
         maxStacks = tonumber(f[5]) or 1,
         durationMs = tonumber(f[6]) or 0,
-        description = f[7] or "",
+        description = VanillaBonkLocale.L(f[7] or ""),
     })
 end
 
@@ -1203,11 +1203,11 @@ handlers["affixinfo"] = function(f)
     end
     for _, affix in ipairs(eliteAffixes) do
         if affix.name == name then
-            affix.icon, affix.description = f[3] or "", f[4] or ""
+            affix.icon, affix.description = f[3] or "", VanillaBonkLocale.L(f[4] or "")
             return
         end
     end
-    tinsert(eliteAffixes, { name = name, icon = f[3] or "", description = f[4] or "" })
+    tinsert(eliteAffixes, { name = name, icon = f[3] or "", description = VanillaBonkLocale.L(f[4] or "") })
 end
 
 handlers["cdxg"] = function(f)
@@ -1233,7 +1233,7 @@ end
 
 handlers["cdxq"] = function(f)
     if incoming then
-        incoming.locks[(f[2] or "") .. (f[3] or "")] = { name = f[4] or "", description = f[5] or "" }
+        incoming.locks[(f[2] or "") .. (f[3] or "")] = { name = VanillaBonkLocale.L(f[4] or ""), description = VanillaBonkLocale.L(f[5] or "") }
     end
 end
 
@@ -1272,7 +1272,7 @@ handlers["cdxend"] = function()
     received.glyphCount = 0
     for key, glyph in pairs(received.glyphs) do
         local text = VanillaBonkGlyphInfo and VanillaBonkGlyphInfo[key]
-        glyph.name = text and text.name or ("Glyph " .. key)
+        glyph.name = text and text.name or (VanillaBonkLocale.L("Glyph ") .. key)
         glyph.icon = text and text.icon or ""
         glyph.rarity = text and text.rarity or 0
         glyph.description = text and text.description or ""

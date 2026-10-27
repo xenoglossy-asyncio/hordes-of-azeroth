@@ -5,15 +5,15 @@ local NUDGE_X = 0
 local NORMAL_KIND = 0
 local COLOR = { 0.24, 0.70, 0.28 }
 local BAR_TEXTURE = "Interface\\TargetingFrame\\UI-StatusBar"
-local NUMBERS_FONT = "Interface\\AddOns\\HordesOfAzeroth\\Fonts\\Barlow-Bold.ttf"
+local NUMBERS_FONT = VanillaBonkLocale.IsZh() and "Interface\\AddOns\\HordesOfAzeroth\\Fonts\\ZhFont.ttf" or "Interface\\AddOns\\HordesOfAzeroth\\Fonts\\Barlow-Bold.ttf"
 local PLATE_NUMBER_SIZE = 7
 local FRAME_NUMBER_SIZE = 9
 local NUMBERED_PLATE = { width = 78, height = 14, name = 0, percent = 0 }
 
 UI.HEALTH_BAR_MODES = {
-    { value = "frame", label = "Unit Frame" },
-    { value = "plate", label = "Nameplate" },
-    { value = "both", label = "Both" },
+    { value = "frame", label = VanillaBonkLocale.L("Unit Frame") },
+    { value = "plate", label = VanillaBonkLocale.L("Nameplate") },
+    { value = "both", label = VanillaBonkLocale.L("Both") },
 }
 
 local shield = 0

@@ -28,7 +28,7 @@ end
 holder.label = UI.Text(holder, 11)
 holder.label:SetPoint("TOPLEFT", holder, "TOPLEFT", 0, 0)
 holder.label:SetTextColor(1, 0.82, 0)
-holder.label:SetText("Darkmoon Cards")
+holder.label:SetText(VanillaBonkLocale.L("Darkmoon Cards"))
 
 local buttons = {}
 
@@ -40,14 +40,14 @@ local function CardTooltip(owner, index, anchor)
     local tip = tips[card.id] or {}
     local color = UI.RARITY[card.rarity] or UI.RARITY[0]
     GameTooltip:SetOwner(owner, anchor or "ANCHOR_BOTTOMRIGHT")
-    GameTooltip:AddLine(tip.name or "Darkmoon Card", color.r, color.g, color.b)
+    GameTooltip:AddLine(tip.name or VanillaBonkLocale.L("Darkmoon Card"), color.r, color.g, color.b)
     local copies = ""
     if card.maxCopies > 1 then
-        copies = card.copies .. "/" .. card.maxCopies .. " copies"
+        copies = card.copies .. "/" .. card.maxCopies .. VanillaBonkLocale.L(" copies")
     elseif card.copies > 1 then
         copies = "x" .. card.copies
     end
-    GameTooltip:AddDoubleLine(color.name .. " Darkmoon Card", copies, 0.6, 0.6, 0.6, 1, 1, 1)
+    GameTooltip:AddDoubleLine(color.name .. VanillaBonkLocale.L(" Darkmoon Card"), copies, 0.6, 0.6, 0.6, 1, 1, 1)
     if tip.description and tip.description ~= "" then
         GameTooltip:AddLine(tip.description, 1, 0.82, 0, 1)
     end
@@ -198,7 +198,7 @@ end
 
 handlers["cardtip"] = function(f)
     if f[2] and f[2] ~= "" then
-        tips[f[2]] = { name = f[3] or "", description = f[4] or "" }
+        tips[f[2]] = { name = VanillaBonkLocale.L(f[3] or ""), description = VanillaBonkLocale.L(f[4] or "") }
     end
 end
 
@@ -222,7 +222,7 @@ handlers["cardnow"] = function(f)
     if not id or id == "" then
         return
     end
-    states[id] = (f[3] and f[3] ~= "") and f[3] or nil
+    states[id] = (f[3] and f[3] ~= "") and VanillaBonkLocale.L(f[3]) or nil
     for index, card in ipairs(held) do
         local button = buttons[index]
         if card.id == id and button then

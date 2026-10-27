@@ -1,37 +1,37 @@
 VanillaBonkUI = {}
 local UI = VanillaBonkUI
 
-UI.FONT = "Fonts\\FRIZQT__.TTF"
-UI.NUMBER_FONT = "Fonts\\ARIALN.TTF"
-UI.TITLE_FONT = "Fonts\\MORPHEUS.TTF"
+UI.FONT = VanillaBonkLocale.Font()
+UI.NUMBER_FONT = VanillaBonkLocale.NumberFont()
+UI.TITLE_FONT = VanillaBonkLocale.TitleFont()
 UI.FLAT = "Interface\\Buttons\\WHITE8X8"
 UI.ICON_PATH = "Interface\\Icons\\"
 
 UI.RARITY = {
-    [0] = { name = "Common", r = 1, g = 1, b = 1 },
-    [1] = { name = "Uncommon", r = 0.12, g = 1, b = 0 },
-    [2] = { name = "Rare", r = 0, g = 0.44, b = 0.87 },
-    [3] = { name = "Epic", r = 0.64, g = 0.21, b = 0.93 },
-    [4] = { name = "Legendary", r = 1, g = 0.5, b = 0 },
+    [0] = { name = VanillaBonkLocale.L("Common"), r = 1, g = 1, b = 1 },
+    [1] = { name = VanillaBonkLocale.L("Uncommon"), r = 0.12, g = 1, b = 0 },
+    [2] = { name = VanillaBonkLocale.L("Rare"), r = 0, g = 0.44, b = 0.87 },
+    [3] = { name = VanillaBonkLocale.L("Epic"), r = 0.64, g = 0.21, b = 0.93 },
+    [4] = { name = VanillaBonkLocale.L("Legendary"), r = 1, g = 0.5, b = 0 },
 }
 
 UI.DAMAGE_TYPES = {
-    phys = { name = "Physical", r = 0.78, g = 0.61, b = 0.43, icon = "Ability_MeleeDamage" },
-    bleed = { name = "Bleed", r = 0.83, g = 0.16, b = 0.16, icon = "Ability_BackStab", note = "Physical damage over time." },
-    poison = { name = "Poison", r = 0.3, g = 0.76, b = 0.23, icon = "Spell_Nature_CorrosiveBreath", note = "Nature damage over time." },
-    fire = { name = "Fire", r = 1, g = 0.49, b = 0.1, icon = "Spell_Fire_FlameBolt" },
-    burn = { name = "Burning", r = 1, g = 0.71, b = 0.24, icon = "Spell_Fire_Incinerate", note = "Fire damage over time." },
-    frost = { name = "Frost", r = 0.41, g = 0.8, b = 0.94, icon = "Spell_Frost_FrostBolt02" },
-    arcane = { name = "Arcane", r = 0.82, g = 0.49, b = 1, icon = "Spell_Nature_StarFall" },
-    shadow = { name = "Shadow", r = 0.56, g = 0.42, b = 0.85, icon = "Spell_Shadow_ShadowBolt" },
+    phys = { name = VanillaBonkLocale.L("Physical"), r = 0.78, g = 0.61, b = 0.43, icon = "Ability_MeleeDamage" },
+    bleed = { name = VanillaBonkLocale.L("Bleed"), r = 0.83, g = 0.16, b = 0.16, icon = "Ability_BackStab", note = VanillaBonkLocale.L("Physical damage over time.") },
+    poison = { name = VanillaBonkLocale.L("Poison"), r = 0.3, g = 0.76, b = 0.23, icon = "Spell_Nature_CorrosiveBreath", note = VanillaBonkLocale.L("Nature damage over time.") },
+    fire = { name = VanillaBonkLocale.L("Fire"), r = 1, g = 0.49, b = 0.1, icon = "Spell_Fire_FlameBolt" },
+    burn = { name = VanillaBonkLocale.L("Burning"), r = 1, g = 0.71, b = 0.24, icon = "Spell_Fire_Incinerate", note = VanillaBonkLocale.L("Fire damage over time.") },
+    frost = { name = VanillaBonkLocale.L("Frost"), r = 0.41, g = 0.8, b = 0.94, icon = "Spell_Frost_FrostBolt02" },
+    arcane = { name = VanillaBonkLocale.L("Arcane"), r = 0.82, g = 0.49, b = 1, icon = "Spell_Nature_StarFall" },
+    shadow = { name = VanillaBonkLocale.L("Shadow"), r = 0.56, g = 0.42, b = 0.85, icon = "Spell_Shadow_ShadowBolt" },
     nature = { name = "Nature", r = 0.25, g = 0.78, b = 0.71, icon = "Spell_Nature_Lightning" },
-    holy = { name = "Holy", r = 1, g = 0.9, b = 0.5, icon = "Spell_Holy_HolyBolt" },
-    decay = { name = "Decay", r = 0.45, g = 0.3, b = 0.7, icon = "Spell_Shadow_ChillTouch", note = "Shadow damage over time." },
-    agony = { name = "Agony", r = 0.55, g = 0.2, b = 0.55, icon = "Spell_Shadow_CurseOfSargeras", note = "Shadow damage over time that grows." },
-    moonkin = { name = "Moonkin Form", r = 0.55, g = 0.6, b = 1, icon = "Spell_Nature_ForceOfNature", note = "Wrath and Starfall." },
-    cat = { name = "Cat Form", r = 1, g = 0.82, b = 0.25, icon = "Ability_Druid_CatForm", note = "Claw." },
-    bear = { name = "Bear Form", r = 0.75, g = 0.45, b = 0.25, icon = "Ability_Racial_BearForm", note = "Maul." },
-    tree = { name = "Tree of Life", r = 0.35, g = 0.85, b = 0.35, icon = "Spell_Nature_ProtectionformNature", note = "Vines." },
+    holy = { name = VanillaBonkLocale.L("Holy"), r = 1, g = 0.9, b = 0.5, icon = "Spell_Holy_HolyBolt" },
+    decay = { name = VanillaBonkLocale.L("Decay"), r = 0.45, g = 0.3, b = 0.7, icon = "Spell_Shadow_ChillTouch", note = VanillaBonkLocale.L("Shadow damage over time.") },
+    agony = { name = VanillaBonkLocale.L("Agony"), r = 0.55, g = 0.2, b = 0.55, icon = "Spell_Shadow_CurseOfSargeras", note = VanillaBonkLocale.L("Shadow damage over time that grows.") },
+    moonkin = { name = VanillaBonkLocale.L("Moonkin Form"), r = 0.55, g = 0.6, b = 1, icon = "Spell_Nature_ForceOfNature", note = VanillaBonkLocale.L("Wrath and Starfall.") },
+    cat = { name = VanillaBonkLocale.L("Cat Form"), r = 1, g = 0.82, b = 0.25, icon = "Ability_Druid_CatForm", note = VanillaBonkLocale.L("Claw.") },
+    bear = { name = VanillaBonkLocale.L("Bear Form"), r = 0.75, g = 0.45, b = 0.25, icon = "Ability_Racial_BearForm", note = VanillaBonkLocale.L("Maul.") },
+    tree = { name = VanillaBonkLocale.L("Tree of Life"), r = 0.35, g = 0.85, b = 0.35, icon = "Spell_Nature_ProtectionformNature", note = VanillaBonkLocale.L("Vines.") },
 }
 UI.DAMAGE_TYPE_BY_KEYWORD = { Bleed = "bleed", Poison = "poison", Burning = "burn", Decay = "decay", Agony = "agony" }
 
@@ -109,12 +109,12 @@ function UI.FormatGold(copper)
     copper = tonumber(copper) or 0
     local gold = floor(copper / 10000)
     local silver = floor(mod(copper, 10000) / 100)
-    local text = format("|cffeda55f%dc|r", mod(copper, 100))
+    local text = format(VanillaBonkLocale.L("|cffeda55f%dc|r"), mod(copper, 100))
     if silver > 0 or gold > 0 then
-        text = format("|cffc7c7cf%ds|r ", silver) .. text
+        text = format(VanillaBonkLocale.L("|cffc7c7cf%ds|r "), silver) .. text
     end
     if gold > 0 then
-        text = format("|cffffd700%dg|r ", gold) .. text
+        text = format(VanillaBonkLocale.L("|cffffd700%dg|r "), gold) .. text
     end
     return text
 end
@@ -455,7 +455,7 @@ function UI.Button(parent, width, text, onClick)
 end
 
 UI.INNKEEPER_ENTRY = 900140
-UI.INNKEEPER_NAME = "Tarn Oakhoof"
+UI.INNKEEPER_NAME = VanillaBonkLocale.L("Tarn Oakhoof")
 
 local KEYCAP_TEXTURE = "Interface\\AddOns\\HordesOfAzeroth\\Textures\\KeyCap"
 local KEYCAP_CAP_SHARE = 0.5

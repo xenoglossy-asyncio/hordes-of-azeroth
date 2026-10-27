@@ -58,42 +58,42 @@ local function Row(index, label, icon, tooltip)
     return row
 end
 
-local kills = Row(1, "Kills", "INV_Misc_Bone_HumanSkull_01", function()
-    GameTooltip:AddDoubleLine("Kills", run.kills or 0, 1, 1, 1, 1, 1, 1)
-    GameTooltip:AddLine("Enemies killed this run.", 1, 0.82, 0)
+local kills = Row(1, VanillaBonkLocale.L("Kills"), "INV_Misc_Bone_HumanSkull_01", function()
+    GameTooltip:AddDoubleLine(VanillaBonkLocale.L("Kills"), run.kills or 0, 1, 1, 1, 1, 1, 1)
+    GameTooltip:AddLine(VanillaBonkLocale.L("Enemies killed this run."), 1, 0.82, 0)
 end)
-local valor = Row(2, "Valor", "INV_Misc_Coin_04", function()
-    GameTooltip:AddDoubleLine("Valor", run.valor or 0, 1, 1, 1, 1, 0.9, 0.45)
-    GameTooltip:AddLine("Collected during the run and spent to open chests and buy from shops.", 1, 0.82, 0, 1)
-    GameTooltip:AddLine("Next chest: " .. (run.chest or "?") .. " Valor", 1, 1, 1)
-    GameTooltip:AddLine("Resets every run, it's not kept.", 0.6, 0.6, 0.6)
+local valor = Row(2, VanillaBonkLocale.L("Valor"), "INV_Misc_Coin_04", function()
+    GameTooltip:AddDoubleLine(VanillaBonkLocale.L("Valor"), run.valor or 0, 1, 1, 1, 1, 0.9, 0.45)
+    GameTooltip:AddLine(VanillaBonkLocale.L("Collected during the run and spent to open chests and buy from shops."), 1, 0.82, 0, 1)
+    GameTooltip:AddLine(VanillaBonkLocale.L("Next chest: ") .. (run.chest or "?") .. VanillaBonkLocale.L(" Valor"), 1, 1, 1)
+    GameTooltip:AddLine(VanillaBonkLocale.L("Resets every run, it's not kept."), 0.6, 0.6, 0.6)
 end)
-local shards = Row(3, "Tickets", "INV_Misc_Ticket_Darkmoon_01", function()
-    GameTooltip:AddDoubleLine("Darkmoon Tickets", "+" .. (run.shards or 0), 1, 1, 1, 0.75, 0.5, 1)
-    GameTooltip:AddLine("Spend them with Sayge at the Inn.", 1, 0.82, 0)
+local shards = Row(3, VanillaBonkLocale.L("Tickets"), "INV_Misc_Ticket_Darkmoon_01", function()
+    GameTooltip:AddDoubleLine(VanillaBonkLocale.L("Darkmoon Tickets"), "+" .. (run.shards or 0), 1, 1, 1, 0.75, 0.5, 1)
+    GameTooltip:AddLine(VanillaBonkLocale.L("Spend them with Sayge at the Inn."), 1, 0.82, 0)
 end)
-local gold = Row(4, "Gold", "INV_Misc_Coin_02", function()
-    GameTooltip:AddDoubleLine("Gold earned", UI.FormatGold(run.gold or 0), 1, 1, 1, 1, 1, 1)
-    GameTooltip:AddLine("Yours to keep, even if you die.", 1, 0.82, 0)
+local gold = Row(4, VanillaBonkLocale.L("Gold"), "INV_Misc_Coin_02", function()
+    GameTooltip:AddDoubleLine(VanillaBonkLocale.L("Gold earned"), UI.FormatGold(run.gold or 0), 1, 1, 1, 1, 1, 1)
+    GameTooltip:AddLine(VanillaBonkLocale.L("Yours to keep, even if you die."), 1, 0.82, 0)
 end)
-local greed = Row(5, "Greed", "Spell_Nature_EarthBindTotem", function()
-    GameTooltip:AddDoubleLine("Greed", (run.greed or 0) .. (run.greed == 1 and " stack" or " stacks"), 1, 1, 1, 1, 0.82, 0)
-    GameTooltip:AddLine("+" .. (run.greedReward or 0) .. "% gold and Darkmoon Tickets", 0.25, 1, 0.25)
-    GameTooltip:AddLine((run.greedMobs or 0) .. "% more enemies", 1, 0.4, 0.4)
-    GameTooltip:AddLine("Every Greed Totem taken this run adds a stack.", 1, 0.82, 0, 1)
+local greed = Row(5, VanillaBonkLocale.L("Greed"), "Spell_Nature_EarthBindTotem", function()
+    GameTooltip:AddDoubleLine(VanillaBonkLocale.L("Greed"), (run.greed or 0) .. (run.greed == 1 and VanillaBonkLocale.L(" stack") or VanillaBonkLocale.L(" stacks")), 1, 1, 1, 1, 0.82, 0)
+    GameTooltip:AddLine("+" .. (run.greedReward or 0) .. VanillaBonkLocale.L("% gold and Darkmoon Tickets"), 0.25, 1, 0.25)
+    GameTooltip:AddLine((run.greedMobs or 0) .. VanillaBonkLocale.L("% more enemies"), 1, 0.4, 0.4)
+    GameTooltip:AddLine(VanillaBonkLocale.L("Every Greed Totem taken this run adds a stack."), 1, 0.82, 0, 1)
 end)
 greed:Hide()
 
 local function Refresh()
     local elapsed = run.elapsed or 0
     if run.portal then
-        tracker.timer:SetText("|cff40c0ffPORTAL OPEN|r")
+        tracker.timer:SetText(VanillaBonkLocale.L("|cff40c0ffPORTAL OPEN|r"))
     elseif run.boss then
         tracker.timer:SetText("|cffff5a4a" .. UI.FormatTime(elapsed) .. "|r")
     else
         tracker.timer:SetText(UI.FormatTime(elapsed))
     end
-    local stage = "|cffffd100Stage " .. run.stage .. "|r"
+    local stage = VanillaBonkLocale.L("|cffffd100Stage ") .. run.stage .. "|r"
     local color = DIFFICULTY_COLORS[run.difficulty]
     if run.difficulty ~= "" and color then
         stage = stage .. format("  |cff9d9d9d·|r  |cff%02x%02x%02x%s|r", color[1] * 255, color[2] * 255, color[3] * 255, run.difficulty)
@@ -166,7 +166,7 @@ callout.alpha, callout.want = 0, 0
 
 local function CalloutText()
     local left = max(1, (callout.at or 0) - (run.elapsed or 0))
-    callout.text:SetText(callout.name .. " |cffffffffin " .. left .. "s|r")
+    callout.text:SetText(callout.name .. VanillaBonkLocale.L(" |cffffffffin ") .. left .. "s|r")
 end
 
 callout:SetScript("OnUpdate", function()
@@ -210,7 +210,7 @@ handlers["beat"] = function(f)
         callout.want = 0
         return
     end
-    callout.name = f[2] ~= "" and f[2] or "Mini-boss"
+    callout.name = f[2] ~= "" and VanillaBonkLocale.L(f[2]) or VanillaBonkLocale.L("Mini-boss")
     callout.at = (run.elapsed or 0) + seconds
     callout.icon:SetTexture(UI.ICON_PATH .. (BEAT_ICONS[tonumber(f[3] or "")] or BEAT_ICONS[BEAT_WALL]))
     CalloutText()

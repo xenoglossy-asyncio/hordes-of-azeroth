@@ -1,7 +1,7 @@
 local UI = VanillaBonkUI
 local Controller = VanillaBonkController
 
-BINDING_NAME_VANILLABONK_INTERACT = "Interact With Nearby"
+BINDING_NAME_VANILLABONK_INTERACT = VanillaBonkLocale.L("Interact With Nearby")
 
 function VanillaBonk_Interact()
     if HoAController_Interact then

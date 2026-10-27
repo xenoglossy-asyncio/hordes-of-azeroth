@@ -1,5 +1,5 @@
-local BORDERLESS_LABEL = "Borderless"
-local BORDERLESS_TOOLTIP = "Check to fill your screen with the game window, without a title bar or borders. Looks like fullscreen, and Alt+Tab switches instantly."
+local BORDERLESS_LABEL = VanillaBonkLocale.L("Borderless")
+local BORDERLESS_TOOLTIP = VanillaBonkLocale.L("Check to fill your screen with the game window, without a title bar or borders. Looks like fullscreen, and Alt+Tab switches instantly.")
 
 local button = OptionsFrameCheckButton17
 local buttonText = OptionsFrameCheckButton17Text

@@ -10,7 +10,7 @@ local ARROW_SIZE = 40
 local BOB_SPEED = 6
 local BOB_HEIGHT = 7
 local TIP_WIDTH = 340
-BINDING_NAME_VANILLABONK_HEARTH = "Use Hearthstone"
+BINDING_NAME_VANILLABONK_HEARTH = VanillaBonkLocale.L("Use Hearthstone")
 
 local function FindHearthstone()
     for bag = 0, 4 do
@@ -50,15 +50,15 @@ button:SetScript("OnEnter", function()
     local bag, slot = FindHearthstone()
     GameTooltip:SetOwner(this, "ANCHOR_TOPLEFT")
     if not bag then
-        GameTooltip:AddDoubleLine("Hearthstone", "Not found yet", 1, 1, 1, 0.5, 0.5, 0.5)
-        GameTooltip:AddLine("Elites and mini-bosses sometimes drop one. It lets you escape the run early and takes you back to the Inn with 1 item from your Extraction Vault.", 1, 0.82, 0, 1)
+        GameTooltip:AddDoubleLine(VanillaBonkLocale.L("Hearthstone"), VanillaBonkLocale.L("Not found yet"), 1, 1, 1, 0.5, 0.5, 0.5)
+        GameTooltip:AddLine(VanillaBonkLocale.L("Elites and mini-bosses sometimes drop one. It lets you escape the run early and takes you back to the Inn with 1 item from your Extraction Vault."), 1, 0.82, 0, 1)
         GameTooltip:Show()
         return
     end
     GameTooltip:SetBagItem(bag, slot)
     local key = UI.BindingText(HEARTH)
     if key ~= "" then
-        GameTooltip:AddLine("Hit " .. key .. " to use it.", 0.6, 0.6, 0.6)
+        GameTooltip:AddLine(VanillaBonkLocale.L("Hit ") .. key .. VanillaBonkLocale.L(" to use it."), 0.6, 0.6, 0.6)
     end
     GameTooltip:Show()
 end)
@@ -80,7 +80,7 @@ tip:SetBackdrop({
 tip.title = UI.Text(tip, 15)
 tip.title:SetTextColor(1, 0.82, 0)
 tip.title:SetPoint("TOP", tip, "TOP", 0, -22)
-tip.title:SetText("You found a Hearthstone!")
+tip.title:SetText(VanillaBonkLocale.L("You found a Hearthstone!"))
 tip.body = UI.Text(tip, 12)
 tip.body:SetWidth(TIP_WIDTH - 52)
 tip.body:SetJustifyH("CENTER")
@@ -92,7 +92,7 @@ tip.key:SetPoint("TOP", tip.body, "BOTTOM", 0, -10)
 tip.close = CreateFrame("Button", nil, tip, "UIPanelCloseButton")
 tip.close:SetPoint("TOPRIGHT", tip, "TOPRIGHT", -6, -6)
 tip.close:SetScript("OnClick", function() tip:Hide() end)
-tip.done = UI.Button(tip, 96, "Got it", function() tip:Hide() end)
+tip.done = UI.Button(tip, 96, VanillaBonkLocale.L("Got it"), function() tip:Hide() end)
 tip.done:SetPoint("BOTTOM", tip, "BOTTOM", 0, 18)
 tip:SetPoint("BOTTOMRIGHT", button, "TOPRIGHT", 12, ARROW_SIZE + BOB_HEIGHT + 6)
 tip:Hide()
@@ -109,15 +109,15 @@ tip.arrow.texture:SetTexCoord(1, 1, 1, 0, 0, 1, 0, 0)
 local function KeyLine()
     local key = UI.BindingText(HEARTH)
     if key == "" then
-        return "Pick a key for it under Key Bindings, Hordes of Azeroth, Use Hearthstone."
+        return VanillaBonkLocale.L("Pick a key for it under Key Bindings, Hordes of Azeroth, Use Hearthstone.")
     end
-    return "Hit " .. key .. " or click the stone to use it. You can change the key under Key Bindings."
+    return VanillaBonkLocale.L("Hit ") .. key .. VanillaBonkLocale.L(" or click the stone to use it. You can change the key under Key Bindings.")
 end
 
 tip:SetScript("OnShow", function()
-    this.body:SetText("You don't need it to finish a run. It's an emergency exit for when a run turns bad. " ..
-        "It opens a ring with an Extraction Vault beside it that holds 1 item. " ..
-        "Put your best find in the vault, then be inside the ring when it fills to escape to the Inn. If you're outside, it leaves without you.")
+    this.body:SetText(VanillaBonkLocale.L("You don't need it to finish a run. It's an emergency exit for when a run turns bad. ") ..
+        VanillaBonkLocale.L("It opens a ring with an Extraction Vault beside it that holds 1 item. ") ..
+        VanillaBonkLocale.L("Put your best find in the vault, then be inside the ring when it fills to escape to the Inn. If you're outside, it leaves without you."))
     this.key:SetText(KeyLine())
     this:SetHeight(22 + this.title:GetHeight() + 10 + this.body:GetHeight() + 10 + this.key:GetHeight() + 22 + 30)
     SendChatMessage(".bonk menu 1", "SAY")

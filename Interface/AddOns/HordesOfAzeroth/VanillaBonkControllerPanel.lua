@@ -17,27 +17,27 @@ local ART = {
     xbox = { file = "Interface\\AddOns\\HordesOfAzeroth\\Textures\\ControllerXbox", height = 329 },
     ps = { file = "Interface\\AddOns\\HordesOfAzeroth\\Textures\\ControllerPlayStation", height = 331 },
 }
-local KIND_NAMES = { xbox = "Xbox controller connected", ps = "PlayStation controller connected" }
+local KIND_NAMES = { xbox = VanillaBonkLocale.L("Xbox controller connected"), ps = VanillaBonkLocale.L("PlayStation controller connected") }
 local LEFT_LABELS = {
-    { "lt", "Zoom", "Hold with right stick or d-pad" },
-    { "ls", "Move", "Full 360 degrees" },
-    { "view", "Run map" },
-    { "dpad", "Menus and cards", "Move the focus" },
+    { "lt", VanillaBonkLocale.L("Zoom"), VanillaBonkLocale.L("Hold with right stick or d-pad") },
+    { "ls", VanillaBonkLocale.L("Move"), VanillaBonkLocale.L("Full 360 degrees") },
+    { "view", VanillaBonkLocale.L("Run map") },
+    { "dpad", VanillaBonkLocale.L("Menus and cards"), VanillaBonkLocale.L("Move the focus") },
 }
 local RIGHT_LABELS = {
-    { "rt", "Dash", "Dash where you are moving" },
-    { "y", "Character and bags" },
-    { "x", "Interact", "Talk, open, use" },
-    { "b", "Close or cancel" },
-    { "a", "Jump" },
-    { "rs", "Camera", "Press to recenter" },
-    { "menu", "Pause menu" },
+    { "rt", VanillaBonkLocale.L("Dash"), VanillaBonkLocale.L("Dash where you are moving") },
+    { "y", VanillaBonkLocale.L("Character and bags") },
+    { "x", VanillaBonkLocale.L("Interact"), VanillaBonkLocale.L("Talk, open, use") },
+    { "b", VanillaBonkLocale.L("Close or cancel") },
+    { "a", VanillaBonkLocale.L("Jump") },
+    { "rs", VanillaBonkLocale.L("Camera"), VanillaBonkLocale.L("Press to recenter") },
+    { "menu", VanillaBonkLocale.L("Pause menu") },
 }
-local PROMPT_CHOICES = { { "auto", "Automatic" }, { "xbox", "Xbox" }, { "ps", "PlayStation" } }
+local PROMPT_CHOICES = { { "auto", VanillaBonkLocale.L("Automatic") }, { "xbox", VanillaBonkLocale.L("Xbox") }, { "ps", VanillaBonkLocale.L("PlayStation") } }
 
 local panel = UI.Window("VanillaBonkControllerPanel", PANEL_WIDTH, PANEL_HEIGHT)
 panel:SetPoint("CENTER", UIParent, "CENTER", 0, 10)
-panel.title:SetText("Controller")
+panel.title:SetText(VanillaBonkLocale.L("Controller"))
 panel.ART = ART
 panel.controls = {}
 panel.labels = {}
@@ -127,7 +127,7 @@ local SETTINGS_TOP = ART_TOP - ArtHeight("xbox") - 18
 panel.section = UI.Text(panel, 13)
 panel.section:SetPoint("TOPLEFT", panel, "TOPLEFT", COLUMN_LEFT, SETTINGS_TOP)
 panel.section:SetTextColor(1, 0.82, 0)
-panel.section:SetText("Settings")
+panel.section:SetText(VanillaBonkLocale.L("Settings"))
 panel.rule = panel:CreateTexture(nil, "ARTWORK")
 panel.rule:SetTexture(UI.FLAT)
 panel.rule:SetVertexColor(1, 0.82, 0, 0.35)
@@ -159,8 +159,8 @@ local function SliderRow(x, y, key, title, help, low, high, step, lowText, highT
     slider:SetMinMaxValues(low, high)
     slider:SetValueStep(step)
     getglobal(name .. "Text"):SetText("")
-    getglobal(name .. "Low"):SetText(lowText)
-    getglobal(name .. "High"):SetText(highText)
+    getglobal(name .. VanillaBonkLocale.L("Low")):SetText(lowText)
+    getglobal(name .. VanillaBonkLocale.L("High")):SetText(highText)
     slider.value = UI.Text(panel, 12)
     slider.value:SetPoint("LEFT", slider, "RIGHT", 10, 0)
     slider.value:SetTextColor(1, 0.82, 0)
@@ -231,31 +231,31 @@ local function ChoiceRow(x, y, key, title, help, choices)
 end
 
 local leftY = SETTINGS_TOP - 24
-leftY = leftY - SliderRow(COLUMN_LEFT, leftY, "yawSpeed", "Camera turn speed", "How fast the right stick turns the camera", 0.5, 2, 0.05, "Slow", "Fast", Percent)
-leftY = leftY - SliderRow(COLUMN_LEFT, leftY, "pitchSpeed", "Camera up and down speed", "Right stick up and down", 0.5, 2, 0.05, "Slow", "Fast", Percent)
-leftY = leftY - CheckRow(COLUMN_LEFT, leftY, "invertPitch", "Invert camera up and down", "Push up to look down")
-SliderRow(COLUMN_LEFT, leftY, "deadzone", "Stick deadzone", "Raise it if your hero drifts on its own", 0.1, 0.4, 0.01, "Small", "Large", Percent)
+leftY = leftY - SliderRow(COLUMN_LEFT, leftY, "yawSpeed", VanillaBonkLocale.L("Camera turn speed"), VanillaBonkLocale.L("How fast the right stick turns the camera"), 0.5, 2, 0.05, VanillaBonkLocale.L("Slow"), VanillaBonkLocale.L("Fast"), Percent)
+leftY = leftY - SliderRow(COLUMN_LEFT, leftY, "pitchSpeed", VanillaBonkLocale.L("Camera up and down speed"), VanillaBonkLocale.L("Right stick up and down"), 0.5, 2, 0.05, VanillaBonkLocale.L("Slow"), VanillaBonkLocale.L("Fast"), Percent)
+leftY = leftY - CheckRow(COLUMN_LEFT, leftY, "invertPitch", VanillaBonkLocale.L("Invert camera up and down"), VanillaBonkLocale.L("Push up to look down"))
+SliderRow(COLUMN_LEFT, leftY, "deadzone", VanillaBonkLocale.L("Stick deadzone"), VanillaBonkLocale.L("Raise it if your hero drifts on its own"), 0.1, 0.4, 0.01, VanillaBonkLocale.L("Small"), VanillaBonkLocale.L("Large"), Percent)
 
 local rightY = SETTINGS_TOP - 24
-rightY = rightY - SliderRow(COLUMN_RIGHT, rightY, "cursorSpeed", "Cursor speed", "Right stick cursor in Blizzard windows", 0.5, 2, 0.05, "Slow", "Fast", Percent)
-rightY = rightY - ChoiceRow(COLUMN_RIGHT, rightY, "prompts", "Button prompts", "Automatic follows the controller you pick up", PROMPT_CHOICES)
-CheckRow(COLUMN_RIGHT, rightY, "interactPrompts", "Show interact prompts", "\"X Talk\" above NPCs, chests and portals")
+rightY = rightY - SliderRow(COLUMN_RIGHT, rightY, "cursorSpeed", VanillaBonkLocale.L("Cursor speed"), VanillaBonkLocale.L("Right stick cursor in Blizzard windows"), 0.5, 2, 0.05, VanillaBonkLocale.L("Slow"), VanillaBonkLocale.L("Fast"), Percent)
+rightY = rightY - ChoiceRow(COLUMN_RIGHT, rightY, "prompts", VanillaBonkLocale.L("Button prompts"), VanillaBonkLocale.L("Automatic follows the controller you pick up"), PROMPT_CHOICES)
+CheckRow(COLUMN_RIGHT, rightY, "interactPrompts", VanillaBonkLocale.L("Show interact prompts"), VanillaBonkLocale.L("\"X Talk\" above NPCs, chests and portals"))
 
-panel.reset = UI.Button(panel, 150, "Reset to defaults", function()
+panel.reset = UI.Button(panel, 150, VanillaBonkLocale.L("Reset to defaults"), function()
     Controller.ResetSettings()
     panel:Refresh()
 end)
 panel.reset:SetPoint("BOTTOMLEFT", panel, "BOTTOMLEFT", COLUMN_LEFT, 22)
-panel.done = UI.Button(panel, 120, "Done", function()
+panel.done = UI.Button(panel, 120, VanillaBonkLocale.L("Done"), function()
     panel:Hide()
 end)
 panel.done:SetPoint("BOTTOMRIGHT", panel, "BOTTOMRIGHT", -COLUMN_LEFT, 22)
 
 local function StatusText()
     local connected = HoAController_GetConnected and HoAController_GetConnected()
-    local text = connected and ("|cff40d040" .. KIND_NAMES[connected] .. "|r") or "No controller connected"
+    local text = connected and ("|cff40d040" .. KIND_NAMES[connected] .. "|r") or VanillaBonkLocale.L("No controller connected")
     if Controller.Setting("prompts") == "auto" then
-        text = text .. "  |cff9d9d9d·|r  prompts follow your last input"
+        text = text .. VanillaBonkLocale.L("  |cff9d9d9d·|r  prompts follow your last input")
     end
     return text
 end

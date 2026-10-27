@@ -237,18 +237,18 @@ UI.GlyphAnchor:SetPoint("BOTTOMLEFT", runPlate, "TOPLEFT", ceil(GryphonInset(RUN
 local spellSlots, passiveSlots = {}, {}
 
 local LOCKED_SLOTS = {
-    spell = { talent = "Spell Slot", start = 3, ranks = {
-        { quest = "Renowned", quests = 25 }, { quests = 45 },
+    spell = { talent = VanillaBonkLocale.L("Spell Slot"), start = 3, ranks = {
+        { quest = VanillaBonkLocale.L("Renowned"), quests = 25 }, { quests = 45 },
     } },
-    passive = { talent = "Passive Slot", start = 3, ranks = {
-        { quest = "Trusted Adventurer", quests = 15 }, { quests = 35 }, { quests = 55 },
+    passive = { talent = VanillaBonkLocale.L("Passive Slot"), start = 3, ranks = {
+        { quest = VanillaBonkLocale.L("Trusted Adventurer"), quests = 15 }, { quests = 35 }, { quests = 55 },
     } },
 }
 
 local function AddPassiveLines(entry)
     local info = run.info[entry.index] or {}
-    GameTooltip:AddDoubleLine(info.name or "?", "Rank " .. entry.rank .. " / " .. entry.max, 1, 1, 1, 0.6, 0.6, 0.6)
-    GameTooltip:AddLine("Passive", 0.6, 0.6, 0.6)
+    GameTooltip:AddDoubleLine(info.name or "?", VanillaBonkLocale.L("Rank ") .. entry.rank .. " / " .. entry.max, 1, 1, 1, 0.6, 0.6, 0.6)
+    GameTooltip:AddLine(VanillaBonkLocale.L("Passive"), 0.6, 0.6, 0.6)
     if info.description and info.description ~= "" then
         GameTooltip:AddLine(info.description, 1, 0.82, 0, 1)
     end
@@ -271,12 +271,12 @@ local function ShowSpellTip(owner, anchor, entry, stat)
     Tip:SetLegendary(evolved)
     Tip:Title(info.name or "?", { rarity.r, rarity.g, rarity.b }, Tip:SpellTags(info.school, info.aoe))
 
-    local rank = "Rank " .. entry.rank
+    local rank = VanillaBonkLocale.L("Rank ") .. entry.rank
     local spec = info.spec or ""
     local headerColor = info.faster and Tip.GREEN or Tip.WHITE
     if evolved and info.evolvedFrom and info.evolvedFrom ~= "" then
         Tip:AddDoubleLine(spec, info.header, Tip.SPEC[1], Tip.SPEC[2], Tip.SPEC[3], headerColor[1], headerColor[2], headerColor[3])
-        Tip:AddDoubleLine("Evolved from " .. info.evolvedFrom, rank, 1, 0.5, 0, 0.62, 0.62, 0.62, 11)
+        Tip:AddDoubleLine(VanillaBonkLocale.L("Evolved from ") .. info.evolvedFrom, rank, 1, 0.5, 0, 0.62, 0.62, 0.62, 11)
     else
         local left = spec ~= "" and (spec .. " |cff9d9d9d· " .. rank .. "|r") or ("|cff9d9d9d" .. rank .. "|r")
         Tip:AddDoubleLine(left, info.header, Tip.SPEC[1], Tip.SPEC[2], Tip.SPEC[3], headerColor[1], headerColor[2], headerColor[3])
@@ -295,7 +295,7 @@ local function ShowSpellTip(owner, anchor, entry, stat)
         end
         local share = total > 0 and floor(stat.damage / total * 100 + 0.5) or 0
         Tip:AddRule()
-        Tip:AddDoubleLine(VanillaBonkUI.Short(stat.damage) .. " damage · " .. share .. "% of total", (stat.kills or 0) .. " kills",
+        Tip:AddDoubleLine(VanillaBonkUI.Short(stat.damage) .. VanillaBonkLocale.L(" damage · ") .. share .. VanillaBonkLocale.L("% of total"), (stat.kills or 0) .. VanillaBonkLocale.L(" kills"),
             0.62, 0.62, 0.62, 0.62, 0.62, 0.62, 11)
     end
     Tip:Show()
@@ -320,26 +320,26 @@ local function ShowSlotTooltip()
         local unlock = LOCKED_SLOTS[kind]
         local rank = max(1, slot.slotIndex - unlock.start)
         local need = unlock.ranks[rank] or unlock.ranks[getn(unlock.ranks)]
-        GameTooltip:AddLine("Locked " .. kind .. " slot", 1, 1, 1)
+        GameTooltip:AddLine(VanillaBonkLocale.L("Locked ") .. kind .. VanillaBonkLocale.L(" slot"), 1, 1, 1)
         if rank == 1 then
-            GameTooltip:AddLine("Buy " .. unlock.talent .. " from Sayge at the Inn to unlock it.", 1, 0.82, 0, 1)
-            GameTooltip:AddLine("Sayge sells it once you finish the quest \"" .. need.quest .. "\" (complete " ..
-                need.quests .. " quests).", 0.6, 0.6, 0.6, 1)
+            GameTooltip:AddLine(VanillaBonkLocale.L("Buy ") .. unlock.talent .. VanillaBonkLocale.L(" from Sayge at the Inn to unlock it."), 1, 0.82, 0, 1)
+            GameTooltip:AddLine(VanillaBonkLocale.L("Sayge sells it once you finish the quest \"") .. need.quest .. VanillaBonkLocale.L("\" (complete ") ..
+                need.quests .. VanillaBonkLocale.L(" quests)."), 0.6, 0.6, 0.6, 1)
         else
-            GameTooltip:AddLine("Buy rank " .. rank .. " of " .. unlock.talent .. " from Sayge at the Inn to unlock it.", 1, 0.82, 0, 1)
-            GameTooltip:AddLine("Sayge sells rank " .. rank .. " once you have completed " .. need.quests .. " quests.", 0.6, 0.6, 0.6, 1)
+            GameTooltip:AddLine(VanillaBonkLocale.L("Buy rank ") .. rank .. VanillaBonkLocale.L(" of ") .. unlock.talent .. VanillaBonkLocale.L(" from Sayge at the Inn to unlock it."), 1, 0.82, 0, 1)
+            GameTooltip:AddLine(VanillaBonkLocale.L("Sayge sells rank ") .. rank .. VanillaBonkLocale.L(" once you have completed ") .. need.quests .. VanillaBonkLocale.L(" quests."), 0.6, 0.6, 0.6, 1)
         end
         GameTooltip:Show()
         return
     end
     if not entry then
         if slot.isSpell then
-            GameTooltip:AddLine("Empty spell slot", 1, 1, 1)
-            GameTooltip:AddLine("Level-ups can offer a new spell while a slot is free.", 1, 0.82, 0, 1)
-            GameTooltip:AddLine("Up to " .. SPELL_SLOTS .. " spells per run.", 0.6, 0.6, 0.6)
+            GameTooltip:AddLine(VanillaBonkLocale.L("Empty spell slot"), 1, 1, 1)
+            GameTooltip:AddLine(VanillaBonkLocale.L("Level-ups can offer a new spell while a slot is free."), 1, 0.82, 0, 1)
+            GameTooltip:AddLine(VanillaBonkLocale.L("Up to ") .. SPELL_SLOTS .. VanillaBonkLocale.L(" spells per run."), 0.6, 0.6, 0.6)
         else
-            GameTooltip:AddLine("Empty passive slot", 1, 1, 1)
-            GameTooltip:AddLine("Up to " .. PASSIVE_SLOTS .. " passives per run.", 0.6, 0.6, 0.6)
+            GameTooltip:AddLine(VanillaBonkLocale.L("Empty passive slot"), 1, 1, 1)
+            GameTooltip:AddLine(VanillaBonkLocale.L("Up to ") .. PASSIVE_SLOTS .. VanillaBonkLocale.L(" passives per run."), 0.6, 0.6, 0.6)
         end
         GameTooltip:Show()
         return
@@ -689,20 +689,19 @@ local mastery
 local function ShowMasteryTooltip()
     GameTooltip:SetOwner(this, "ANCHOR_TOP")
     if not mastery then
-        GameTooltip:AddLine("Class Mastery", 1, 1, 1)
+        GameTooltip:AddLine(VanillaBonkLocale.L("Class Mastery"), 1, 1, 1)
         GameTooltip:Show()
         return
     end
-    GameTooltip:AddDoubleLine(mastery.class .. " Mastery", mastery.level .. " / " .. mastery.maxLevel, 1, 1, 1, 0.6, 0.6, 0.6)
+    GameTooltip:AddDoubleLine(mastery.class .. VanillaBonkLocale.L(" Mastery"), mastery.level .. " / " .. mastery.maxLevel, 1, 1, 1, 0.6, 0.6, 0.6)
     if mastery.next > 0 then
-        GameTooltip:AddLine(mastery.xp .. " / " .. mastery.next .. " experience", 1, 1, 1)
+        GameTooltip:AddLine(mastery.xp .. " / " .. mastery.next .. VanillaBonkLocale.L(" experience"), 1, 1, 1)
     end
-    GameTooltip:AddLine("Runs as a " .. strlower(mastery.class) .. " earn Mastery experience for every minute you survive and every mini-boss and stage boss you kill. Harder difficulties earn more.", 1, 0.82, 0, 1)
+    GameTooltip:AddLine(VanillaBonkLocale.L("Runs as a ") .. strlower(mastery.class) .. VanillaBonkLocale.L(" earn Mastery experience for every minute you survive and every mini-boss and stage boss you kill. Harder difficulties earn more."), 1, 0.82, 0, 1)
     if not mastery.trees then
-        GameTooltip:AddLine("Your class's talent trees aren't available yet. The experience you earn is saved for them.", 0.6, 0.6, 0.6, 1)
+        GameTooltip:AddLine(VanillaBonkLocale.L("Your class's talent trees aren't available yet. The experience you earn is saved for them."), 0.6, 0.6, 0.6, 1)
     elseif mastery.unspent > 0 then
-        GameTooltip:AddLine("You have " .. mastery.unspent .. " unspent talent " .. (mastery.unspent == 1 and "point. Spend it" or "points. Spend them")
-            .. " at the talent trainer.", 0.25, 1, 0.25, 1)
+        GameTooltip:AddLine(VanillaBonkLocale.L("You have ") .. mastery.unspent .. VanillaBonkLocale.L(" unspent talent point. Spend it at the talent trainer."), 0.25, 1, 0.25, 1)
     end
     GameTooltip:Show()
 end
@@ -718,7 +717,7 @@ local function RefreshMastery()
         masteryBar:SetValue(0)
         masteryText:SetText("")
         masteryLevel.text:SetText("")
-        masteryName:SetText("|cffffd100Class Mastery|r")
+        masteryName:SetText(VanillaBonkLocale.L("|cffffd100Class Mastery|r"))
         masteryPoints:SetText("")
         return
     end
@@ -729,14 +728,14 @@ local function RefreshMastery()
     else
         masteryBar:SetMinMaxValues(0, 1)
         masteryBar:SetValue(1)
-        masteryText:SetText("Max level")
+        masteryText:SetText(VanillaBonkLocale.L("Max level"))
     end
-    masteryName:SetText("|cffffd100" .. mastery.class .. " Mastery|r")
+    masteryName:SetText("|cffffd100" .. mastery.class .. VanillaBonkLocale.L(" Mastery|r"))
     masteryLevel.text:SetText(mastery.level)
     if not mastery.trees then
-        masteryPoints:SetText("|cffaaaaaaTrees coming soon|r")
+        masteryPoints:SetText(VanillaBonkLocale.L("|cffaaaaaaTrees coming soon|r"))
     elseif mastery.unspent > 0 then
-        masteryPoints:SetText(mastery.unspent .. (mastery.unspent == 1 and " talent point" or " talent points") .. " to spend")
+        masteryPoints:SetText(mastery.unspent .. (mastery.unspent == 1 and " talent point" or " talent points") .. VanillaBonkLocale.L(" to spend"))
     else
         masteryPoints:SetText("")
     end
@@ -753,12 +752,12 @@ wallet.text:SetJustifyH("RIGHT")
 wallet:EnableMouse(true)
 wallet:SetScript("OnEnter", function()
     GameTooltip:SetOwner(this, "ANCHOR_TOP")
-    GameTooltip:AddLine("Account", 1, 1, 1)
-    GameTooltip:AddDoubleLine("Gold", UI.FormatGold(GetMoney()), 1, 0.82, 0, 1, 1, 1)
+    GameTooltip:AddLine(VanillaBonkLocale.L("Account"), 1, 1, 1)
+    GameTooltip:AddDoubleLine(VanillaBonkLocale.L("Gold"), UI.FormatGold(GetMoney()), 1, 0.82, 0, 1, 1, 1)
     if run.shards then
-        GameTooltip:AddDoubleLine("Darkmoon Tickets", "|cffc080ff" .. run.shards .. "|r", 1, 0.82, 0, 1, 1, 1)
+        GameTooltip:AddDoubleLine(VanillaBonkLocale.L("Darkmoon Tickets"), "|cffc080ff" .. run.shards .. "|r", 1, 0.82, 0, 1, 1, 1)
     end
-    GameTooltip:AddLine("Shared by every hero.", 0.6, 0.6, 0.6)
+    GameTooltip:AddLine(VanillaBonkLocale.L("Shared by every hero."), 0.6, 0.6, 0.6)
     GameTooltip:Show()
 end)
 wallet:SetScript("OnLeave", function() GameTooltip:Hide() end)
@@ -766,7 +765,7 @@ wallet:SetScript("OnLeave", function() GameTooltip:Hide() end)
 local function RefreshWallet()
     local text = UI.FormatGold(GetMoney())
     if run.shards then
-        text = text .. "    |cffc080ff" .. run.shards .. " Darkmoon Tickets|r"
+        text = text .. "    |cffc080ff" .. run.shards .. VanillaBonkLocale.L(" Darkmoon Tickets|r")
     end
     wallet.text:SetText(text)
     wallet:SetWidth(wallet.text:GetStringWidth() + 4)
@@ -814,13 +813,13 @@ end
 
 dashButton:SetScript("OnEnter", function()
     GameTooltip:SetOwner(this, "ANCHOR_TOP")
-    GameTooltip:AddDoubleLine(dash.blink and "Blink" or "Dash", dash.key ~= "" and dash.key or NOT_BOUND, 1, 1, 1, 0.6, 0.6, 0.6)
-    GameTooltip:AddDoubleLine(dash.charges .. "/" .. dash.max .. " charges",
-        floor(dash.cooldown / 100 + 0.5) / 10 .. " sec recharge", 1, 1, 1, 1, 1, 1)
+    GameTooltip:AddDoubleLine(dash.blink and VanillaBonkLocale.L("Blink") or VanillaBonkLocale.L("Dash"), dash.key ~= "" and dash.key or NOT_BOUND, 1, 1, 1, 0.6, 0.6, 0.6)
+    GameTooltip:AddDoubleLine(dash.charges .. "/" .. dash.max .. VanillaBonkLocale.L(" charges"),
+        floor(dash.cooldown / 100 + 0.5) / 10 .. VanillaBonkLocale.L(" sec recharge"), 1, 1, 1, 1, 1, 1)
     if dash.blink then
-        GameTooltip:AddLine("Teleport a short distance in the direction you're moving. In midair, you teleport the way you're facing.", 1, 0.82, 0, 1)
+        GameTooltip:AddLine(VanillaBonkLocale.L("Teleport a short distance in the direction you're moving. In midair, you teleport the way you're facing."), 1, 0.82, 0, 1)
     else
-        GameTooltip:AddLine("Dash a short distance in the direction you're moving. In midair, you dash the way you're facing.", 1, 0.82, 0, 1)
+        GameTooltip:AddLine(VanillaBonkLocale.L("Dash a short distance in the direction you're moving. In midair, you dash the way you're facing."), 1, 0.82, 0, 1)
     end
     GameTooltip:Show()
 end)
@@ -933,10 +932,10 @@ end
 local function ShowXpTooltip()
     GameTooltip:SetOwner(this, "ANCHOR_TOP")
     local level, current, maximum = RunXp()
-    GameTooltip:AddLine("Level " .. level, 1, 1, 1)
-    GameTooltip:AddLine(current .. " / " .. maximum .. " experience", 1, 1, 1)
-    GameTooltip:AddLine("Every level brings a choice of 3 upgrades.", 1, 0.82, 0, 1)
-    GameTooltip:AddLine("Each run starts again at level 1.", 0.6, 0.6, 0.6)
+    GameTooltip:AddLine(VanillaBonkLocale.L("Level ") .. level, 1, 1, 1)
+    GameTooltip:AddLine(current .. " / " .. maximum .. VanillaBonkLocale.L(" experience"), 1, 1, 1)
+    GameTooltip:AddLine(VanillaBonkLocale.L("Every level brings a choice of 3 upgrades."), 1, 0.82, 0, 1)
+    GameTooltip:AddLine(VanillaBonkLocale.L("Each run starts again at level 1."), 0.6, 0.6, 0.6)
     GameTooltip:Show()
 end
 for _, frame in ipairs({ xpHover, levelRing }) do
@@ -1148,7 +1147,7 @@ end
 
 handlers["mastery"] = function(f)
     mastery = {
-        class = f[2] or "Class",
+        class = VanillaBonkLocale.L(f[2] or "") ~= "" and VanillaBonkLocale.L(f[2]) or VanillaBonkLocale.L("Class"),
         level = tonumber(f[3]) or 0,
         xp = tonumber(f[4]) or 0,
         next = tonumber(f[5]) or 0,

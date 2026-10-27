@@ -3,7 +3,7 @@ local UI = VanillaBonkUI
 local DASH = "VANILLABONK_DASH"
 local SHIFT = "SHIFT"
 local HEADER = "HEADER_VANILLABONK"
-BINDING_NAME_VANILLABONK_DASH = "Dash"
+BINDING_NAME_VANILLABONK_DASH = VanillaBonkLocale.L("Dash")
 KEY_SHIFT = KEY_SHIFT or "Shift"
 
 local DASH_KEYS = { "SHIFT", "CTRL-SHIFT", "ALT-SHIFT", "ALT-CTRL-SHIFT" }
@@ -93,7 +93,7 @@ local function SyncKeys()
     if not SetOverrideBinding or not ClearOverrideBindings then
         if onShift and not warned then
             warned = true
-            DEFAULT_CHAT_FRAME:AddMessage("Hordes of Azeroth: Shift can't dash because ClassicAPI.dll isn't loaded. Bind Dash to another key under Key Bindings instead.")
+            DEFAULT_CHAT_FRAME:AddMessage(VanillaBonkLocale.L("Hordes of Azeroth: Shift can't dash because ClassicAPI.dll isn't loaded. Bind Dash to another key under Key Bindings instead."))
         end
         return
     end

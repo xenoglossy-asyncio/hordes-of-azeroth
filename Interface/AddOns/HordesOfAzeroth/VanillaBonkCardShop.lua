@@ -19,14 +19,14 @@ local KINDS = {
     c = {
         entries = function() return VanillaBonkCodex.Cards() end,
         tooltip = function(owner, entry) VanillaBonkCodex.ShowCardTooltip(owner, entry) end,
-        waiting = "Sayge is shuffling the deck...",
-        done = "You have unlocked every Darkmoon Card Sayge has.",
+        waiting = VanillaBonkLocale.L("Sayge is shuffling the deck..."),
+        done = VanillaBonkLocale.L("You have unlocked every Darkmoon Card Sayge has."),
     },
     g = {
         entries = function() return VanillaBonkCodex.Glyphs() end,
         tooltip = function(owner, entry) VanillaBonkCodex.ShowGlyphTooltip(owner, entry) end,
-        waiting = "Sayge is reading the stars...",
-        done = "You have unlocked every Glyph Sayge has.",
+        waiting = VanillaBonkLocale.L("Sayge is reading the stars..."),
+        done = VanillaBonkLocale.L("You have unlocked every Glyph Sayge has."),
     },
 }
 
@@ -36,16 +36,16 @@ end
 
 local function CopiesText(card)
     if card.maxCopies == 1 then
-        return "1 copy per run"
+        return VanillaBonkLocale.L("1 copy per run")
     end
-    return "up to " .. card.maxCopies .. " copies per run"
+    return VanillaBonkLocale.L("up to ") .. card.maxCopies .. VanillaBonkLocale.L(" copies per run")
 end
 
 local function Detail(entry, rarity)
     if entry.kind == "g" then
-        return rarity.name .. " Glyph" .. (entry.drawback and entry.drawback ~= "" and " with a |cffff4a3adrawback|r" or "")
+        return rarity.name .. VanillaBonkLocale.L(" Glyph") .. (entry.drawback and entry.drawback ~= "" and VanillaBonkLocale.L(" with a |cffff4a3adrawback|r") or "")
     end
-    return rarity.name .. " Darkmoon Card, " .. CopiesText(entry)
+    return rarity.name .. VanillaBonkLocale.L(" Darkmoon Card, ") .. CopiesText(entry)
 end
 
 local function EntriesToUnlock()
@@ -108,7 +108,7 @@ local function CreateRow(index)
     row.detail:SetJustifyH("LEFT")
     row.detail:SetTextColor(0.75, 0.75, 0.75)
 
-    row.unlock = UI.Button(row, BUTTON_WIDTH, "Unlock", function()
+    row.unlock = UI.Button(row, BUTTON_WIDTH, VanillaBonkLocale.L("Unlock"), function()
         Unlock(this:GetParent().card)
     end)
     row.unlock:SetPoint("RIGHT", row, "RIGHT", -8, -8)
@@ -137,7 +137,7 @@ local function FillRow(row, card, index, width)
     row.detail:SetText(Detail(card, rarity))
 
     local affordable = tickets >= card.price
-    row.price:SetText(card.price .. (card.price == 1 and " Darkmoon Ticket" or " Darkmoon Tickets"))
+    row.price:SetText(card.price .. (card.price == 1 and VanillaBonkLocale.L(" Darkmoon Ticket") or VanillaBonkLocale.L(" Darkmoon Tickets")))
     if affordable then
         row.price:SetTextColor(1, 1, 1)
     else

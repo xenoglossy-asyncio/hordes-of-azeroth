@@ -54,17 +54,17 @@ local function ShowTooltip()
     end
     local tooltip = TooltipFor(this)
     tooltip:SetOwner(this, "ANCHOR_RIGHT")
-    tooltip:AddLine(objective.label ~= "" and objective.label or "Objective", 1, 1, 1)
+    tooltip:AddLine(objective.label ~= "" and objective.label or VanillaBonkLocale.L("Objective"), 1, 1, 1)
     if objective.description ~= "" then
         tooltip:AddLine(objective.description, 1, 0.82, 0, 1)
     end
     local north, west = HeroPosition()
     if north then
         local dn, dw = objective.x - north, objective.y - west
-        tooltip:AddLine(floor(sqrt(dn * dn + dw * dw)) .. " yards away", 0.7, 0.7, 0.7)
+        tooltip:AddLine(floor(sqrt(dn * dn + dw * dw)) .. VanillaBonkLocale.L(" yards away"), 0.7, 0.7, 0.7)
     end
     if objective.leaves then
-        tooltip:AddLine("Gone in " .. max(0, ceil(objective.leaves - GetTime())) .. " sec", 0.7, 0.7, 0.7)
+        tooltip:AddLine(VanillaBonkLocale.L("Gone in ") .. max(0, ceil(objective.leaves - GetTime())) .. VanillaBonkLocale.L(" sec"), 0.7, 0.7, 0.7)
     end
     tooltip:Show()
 end
@@ -279,9 +279,9 @@ handlers["objective"] = function(f)
     if jumped then
         objective.shownX, objective.shownY = x, y
     end
-    objective.label = f[7] or ""
+    objective.label = VanillaBonkLocale.L(f[7] or "")
     objective.icon = f[9] or ""
-    objective.description = f[10] or ""
+    objective.description = VanillaBonkLocale.L(f[10] or "")
     local seconds = tonumber(f[8] or "") or 0
     local leaves = seconds > 0 and GetTime() + seconds or nil
     if leaves and objective.leaves and abs(leaves - objective.leaves) < 1.5 then

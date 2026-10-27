@@ -137,7 +137,7 @@ local mode = MODE_DAMAGE
 local Render
 
 panel.tabs = {}
-for index, label in ipairs({ "Damage Done", "Healing Done" }) do
+for index, label in ipairs({ VanillaBonkLocale.L("Damage Done"), VanillaBonkLocale.L("Healing Done") }) do
     local tab = CreateFrame("Button", nil, panel)
     tab.mode = index
     tab:SetHeight(HEADER_HEIGHT - 4)
@@ -178,8 +178,8 @@ for index, label in ipairs({ "Damage Done", "Healing Done" }) do
 end
 
 local COLUMNS = {
-    [MODE_DAMAGE] = { "Damage", "Share", "Kills" },
-    [MODE_HEALING] = { "Healed", "Absorb", "Share" },
+    [MODE_DAMAGE] = { VanillaBonkLocale.L("Damage"), VanillaBonkLocale.L("Share"), VanillaBonkLocale.L("Kills") },
+    [MODE_HEALING] = { VanillaBonkLocale.L("Healed"), VanillaBonkLocale.L("Absorb"), VanillaBonkLocale.L("Share") },
 }
 local COLUMN_OFFSETS = { 2 * COLUMN_WIDTH, COLUMN_WIDTH, 0 }
 panel.columns = {}
@@ -223,7 +223,7 @@ end
 
 local function AddRunLines(entry)
     GameTooltip:AddLine(" ")
-    GameTooltip:AddDoubleLine(Short(entry.damage) .. " damage", Thousands(entry.kills) .. " kills", 1, 1, 1, 0.6, 0.6, 0.6)
+    GameTooltip:AddDoubleLine(Short(entry.damage) .. VanillaBonkLocale.L(" damage"), Thousands(entry.kills) .. VanillaBonkLocale.L(" kills"), 1, 1, 1, 0.6, 0.6, 0.6)
 end
 
 local function SpellLineTooltip(line, entry)
@@ -235,7 +235,7 @@ local function SpellLineTooltip(line, entry)
     if entry.evolved then
         r, g, b = 1, 0.5, 0
     end
-    GameTooltip:AddDoubleLine(entry.name, entry.level > 0 and ("Rank " .. entry.level) or "", r, g, b, 0.6, 0.6, 0.6)
+    GameTooltip:AddDoubleLine(entry.name, entry.level > 0 and (VanillaBonkLocale.L("Rank ") .. entry.level) or "", r, g, b, 0.6, 0.6, 0.6)
     AddRunLines(entry)
     GameTooltip:Show()
 end
@@ -247,7 +247,7 @@ local function EffectLineTooltip(line, entry)
     if kind.note then
         GameTooltip:AddLine(kind.note, 1, 0.82, 0, 1)
     end
-    GameTooltip:AddLine("Applied by " .. entry.parent.name .. ".", 0.6, 0.6, 0.6, 1)
+    GameTooltip:AddLine(VanillaBonkLocale.L("Applied by ") .. entry.parent.name .. ".", 0.6, 0.6, 0.6, 1)
     AddRunLines(entry)
     GameTooltip:Show()
 end
@@ -255,8 +255,8 @@ end
 local function HealLineTooltip(line, entry)
     GameTooltip:SetOwner(line, "ANCHOR_RIGHT")
     GameTooltip:AddLine(entry.name, 1, 1, 1)
-    GameTooltip:AddDoubleLine("Healed", Thousands(entry.healed), UI.HEAL_COLOR.r, UI.HEAL_COLOR.g, UI.HEAL_COLOR.b, 1, 1, 1)
-    GameTooltip:AddDoubleLine("Absorbed", Thousands(entry.absorbed), UI.ABSORB_COLOR.r, UI.ABSORB_COLOR.g, UI.ABSORB_COLOR.b, 1, 1, 1)
+    GameTooltip:AddDoubleLine(VanillaBonkLocale.L("Healed"), Thousands(entry.healed), UI.HEAL_COLOR.r, UI.HEAL_COLOR.g, UI.HEAL_COLOR.b, 1, 1, 1)
+    GameTooltip:AddDoubleLine(VanillaBonkLocale.L("Absorbed"), Thousands(entry.absorbed), UI.ABSORB_COLOR.r, UI.ABSORB_COLOR.g, UI.ABSORB_COLOR.b, 1, 1, 1)
     GameTooltip:Show()
 end
 
@@ -363,7 +363,7 @@ build:SetHeight(FOOTER_HEIGHT)
 build.glyphLabel = UI.Text(build, 10)
 build.glyphLabel:SetPoint("LEFT", build, "LEFT", 0, 0)
 build.glyphLabel:SetTextColor(0.78, 0.72, 0.56)
-build.glyphLabel:SetText("Glyphs")
+build.glyphLabel:SetText(VanillaBonkLocale.L("Glyphs"))
 build.glyphs = {}
 for index = 1, 3 do
     local ring = UI.Ring(build, 20, true)
@@ -379,7 +379,7 @@ for index = 1, 3 do
 end
 build.passiveLabel = UI.Text(build, 10)
 build.passiveLabel:SetTextColor(0.78, 0.72, 0.56)
-build.passiveLabel:SetText("Passives")
+build.passiveLabel:SetText(VanillaBonkLocale.L("Passives"))
 build.passives = {}
 for index = 1, 6 do
     local slot = CreateFrame("Frame", nil, build)
@@ -405,7 +405,7 @@ panel.earned:SetJustifyH("CENTER")
 panel.done = CreateFrame("Button", nil, panel, "UIPanelButtonTemplate")
 panel.done:SetWidth(BUTTON_WIDTH)
 panel.done:SetHeight(22)
-panel.done:SetText("Continue")
+panel.done:SetText(VanillaBonkLocale.L("Continue"))
 
 local RECAP_WIDTH = PANEL_WIDTH - 2 * PAD_X
 local RECAP_GRAPH_TOP = 22
@@ -455,7 +455,7 @@ recapFrame.ruleRight:SetGradientAlpha("HORIZONTAL", 1, 0.82, 0, 0.55, 1, 0.82, 0
 recapFrame.title = UI.Text(recapFrame, 12)
 recapFrame.title:SetPoint("TOPLEFT", recapFrame, "TOPLEFT", 0, -8)
 recapFrame.title:SetTextColor(1, 0.82, 0)
-recapFrame.title:SetText("Your last 10 seconds")
+recapFrame.title:SetText(VanillaBonkLocale.L("Your last 10 seconds"))
 recapFrame.summary = UI.Text(recapFrame, 11)
 recapFrame.summary:SetPoint("LEFT", recapFrame.title, "RIGHT", 10, 0)
 recapFrame.summary:SetTextColor(0.8, 0.8, 0.8)
@@ -622,7 +622,7 @@ end
 
 local function BlowText(source)
     if source.spell == "Melee" then
-        return source.name .. "'s melee hit"
+        return source.name .. VanillaBonkLocale.L("'s melee hit")
     end
     return source.spell ~= "" and (source.name .. "'s " .. source.spell) or source.name
 end
@@ -633,13 +633,13 @@ end
 
 local function SecondsBeforeDeath(slot)
     if slot >= RECAP_SLOTS then
-        return "Moment of death"
+        return VanillaBonkLocale.L("Moment of death")
     end
-    return format("%.1fs before death", (RECAP_SLOTS - slot) * RECAP_SECONDS / RECAP_SLOTS)
+    return format(VanillaBonkLocale.L("%.1fs before death"), (RECAP_SLOTS - slot) * RECAP_SECONDS / RECAP_SLOTS)
 end
 
 local function HealthLine(permille)
-    return format("Health %s / %s (%d%%)", Thousands(HealthPoints(permille)), Thousands(recap.maxHealth), floor(max(0, permille) / 10 + 0.5))
+    return format(VanillaBonkLocale.L("Health %s / %s (%d%%)"), Thousands(HealthPoints(permille)), Thousands(recap.maxHealth), floor(max(0, permille) / 10 + 0.5))
 end
 
 local function EventsNearX(x)
@@ -667,14 +667,14 @@ local function AddEventLines(indexes)
     for _, index in ipairs(indexes) do
         local event = recap.events[index]
         if event.source == 0 then
-            GameTooltip:AddDoubleLine("Healed", "+" .. Thousands(event.amount), 0.85, 0.85, 0.85, RECAP_GREEN[1], RECAP_GREEN[2], RECAP_GREEN[3])
+            GameTooltip:AddDoubleLine(VanillaBonkLocale.L("Healed"), "+" .. Thousands(event.amount), 0.85, 0.85, 0.85, RECAP_GREEN[1], RECAP_GREEN[2], RECAP_GREEN[3])
         else
             local source = recap.sources[event.source]
             local color = RecapColor(source)
-            GameTooltip:AddDoubleLine(source and BlowText(source) or "Unknown", "-" .. Thousands(event.amount), color[1] + 0.25, color[2] + 0.25, color[3] + 0.25, 1, 0.42, 0.31)
+            GameTooltip:AddDoubleLine(source and BlowText(source) or VanillaBonkLocale.L("Unknown"), "-" .. Thousands(event.amount), color[1] + 0.25, color[2] + 0.25, color[3] + 0.25, 1, 0.42, 0.31)
         end
         if index == count and recap.overkill > 0 then
-            GameTooltip:AddLine("Killing blow, " .. Thousands(recap.overkill) .. " overkill", 1, 0.42, 0.31)
+            GameTooltip:AddLine(VanillaBonkLocale.L("Killing blow, ") .. Thousands(recap.overkill) .. VanillaBonkLocale.L(" overkill"), 1, 0.42, 0.31)
         end
     end
     GameTooltip:AddLine(HealthLine(recap.events[indexes[getn(indexes)]].health), 1, 1, 1)
@@ -775,9 +775,9 @@ local function KillerText()
     local blow = BlowText(killer)
     local numbers = Thousands(recap.killAmount)
     if recap.overkill > 0 then
-        numbers = numbers .. ", " .. Thousands(recap.overkill) .. " overkill"
+        numbers = numbers .. ", " .. Thousands(recap.overkill) .. VanillaBonkLocale.L(" overkill")
     end
-    return " · killed by |cffff6a50" .. blow .. " (" .. numbers .. ")|r"
+    return VanillaBonkLocale.L(" · killed by |cffff6a50") .. blow .. " (" .. numbers .. ")|r"
 end
 
 local function FillRecapLegend()
@@ -812,7 +812,7 @@ local function FillRecapLegend()
 end
 
 local function LayoutRecap(y)
-    recapFrame.summary:SetText("Took |cffffffff" .. Thousands(recap.taken) .. "|r · healed |cffffffff" .. Thousands(recap.healed) .. "|r" .. KillerText())
+    recapFrame.summary:SetText(VanillaBonkLocale.L("Took |cffffffff") .. Thousands(recap.taken) .. VanillaBonkLocale.L("|r · healed |cffffffff") .. Thousands(recap.healed) .. "|r" .. KillerText())
     graph.maxLabel:SetText(Thousands(recap.maxHealth))
     DrawRecapLine()
     DrawRecapTicks()
@@ -951,7 +951,7 @@ local function FillLine(line, entry, top, total, y)
         line.damage:SetTextColor(0.78, 0.78, 0.78)
         line.kills:SetTextColor(0.78, 0.78, 0.78)
     else
-        local rank = entry.level > 0 and ("  |cffc8c8c8Rank " .. entry.level .. "|r") or ""
+        local rank = entry.level > 0 and (VanillaBonkLocale.L("  |cffc8c8c8Rank ") .. entry.level .. "|r") or ""
         local color = entry.evolved and "|cffff8000" or "|cffffffff"
         line.name:SetText(color .. entry.name .. "|r" .. rank)
         line.damage:SetTextColor(1, 1, 1)
@@ -992,7 +992,7 @@ local function SupportTotals()
         absorbed = absorbed + source.absorbed
     end
     local list = {}
-    for _, entry in ipairs({ { UI.HEAL_COLOR, "Healed", healed }, { UI.ABSORB_COLOR, "Absorbed", absorbed } }) do
+    for _, entry in ipairs({ { UI.HEAL_COLOR, VanillaBonkLocale.L("Healed"), healed }, { UI.ABSORB_COLOR, VanillaBonkLocale.L("Absorbed"), absorbed } }) do
         if entry[3] > 0 then
             tinsert(list, { color = entry[1], name = entry[2], damage = entry[3] })
         end
@@ -1096,13 +1096,13 @@ end
 local function FillStats()
     local _, class = UnitClass("player")
     local stats = {
-        { "INV_Misc_PocketWatch_01", "Time", UI.FormatTime(run.seconds) },
-        { nil, "Level", run.level or "1" },
-        { "INV_Misc_Bone_HumanSkull_01", "Kills", Thousands(run.kills) },
-        { "Ability_Warrior_Challange", "Elites", Thousands(run.elites) },
-        { "Ability_Rogue_Eviscerate", "Mini-bosses", Thousands(run.minis) },
-        { "INV_Misc_Head_Dragon_01", "Stage bosses", Thousands(run.bosses) },
-        { "INV_Shield_06", "Damage taken", "|cffff5a4a" .. Thousands(run.damageTaken) .. "|r" },
+        { "INV_Misc_PocketWatch_01", VanillaBonkLocale.L("Time"), UI.FormatTime(run.seconds) },
+        { nil, VanillaBonkLocale.L("Level"), run.level or "1" },
+        { "INV_Misc_Bone_HumanSkull_01", VanillaBonkLocale.L("Kills"), Thousands(run.kills) },
+        { "Ability_Warrior_Challange", VanillaBonkLocale.L("Elites"), Thousands(run.elites) },
+        { "Ability_Rogue_Eviscerate", VanillaBonkLocale.L("Mini-bosses"), Thousands(run.minis) },
+        { "INV_Misc_Head_Dragon_01", VanillaBonkLocale.L("Stage bosses"), Thousands(run.bosses) },
+        { "INV_Shield_06", VanillaBonkLocale.L("Damage taken"), "|cffff5a4a" .. Thousands(run.damageTaken) .. "|r" },
     }
     for index, stat in ipairs(panel.stats) do
         local data = stats[index]
@@ -1123,23 +1123,23 @@ local function Place()
     if run.difficulty and run.difficulty ~= "" then
         return run.map .. " (" .. run.difficulty .. ")"
     end
-    return run.map ~= "" and run.map or "the arena"
+    return run.map ~= "" and run.map or VanillaBonkLocale.L("the arena")
 end
 
 local function FillHeading()
     local color
     if run.victory then
         color = TITLE_VICTORY
-        panel.title:SetText("Victory")
-        panel.subtitle:SetText("You cleared every stage of " .. Place() .. " in " .. UI.FormatTime(run.seconds) .. ".")
+        panel.title:SetText(VanillaBonkLocale.L("Victory"))
+        panel.subtitle:SetText(VanillaBonkLocale.L("You cleared every stage of ") .. Place() .. VanillaBonkLocale.L(" in ") .. UI.FormatTime(run.seconds) .. ".")
     elseif run.wentHome then
         color = TITLE_HOME
-        panel.title:SetText("Run Complete")
-        panel.subtitle:SetText("You left " .. Place() .. " on stage " .. (run.stage or "1") .. " after " .. UI.FormatTime(run.seconds) .. ".")
+        panel.title:SetText(VanillaBonkLocale.L("Run Complete"))
+        panel.subtitle:SetText(VanillaBonkLocale.L("You left ") .. Place() .. VanillaBonkLocale.L(" on stage ") .. (run.stage or "1") .. VanillaBonkLocale.L(" after ") .. UI.FormatTime(run.seconds) .. ".")
     else
         color = TITLE_DEFEAT
-        panel.title:SetText("Defeat")
-        panel.subtitle:SetText("You fell on stage " .. (run.stage or "1") .. " in " .. Place() .. " after " .. UI.FormatTime(run.seconds) .. ".")
+        panel.title:SetText(VanillaBonkLocale.L("Defeat"))
+        panel.subtitle:SetText(VanillaBonkLocale.L("You fell on stage ") .. (run.stage or "1") .. VanillaBonkLocale.L(" in ") .. Place() .. VanillaBonkLocale.L(" after ") .. UI.FormatTime(run.seconds) .. ".")
     end
     panel.title:SetTextColor(color[1], color[2], color[3])
     if run.victory or run.wentHome then
@@ -1149,11 +1149,11 @@ local function FillHeading()
     end
 
     local shards = tonumber(run.shards or "") or 0
-    local tickets = "|cffc080ff" .. shards .. (shards == 1 and " Darkmoon Ticket" or " Darkmoon Tickets") .. "|r"
+    local tickets = "|cffc080ff" .. shards .. (shards == 1 and VanillaBonkLocale.L(" Darkmoon Ticket") or VanillaBonkLocale.L(" Darkmoon Tickets")) .. "|r"
     if run.wentHome then
-        panel.earned:SetText("You earned " .. UI.FormatGold(run.gold) .. ", " .. tickets .. " and the gear in the Extraction Vault.")
+        panel.earned:SetText(VanillaBonkLocale.L("You earned ") .. UI.FormatGold(run.gold) .. ", " .. tickets .. VanillaBonkLocale.L(" and the gear in the Extraction Vault."))
     else
-        panel.earned:SetText("You earned " .. UI.FormatGold(run.gold) .. " and " .. tickets .. ".")
+        panel.earned:SetText(VanillaBonkLocale.L("You earned ") .. UI.FormatGold(run.gold) .. VanillaBonkLocale.L(" and ") .. tickets .. ".")
     end
 end
 
@@ -1213,7 +1213,7 @@ local function RenderLines()
 
     local empty = getn(entries) == 0
     if empty then
-        panel.empty:SetText(mode == MODE_HEALING and "No healing or absorbs this run." or "No damage this run.")
+        panel.empty:SetText(mode == MODE_HEALING and VanillaBonkLocale.L("No healing or absorbs this run.") or VanillaBonkLocale.L("No damage this run."))
         panel.empty:Show()
         y = y + 20
     else

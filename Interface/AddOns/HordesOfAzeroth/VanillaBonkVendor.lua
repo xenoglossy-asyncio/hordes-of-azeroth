@@ -13,7 +13,7 @@ local STAGGER = 0.05
 local CLOSE = 0.18
 local WAIT = 1.5
 
-local shop = { slots = {}, valor = 0, rerollCost = 0, restocks = 0, seconds = 0, name = "Zixil", waitUntil = 0 }
+local shop = { slots = {}, valor = 0, rerollCost = 0, restocks = 0, seconds = 0, name = VanillaBonkLocale.L("Zixil"), waitUntil = 0 }
 
 local function Command(text)
     SendChatMessage(".bonk vendor " .. text, "SAY")
@@ -87,15 +87,15 @@ end
 
 local Leave
 
-frame.reroll = UI.Button(frame.chrome, 160, "Restock", function()
+frame.reroll = UI.Button(frame.chrome, 160, VanillaBonkLocale.L("Restock"), function()
     if shop.restocks > 0 and shop.valor >= shop.rerollCost then
         Send("reroll")
     end
 end)
 frame.reroll:SetHeight(24)
-ButtonTooltip(frame.reroll, "Restock", "Replaces every card you haven't locked or bought; bought cards stay sold. Sayge's Restock upgrade sets how many restocks each visit allows. Each restock this visit costs 50% more.")
+ButtonTooltip(frame.reroll, VanillaBonkLocale.L("Restock"), VanillaBonkLocale.L("Replaces every card you haven't locked or bought; bought cards stay sold. Sayge's Restock upgrade sets how many restocks each visit allows. Each restock this visit costs 50% more."))
 
-frame.close = UI.Button(frame.chrome, 120, "Close", function()
+frame.close = UI.Button(frame.chrome, 120, VanillaBonkLocale.L("Close"), function()
     Leave()
 end)
 frame.close:SetHeight(24)
@@ -182,13 +182,13 @@ for index = 1, SLOTS do
     card.coin:SetHeight(16)
     card.coin:SetPoint("RIGHT", card.price, "LEFT", -4, 0)
 
-    card.lock = UI.Button(card, 70, "Lock", function()
+    card.lock = UI.Button(card, 70, VanillaBonkLocale.L("Lock"), function()
         Send("lock " .. this:GetParent().index)
     end)
     card.lock:SetPoint("BOTTOMLEFT", card, "BOTTOMLEFT", 16, 18)
-    ButtonTooltip(card.lock, "Lock", "Restocks skip a locked card, and it comes back at the same price on the next visit.")
+    ButtonTooltip(card.lock, VanillaBonkLocale.L("Lock"), VanillaBonkLocale.L("Restocks skip a locked card, and it comes back at the same price on the next visit."))
 
-    card.buy = UI.Button(card, 100, "Buy", function()
+    card.buy = UI.Button(card, 100, VanillaBonkLocale.L("Buy"), function()
         local slot = shop.slots[this:GetParent().index]
         if slot and slot.state == 0 and shop.valor >= slot.price then
             Send("buy " .. this:GetParent().index)
@@ -205,7 +205,7 @@ end
 frame.special = UI.Text(frame.chrome, 18, UI.TITLE_FONT, "OUTLINE")
 frame.special:SetPoint("BOTTOM", frame.cards[SLOTS], "TOP", 0, 2)
 frame.special:SetTextColor(1, 0.82, 0)
-frame.special:SetText("Special")
+frame.special:SetText(VanillaBonkLocale.L("Special"))
 
 local function EaseOut(t)
     t = 1 - t
@@ -328,17 +328,17 @@ local function LevelText(slot)
     local rarity = slot.rarity and UI.RARITY[slot.rarity]
     local rarityName = rarity and UI.RarityText(slot.rarity, rarity.name) .. " " or ""
     if slot.kind == "c" then
-        return "For level-ups and chests"
+        return VanillaBonkLocale.L("For level-ups and chests")
     elseif slot.kind == "d" then
-        return rarityName .. "Darkmoon Card"
+        return rarityName .. VanillaBonkLocale.L("Darkmoon Card")
     elseif slot.kind == "e" then
-        return UI.RarityText(4, "Legendary") .. " Evolution"
+        return UI.RarityText(4, VanillaBonkLocale.L("Legendary")) .. VanillaBonkLocale.L(" Evolution")
     elseif slot.rank <= 1 then
-        return slot.kind == "p" and "|cff20ff20New passive|r" or "|cff20ff20New spell|r"
+        return slot.kind == "p" and VanillaBonkLocale.L("|cff20ff20New passive|r") or VanillaBonkLocale.L("|cff20ff20New spell|r")
     elseif slot.kind == "p" then
-        return rarityName .. "Passive"
+        return rarityName .. VanillaBonkLocale.L("Passive")
     end
-    return rarityName .. "Spell"
+    return rarityName .. VanillaBonkLocale.L("Spell")
 end
 
 local function CountText(slot)
@@ -346,14 +346,14 @@ local function CountText(slot)
         return ""
     elseif slot.kind == "d" then
         if slot.maxRank > 1 then
-            return slot.rank .. "/" .. slot.maxRank .. " copies"
+            return slot.rank .. "/" .. slot.maxRank .. VanillaBonkLocale.L(" copies")
         elseif slot.rank > 1 then
-            return slot.rank .. " copies"
+            return slot.rank .. VanillaBonkLocale.L(" copies")
         end
     elseif slot.maxRank > 1 then
-        return "Rank " .. slot.rank .. "/" .. slot.maxRank
+        return VanillaBonkLocale.L("Rank ") .. slot.rank .. "/" .. slot.maxRank
     elseif slot.rank > 1 then
-        return "Rank " .. slot.rank
+        return VanillaBonkLocale.L("Rank ") .. slot.rank
     end
     return ""
 end
@@ -450,7 +450,7 @@ local function FillCard(card, slot, width)
             card.coin:SetVertexColor(0.45, 0.45, 0.45)
             card.buy:Disable()
         end
-        card.lock:SetText(slot.locked and "Locked" or "Lock")
+        card.lock:SetText(slot.locked and VanillaBonkLocale.L("Locked") or VanillaBonkLocale.L("Lock"))
         card.price:Show()
         card.coin:Show()
         card.lock:Show()
@@ -465,9 +465,9 @@ local function FillCard(card, slot, width)
         card.description:SetTextColor(0.55, 0.55, 0.55)
         card.glow:Hide()
         if slot.state == 1 then
-            card.status:SetText("|cff20ff20Bought|r")
+            card.status:SetText(VanillaBonkLocale.L("|cff20ff20Bought|r"))
         else
-            card.status:SetText("|cff9d9d9dNo longer fits your build|r")
+            card.status:SetText(VanillaBonkLocale.L("|cff9d9d9dNo longer fits your build|r"))
         end
         card.price:Hide()
         card.coin:Hide()
@@ -484,7 +484,7 @@ local function ShowShelf()
     end
 
     frame.title:SetText(shop.name)
-    frame.subtitle:SetText("Wandering vendor  |cff9d9d9d·|r  You have " .. VALOR_COLOR .. shop.valor .. " Valor|r")
+    frame.subtitle:SetText(VanillaBonkLocale.L("Wandering vendor  |cff9d9d9d·|r  You have ") .. VALOR_COLOR .. shop.valor .. VanillaBonkLocale.L(" Valor|r"))
 
     local gap, apart = 12, 36
     local width = min(200, floor((UIParent:GetWidth() - 40 - 2 * gap - apart) / SLOTS))
@@ -527,9 +527,9 @@ local function ShowShelf()
     end
 
     if shop.restocks > 0 then
-        frame.reroll:SetText("Restock (" .. (shop.valor >= shop.rerollCost and VALOR_COLOR or "") .. shop.rerollCost .. " Valor|r)")
+        frame.reroll:SetText(VanillaBonkLocale.L("Restock (") .. (shop.valor >= shop.rerollCost and VALOR_COLOR or "") .. shop.rerollCost .. VanillaBonkLocale.L(" Valor|r)"))
     else
-        frame.reroll:SetText("No restocks")
+        frame.reroll:SetText(VanillaBonkLocale.L("No restocks"))
     end
     if shop.restocks > 0 and shop.valor >= shop.rerollCost then
         frame.reroll:Enable()
@@ -541,9 +541,9 @@ local function ShowShelf()
     frame.close:ClearAllPoints()
     frame.close:SetPoint("CENTER", frame, "CENTER", 90, -190)
 
-    local hint = "Lock a card to keep it for the next visit at the same price. Press Escape to close."
+    local hint = VanillaBonkLocale.L("Lock a card to keep it for the next visit at the same price. Press Escape to close.")
     if shop.seconds > 0 then
-        hint = hint .. " " .. shop.name .. " leaves in " .. shop.seconds .. " sec."
+        hint = hint .. " " .. shop.name .. VanillaBonkLocale.L(" leaves in ") .. shop.seconds .. VanillaBonkLocale.L(" sec.")
     end
     frame.hint:SetText(hint)
 
@@ -568,7 +568,7 @@ handlers["vendor"] = function(f)
     shop.valor = tonumber(f[2] or "") or 0
     shop.rerollCost = tonumber(f[3] or "") or 0
     shop.seconds = tonumber(f[4] or "") or 0
-    shop.name = (f[5] and f[5] ~= "") and f[5] or "Zixil"
+    shop.name = (f[5] and f[5] ~= "") and VanillaBonkLocale.L(f[5]) or VanillaBonkLocale.L("Zixil")
     shop.restocks = tonumber(f[6] or "") or 0
     shop.incoming = {}
 end
@@ -578,7 +578,7 @@ handlers["vslot"] = function(f)
     if not index or index < 1 or index > SLOTS then
         return
     end
-    local description = gsub(f[8] or "", "|n", "\n")
+    local description = gsub(VanillaBonkLocale.L(f[8] or ""), "|n", "\n")
     if f[3] == "d" then
         description = gsub(description, "%s*You hold %d+%.?$", "")
     end
@@ -587,7 +587,7 @@ handlers["vslot"] = function(f)
         kind = f[3] or "",
         rank = tonumber(f[4] or "") or 1,
         maxRank = tonumber(f[5] or "") or 0,
-        name = f[6] or "",
+        name = VanillaBonkLocale.L(f[6] or ""),
         icon = f[7] or "",
         description = description,
         rarity = tonumber(f[9] or ""),

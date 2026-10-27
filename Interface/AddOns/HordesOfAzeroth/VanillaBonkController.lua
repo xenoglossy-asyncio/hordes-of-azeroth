@@ -529,7 +529,7 @@ local function AnyCardDetails(window)
 end
 
 local function ChoicePrompts(window)
-    local prompts = { { "leftright", "Choose" }, { "a", "Pick" } }
+    local prompts = { { "leftright", VanillaBonkLocale.L("Choose") }, { "a", VanillaBonkLocale.L("Pick") } }
     if window == VanillaBonkOffer then
         ButtonPrompt(prompts, "x", window.reroll)
         ButtonPrompt(prompts, "y", window.banish)
@@ -538,7 +538,7 @@ local function ChoicePrompts(window)
     if AnyCardDetails(window) then
         local card = window.cards[Controller.focus]
         local hasDetails = card and card:IsShown() and table.getn(CardKeywords(card)) > 0
-        table.insert(prompts, { "lt", "Hold for details", not hasDetails })
+        table.insert(prompts, { "lt", VanillaBonkLocale.L("Hold for details"), not hasDetails })
     end
     return prompts
 end
@@ -991,7 +991,7 @@ local function Unequip(slot)
 end
 
 StaticPopupDialogs["HOA_CONTROLLER_DELETE"] = {
-    text = "Delete %s?",
+    text = VanillaBonkLocale.L("Delete %s?"),
     button1 = YES,
     button2 = NO,
     OnAccept = function()
@@ -1295,7 +1295,7 @@ local function WindowPrompts(windows)
     local prompts = {}
     local target = navGlow.target
     if target then
-        table.insert(prompts, { "dpad", "Move" })
+        table.insert(prompts, { "dpad", VanillaBonkLocale.L("Move") })
     end
     local bag, slot, inventory
     if target then
@@ -1303,35 +1303,35 @@ local function WindowPrompts(windows)
         inventory = InventorySlot(target)
     end
     if target and IsSlider(target) then
-        table.insert(prompts, { "leftright", "Adjust" })
+        table.insert(prompts, { "leftright", VanillaBonkLocale.L("Adjust") })
     elseif bag then
         local link = GetContainerItemLink(bag, slot)
         if link then
-            table.insert(prompts, { "a", IsGear(link) and "Equip" or "Use" })
-            table.insert(prompts, { "x", "Delete" })
+            table.insert(prompts, { "a", IsGear(link) and VanillaBonkLocale.L("Equip") or VanillaBonkLocale.L("Use") })
+            table.insert(prompts, { "x", VanillaBonkLocale.L("Delete") })
         end
     elseif inventory then
         if GetInventoryItemLink("player", inventory) then
-            table.insert(prompts, { "a", "Unequip" })
+            table.insert(prompts, { "a", VanillaBonkLocale.L("Unequip") })
         end
     elseif target and IsMerchantItem(target) then
-        table.insert(prompts, { "a", MerchantFrame.selectedTab == 2 and "Buy back" or "Buy" })
+        table.insert(prompts, { "a", MerchantFrame.selectedTab == 2 and VanillaBonkLocale.L("Buy back") or VanillaBonkLocale.L("Buy") })
     elseif target and not target.navTooltip then
-        table.insert(prompts, { "a", TooltipVerb(target, "Click") or "Select" })
+        table.insert(prompts, { "a", TooltipVerb(target, VanillaBonkLocale.L("Click")) or VanillaBonkLocale.L("Select") })
         local rightVerb = TooltipVerb(target, "Right%-click")
         if rightVerb then
             table.insert(prompts, { "x", rightVerb })
         end
     end
-    table.insert(prompts, { "b", "Close" })
+    table.insert(prompts, { "b", VanillaBonkLocale.L("Close") })
     if table.getn(windows) > 1 then
-        table.insert(prompts, { "rt", "Next window" })
+        table.insert(prompts, { "rt", VanillaBonkLocale.L("Next window") })
     end
     if Controller.scrollMode then
-        table.insert(prompts, { "rs", "Scroll" })
-        table.insert(prompts, { "r3", "Cursor" })
+        table.insert(prompts, { "rs", VanillaBonkLocale.L("Scroll") })
+        table.insert(prompts, { "r3", VanillaBonkLocale.L("Cursor") })
     else
-        table.insert(prompts, { "rs", "Cursor" })
+        table.insert(prompts, { "rs", VanillaBonkLocale.L("Cursor") })
     end
     return prompts
 end
@@ -1437,7 +1437,7 @@ local function UpdateScroll(windows)
     Controller.scrollAt = now + SCROLL_REPEAT / math.abs(ry)
 end
 
-local CURSOR_PROMPTS = { { "rs", "Move cursor" }, { "a", "Click" }, { "x", "Right-click" }, { "dpad", "Buttons" }, { "b", "Close" } }
+local CURSOR_PROMPTS = { { "rs", VanillaBonkLocale.L("Move cursor") }, { "a", VanillaBonkLocale.L("Click") }, { "x", VanillaBonkLocale.L("Right-click") }, { "dpad", VanillaBonkLocale.L("Buttons") }, { "b", VanillaBonkLocale.L("Close") } }
 
 local function HideNavForCursor()
     local button = navGlow.target
@@ -1506,8 +1506,8 @@ local INTERACT_FADE = 6
 local INTERACT_PLATE_GAP = 4
 local INTERACT_KEYCAP = 26
 local INTERACT_COMMAND = "VANILLABONK_INTERACT"
-local OBJECT_VERBS = { [900001] = "Open", [900002] = "Open", [900003] = "Enter", [900041] = "Open", [900060] = "Search" }
-local OBJECT_TYPE_VERBS = { [3] = "Open", [19] = "Mail" }
+local OBJECT_VERBS = { [900001] = VanillaBonkLocale.L("Open"), [900002] = VanillaBonkLocale.L("Open"), [900003] = VanillaBonkLocale.L("Enter"), [900041] = VanillaBonkLocale.L("Open"), [900060] = VanillaBonkLocale.L("Search") }
+local OBJECT_TYPE_VERBS = { [3] = VanillaBonkLocale.L("Open"), [19] = VanillaBonkLocale.L("Mail") }
 local NPC_FLAG_GOSSIP = 1
 local NPC_FLAG_VENDOR = 4
 local NPC_FLAG_BANKER = 256
@@ -1532,18 +1532,18 @@ end
 
 local function InteractVerb(kind, entry, detail)
     if kind == "object" then
-        return OBJECT_VERBS[entry] or OBJECT_TYPE_VERBS[detail] or "Use"
+        return OBJECT_VERBS[entry] or OBJECT_TYPE_VERBS[detail] or VanillaBonkLocale.L("Use")
     end
     if HasFlag(detail, NPC_FLAG_GOSSIP) then
-        return "Talk"
+        return VanillaBonkLocale.L("Talk")
     end
     if HasFlag(detail, NPC_FLAG_BANKER) then
-        return "Bank"
+        return VanillaBonkLocale.L("Bank")
     end
     if HasFlag(detail, NPC_FLAG_VENDOR) then
-        return "Shop"
+        return VanillaBonkLocale.L("Shop")
     end
-    return "Talk"
+    return VanillaBonkLocale.L("Talk")
 end
 
 local function HideInteract()

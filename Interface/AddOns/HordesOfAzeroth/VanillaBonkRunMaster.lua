@@ -24,9 +24,9 @@ local ROUTE_ICON = 26
 local ROUTE_STEP = 46
 local RANDOM_ICON = "INV_Misc_QuestionMark"
 local INVADED_COLOR = { 1, 0.6, 0.24 }
-local CHALLENGE_RISK = "Enemies have 30% more health and deal 20% more damage."
-local DUNGEON_REWARD = "Enemies drop 50% more gold, and loot is one quality higher."
-local INVASION_REWARD = "More enemies come at once. They drop 25% more gold, and loot has a 50% chance to be one quality higher."
+local CHALLENGE_RISK = VanillaBonkLocale.L("Enemies have 30% more health and deal 20% more damage.")
+local DUNGEON_REWARD = VanillaBonkLocale.L("Enemies drop 50% more gold, and loot is one quality higher.")
+local INVASION_REWARD = VanillaBonkLocale.L("More enemies come at once. They drop 25% more gold, and loot has a 50% chance to be one quality higher.")
 local CONTINENT_ART = {
     ["0"] = "Interface\\Glues\\LoadingScreens\\LoadScreenEasternKingdom",
     ["1"] = "Interface\\Glues\\LoadingScreens\\LoadScreenKalimdor",
@@ -36,7 +36,7 @@ local DUNGEON_ART = {
     zulgurub = "Interface\\Glues\\LoadingScreens\\LoadScreenZulGurub",
     ruinsaq = "Interface\\Glues\\LoadingScreens\\LoadScreenAhnQiraj20man",
 }
-local MAP_TYPES = { ["0"] = "Open zone", ["1"] = "Enclosed raid", ["2"] = "Dungeon room" }
+local MAP_TYPES = { ["0"] = VanillaBonkLocale.L("Open zone"), ["1"] = VanillaBonkLocale.L("Enclosed raid"), ["2"] = VanillaBonkLocale.L("Dungeon room") }
 local WORLD_MAP_PATH = "Interface\\WorldMap\\"
 local ZONE_MAP_WIDTH, ZONE_MAP_HEIGHT = 1002, 668
 local MAP_TILE = 256
@@ -125,8 +125,8 @@ local function RowTooltip(row)
     local map = row.map
     GameTooltip:SetOwner(row, "ANCHOR_RIGHT")
     if not map then
-        GameTooltip:AddLine("Random zone", 1, 0.82, 0)
-        GameTooltip:AddLine("Stage 1 takes you to any zone of " .. tier.name .. ".", 1, 1, 1, 1)
+        GameTooltip:AddLine(VanillaBonkLocale.L("Random zone"), 1, 0.82, 0)
+        GameTooltip:AddLine(VanillaBonkLocale.L("Stage 1 takes you to any zone of ") .. tier.name .. ".", 1, 1, 1, 1)
     else
         GameTooltip:AddLine(map.name, 1, 0.82, 0)
         if MAP_TYPES[map.type] then
@@ -137,13 +137,13 @@ local function RowTooltip(row)
             GameTooltip:AddLine(info.description, 1, 1, 1, 1)
         end
         if map.reward and map.reward ~= 100 then
-            GameTooltip:AddLine("Pays " .. Multiplier(map.reward) .. "x gold, Darkmoon Tickets and Mastery experience.", 0.25, 1, 0.25, 1)
+            GameTooltip:AddLine(VanillaBonkLocale.L("Pays ") .. Multiplier(map.reward) .. VanillaBonkLocale.L("x gold, Darkmoon Tickets and Mastery experience."), 0.25, 1, 0.25, 1)
         end
     end
     if IsDungeonMode() then
-        GameTooltip:AddLine("Dungeon mode plays every stage inside " .. ChosenDungeon().name .. ".", 1, 0.3, 0.3, 1)
+        GameTooltip:AddLine(VanillaBonkLocale.L("Dungeon mode plays every stage inside ") .. ChosenDungeon().name .. ".", 1, 0.3, 0.3, 1)
     elseif tier.stages and tier.stages > 1 then
-        GameTooltip:AddLine("Your run starts here. Later stages are random.", 1, 0.82, 0, 1)
+        GameTooltip:AddLine(VanillaBonkLocale.L("Your run starts here. Later stages are random."), 1, 0.82, 0, 1)
     end
     GameTooltip:Show()
 end
@@ -186,8 +186,8 @@ end
 local function FillRow(row, map, chosen, invader, dimmed)
     row.map = map
     row.icon:SetTexture(Icon(map and map.icon))
-    row.name:SetText(map and map.name or "Random zone")
-    row.summary:SetText(map and (Info(map.key).summary or "") or ("Any " .. tier.name .. " zone, picked when the run starts"))
+    row.name:SetText(map and map.name or VanillaBonkLocale.L("Random zone"))
+    row.summary:SetText(map and (Info(map.key).summary or "") or (VanillaBonkLocale.L("Any ") .. tier.name .. VanillaBonkLocale.L(" zone, picked when the run starts")))
     SetBadge(row.badge, map and invader or nil)
     SetDesaturation(row.icon, dimmed)
     local lit = chosen and not dimmed
@@ -219,16 +219,16 @@ local function ChallengeTooltip(slot)
     local dungeon = slot.dungeon
     GameTooltip:SetOwner(slot, "ANCHOR_RIGHT")
     GameTooltip:AddLine(dungeon.name, dungeon.open and 1 or 0.6, dungeon.open and 0.82 or 0.6, dungeon.open and 0 or 0.6)
-    GameTooltip:AddLine("Challenge mode", 0.7, 0.7, 0.7)
+    GameTooltip:AddLine(VanillaBonkLocale.L("Challenge mode"), 0.7, 0.7, 0.7)
     GameTooltip:AddLine(CHALLENGE_RISK, 1, 0.5, 0.5, 1)
-    GameTooltip:AddLine("Dungeon: every stage takes place inside " .. dungeon.name .. ".", 1, 1, 1, 1)
+    GameTooltip:AddLine(VanillaBonkLocale.L("Dungeon: every stage takes place inside ") .. dungeon.name .. ".", 1, 1, 1, 1)
     GameTooltip:AddLine(DUNGEON_REWARD, 0.25, 1, 0.25, 1)
-    GameTooltip:AddLine("Invasion: " .. dungeon.name .. "'s enemies and lords fill the zone you pick.", 1, 1, 1, 1)
+    GameTooltip:AddLine(VanillaBonkLocale.L("Invasion: ") .. dungeon.name .. VanillaBonkLocale.L("'s enemies and lords fill the zone you pick."), 1, 1, 1, 1)
     GameTooltip:AddLine(INVASION_REWARD, 0.25, 1, 0.25, 1)
     if not dungeon.open then
-        GameTooltip:AddLine("Clear " .. tier.name .. " first.", 1, 0.3, 0.3)
+        GameTooltip:AddLine(VanillaBonkLocale.L("Clear ") .. tier.name .. VanillaBonkLocale.L(" first."), 1, 0.3, 0.3)
     elseif state.dungeon[tier.id] == dungeon.key then
-        GameTooltip:AddLine("Click again to turn it off.", 1, 0.82, 0, 1)
+        GameTooltip:AddLine(VanillaBonkLocale.L("Click again to turn it off."), 1, 0.82, 0, 1)
     end
     GameTooltip:Show()
 end
@@ -320,11 +320,11 @@ local function ShowChallenges()
     StyleToggle(challenge.dungeon, chosen and not IsInvasion(), chosen ~= nil)
     StyleToggle(challenge.invasion, IsInvasion(), chosen ~= nil)
     if chosen then
-        challenge.hint:SetText("|cff9d9d9dClick the lit icon again to turn it off.|r")
+        challenge.hint:SetText(VanillaBonkLocale.L("|cff9d9d9dClick the lit icon again to turn it off.|r"))
     elseif dungeons[1] and not dungeons[1].open then
-        challenge.hint:SetText("|cff9d9d9dClear " .. tier.name .. " to unlock challenges.|r")
+        challenge.hint:SetText(VanillaBonkLocale.L("|cff9d9d9dClear ") .. tier.name .. VanillaBonkLocale.L(" to unlock challenges.|r"))
     else
-        challenge.hint:SetText("|cff9d9d9dPick a dungeon to make the run harder and richer.|r")
+        challenge.hint:SetText(VanillaBonkLocale.L("|cff9d9d9dPick a dungeon to make the run harder and richer.|r"))
     end
 end
 
@@ -463,11 +463,11 @@ end
 
 local function StageWord(count)
     if count == 1 then
-        return "stage 2"
+        return VanillaBonkLocale.L("stage 2")
     elseif count == 2 then
-        return "stages 2 and 3"
+        return VanillaBonkLocale.L("stages 2 and 3")
     end
-    return "stages 2 to " .. (count + 1)
+    return VanillaBonkLocale.L("stages 2 to ") .. (count + 1)
 end
 
 local function ShowRoute(firstIcon, laterIcon, badge, caption)
@@ -491,7 +491,7 @@ local function ShowRoute(firstIcon, laterIcon, badge, caption)
     end
     preview.endless:ClearAllPoints()
     preview.endless:SetPoint("LEFT", RouteIcon(stages), "RIGHT", 10, 0)
-    preview.endless:SetText(tier.endless and "|cff9d9d9dthen Endless|r" or "")
+    preview.endless:SetText(tier.endless and VanillaBonkLocale.L("|cff9d9d9dthen Endless|r") or "")
     preview.caption:SetText(caption)
 end
 
@@ -499,14 +499,14 @@ local function ShowPreview()
     local zone = ChosenZone()
     local dungeon = ChosenDungeon()
     local stages = tier.stages or 1
-    local later = stages > 1 and ("|cff9d9d9d, " .. StageWord(stages - 1) .. " random|r") or ""
+    local later = stages > 1 and ("|cff9d9d9d, " .. StageWord(stages - 1) .. VanillaBonkLocale.L(" random|r")) or ""
     local locked = not tier.unlocked
     if IsDungeonMode() then
         SetArt(DUNGEON_ART[dungeon.key] or tier.art, false, locked)
         preview.name:SetText(dungeon.name)
-        preview.subtitle:SetText(Colored("Dungeon challenge", unpack(INVADED_COLOR)))
+        preview.subtitle:SetText(Colored(VanillaBonkLocale.L("Dungeon challenge"), unpack(INVADED_COLOR)))
         preview.description:SetText(Info(dungeon.key).description or "")
-        ShowRoute(dungeon.icon, dungeon.icon, nil, "|cffffffffEvery stage inside " .. dungeon.name .. ".|r")
+        ShowRoute(dungeon.icon, dungeon.icon, nil, VanillaBonkLocale.L("|cffffffffEvery stage inside ") .. dungeon.name .. ".|r")
     else
         local invader = IsInvasion() and dungeon or nil
         local info = Info(zone and zone.key)
@@ -516,23 +516,23 @@ local function ShowPreview()
             local art = zone and CONTINENT_ART[info.continent or ""] or tier.art
             SetArt(art ~= "" and art or CONTINENT_ART["0"], invader ~= nil, locked)
         end
-        preview.name:SetText(zone and zone.name or "Random zone")
-        local place = zone and zone.name or "the zone"
+        preview.name:SetText(zone and zone.name or VanillaBonkLocale.L("Random zone"))
+        local place = zone and zone.name or VanillaBonkLocale.L("the zone")
         if invader then
-            preview.subtitle:SetText(Colored("Invaded by " .. invader.name, unpack(INVADED_COLOR)))
-            local summary = Info(invader.key).summary or "Its enemies"
-            preview.description:SetText(summary .. " roam " .. place .. ". " .. invader.name .. "'s lords lead every stage.")
+            preview.subtitle:SetText(Colored(VanillaBonkLocale.L("Invaded by ") .. invader.name, unpack(INVADED_COLOR)))
+            local summary = Info(invader.key).summary or VanillaBonkLocale.L("Its enemies")
+            preview.description:SetText(summary .. VanillaBonkLocale.L(" roam ") .. place .. ". " .. invader.name .. VanillaBonkLocale.L("'s lords lead every stage."))
         else
             preview.subtitle:SetText("")
-            preview.description:SetText(zone and (info.description or "") or ("Stage 1 takes you to any zone of " .. tier.name .. "."))
+            preview.description:SetText(zone and (info.description or "") or (VanillaBonkLocale.L("Stage 1 takes you to any zone of ") .. tier.name .. "."))
         end
-        local first = zone and "|cffffffffStage 1 here|r" or "|cffffffffEvery stage random|r"
+        local first = zone and VanillaBonkLocale.L("|cffffffffStage 1 here|r") or VanillaBonkLocale.L("|cffffffffEvery stage random|r")
         ShowRoute(zone and zone.icon or RANDOM_ICON, RANDOM_ICON, invader, zone and (first .. later) or first)
     end
     if dungeon then
         preview.odds:SetText(Colored(CHALLENGE_RISK, 1, 0.5, 0.5) .. "\n" .. Colored(IsInvasion() and INVASION_REWARD or DUNGEON_REWARD, 0.25, 1, 0.25))
     elseif zone and zone.reward and zone.reward ~= 100 then
-        preview.odds:SetText(Colored("Pays " .. Multiplier(zone.reward) .. "x gold, Darkmoon Tickets and Mastery experience.", 0.25, 1, 0.25))
+        preview.odds:SetText(Colored(VanillaBonkLocale.L("Pays ") .. Multiplier(zone.reward) .. VanillaBonkLocale.L("x gold, Darkmoon Tickets and Mastery experience."), 0.25, 1, 0.25))
     else
         preview.odds:SetText("")
     end
@@ -545,15 +545,15 @@ local function Build()
     rows.label = UI.Text(content, 13)
     rows.label:SetPoint("TOPLEFT", arena, "TOPLEFT", LEFT_X, -LIST_TOP)
     rows.label:SetTextColor(1, 0.82, 0)
-    rows.label:SetText("Starting zone")
+    rows.label:SetText(VanillaBonkLocale.L("Starting zone"))
 
     challenge = {}
     challenge.label = UI.Text(content, 13)
     challenge.label:SetPoint("TOPLEFT", arena, "TOPLEFT", LEFT_X, -CHALLENGE_TOP)
     challenge.label:SetTextColor(1, 0.82, 0)
-    challenge.label:SetText("Challenge mode")
-    challenge.dungeon = UI.Button(content, 78, "Dungeon", function() SetMode(false) end)
-    challenge.invasion = UI.Button(content, 78, "Invasion", function() SetMode(true) end)
+    challenge.label:SetText(VanillaBonkLocale.L("Challenge mode"))
+    challenge.dungeon = UI.Button(content, 78, VanillaBonkLocale.L("Dungeon"), function() SetMode(false) end)
+    challenge.invasion = UI.Button(content, 78, VanillaBonkLocale.L("Invasion"), function() SetMode(true) end)
     challenge.invasion:SetPoint("LEFT", challenge.dungeon, "RIGHT", 4, 0)
     challenge.hint = UI.Text(content, 10)
     challenge.hint:SetPoint("TOPLEFT", challenge.dungeon, "BOTTOMLEFT", 0, -4)
@@ -593,7 +593,7 @@ local function Build()
     preview.routeLabel = UI.Text(preview, 12)
     preview.routeLabel:SetPoint("TOPLEFT", preview, "TOPLEFT", PREVIEW_TEXT_X, -120)
     preview.routeLabel:SetTextColor(1, 0.82, 0)
-    preview.routeLabel:SetText("Your route")
+    preview.routeLabel:SetText(VanillaBonkLocale.L("Your route"))
     preview.route = {}
     preview.endless = UI.Text(preview, 10)
     preview.caption = UI.Text(preview, 11)
@@ -633,7 +633,7 @@ end
 UI.Listen({
     mapinfo = function(f)
         if f[2] and f[2] ~= "" then
-            mapInfo[f[2]] = { continent = f[3] or "", summary = f[4] or "", description = f[5] or "",
+            mapInfo[f[2]] = { continent = VanillaBonkLocale.L(f[3] or ""), summary = VanillaBonkLocale.L(f[4] or ""), description = VanillaBonkLocale.L(f[5] or ""),
                 file = f[6] or "", u = tonumber(f[7] or ""), v = tonumber(f[8] or "") }
         end
     end,
