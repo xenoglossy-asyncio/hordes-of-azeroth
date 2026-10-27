@@ -17,6 +17,7 @@ namespace HordesOfAzeroth.Launcher
         public bool BuildSpeedChosen;
         public CoreShare InstallCores = CoreShare.All;
         public CoreShare BackgroundCores = CoreShare.Half;
+        public string Language = "enUS";
 
         public static int Workers(CoreShare share) => share == CoreShare.All ? Environment.ProcessorCount : HalfOfCores;
 
@@ -48,6 +49,8 @@ namespace HordesOfAzeroth.Launcher
                 settings.InstallCores = installShare;
             if (values.TryGetValue("BackgroundCores", out string background) && Enum.TryParse(background, true, out CoreShare backgroundShare))
                 settings.BackgroundCores = backgroundShare;
+            if (values.TryGetValue("Language", out string language) && (language == "enUS" || language == "zhCN"))
+                settings.Language = language;
             return settings;
         }
 
@@ -62,6 +65,7 @@ namespace HordesOfAzeroth.Launcher
                 "BuildSpeedChosen=" + (BuildSpeedChosen ? "1" : "0"),
                 "InstallCores=" + InstallCores,
                 "BackgroundCores=" + BackgroundCores,
+                "Language=" + Language,
             });
         }
     }

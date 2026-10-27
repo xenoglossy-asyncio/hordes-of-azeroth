@@ -11,28 +11,28 @@
         UseLayoutRounding="True"
         TextOptions.TextFormattingMode="Display">
     <StackPanel Margin="28,22,28,24">
-        <TextBlock Text="BEFORE THE BUILD STARTS" FontSize="11" FontWeight="Bold" Foreground="{StaticResource Accent}" />
-        <TextBlock Text="How hard should your PC work?" FontSize="20" FontWeight="Bold" Margin="0,4,0,10" />
+        <TextBlock x:Name="KickerText" Text="BEFORE THE BUILD STARTS" FontSize="11" FontWeight="Bold" Foreground="{StaticResource Accent}" />
+        <TextBlock x:Name="QuestionText" Text="How hard should your PC work?" FontSize="20" FontWeight="Bold" Margin="0,4,0,10" />
         <TextBlock TextWrapping="Wrap" FontSize="13" LineHeight="19" Margin="0,0,0,8"
-                   Text="The launcher now works out where monsters can walk in every zone. It builds these maps from your own game files, one area at a time, and it only has to do this once." />
+                   x:Name="IntroText" Text="The launcher now works out where monsters can walk in every zone. It builds these maps from your own game files, one area at a time, and it only has to do this once." />
         <TextBlock TextWrapping="Wrap" FontSize="13" LineHeight="19" Foreground="{StaticResource Muted}" Margin="0,0,0,16"
-                   Text="This is heavy work. Your processor can sit at 100% and your fans may spin up until it finishes. That's expected and nothing is wrong. With half the cores it takes longer, but your PC stays easy to use in the meantime." />
+                   x:Name="HeavyText" Text="This is heavy work. Your processor can sit at 100% and your fans may spin up until it finishes. That's expected and nothing is wrong. With half the cores it takes longer, but your PC stays easy to use in the meantime." />
 
-        <TextBlock Text="First zones, before you can play" FontSize="13" FontWeight="SemiBold" Margin="0,0,0,6" />
+        <TextBlock x:Name="FirstZonesText" Text="First zones, before you can play" FontSize="13" FontWeight="SemiBold" Margin="0,0,0,6" />
         <UniformGrid Columns="2" Margin="0,0,0,16">
             <RadioButton x:Name="InstallAll" GroupName="Install" Style="{StaticResource ChoiceCard}" Margin="0,0,5,0" />
             <RadioButton x:Name="InstallHalf" GroupName="Install" Style="{StaticResource ChoiceCard}" Margin="5,0,0,0" />
         </UniformGrid>
 
-        <TextBlock Text="Harder zones, in the background afterwards" FontSize="13" FontWeight="SemiBold" Margin="0,0,0,6" />
+        <TextBlock x:Name="LaterZonesText" Text="Harder zones, in the background afterwards" FontSize="13" FontWeight="SemiBold" Margin="0,0,0,6" />
         <UniformGrid Columns="2" Margin="0,0,0,8">
             <RadioButton x:Name="BackgroundAll" GroupName="Background" Style="{StaticResource ChoiceCard}" Margin="0,0,5,0" />
             <RadioButton x:Name="BackgroundHalf" GroupName="Background" Style="{StaticResource ChoiceCard}" Margin="5,0,0,0" />
         </UniformGrid>
         <TextBlock TextWrapping="Wrap" FontSize="12" Foreground="{StaticResource Muted}" Margin="0,0,0,18"
-                   Text="You can change these settings any time from the ••• menu next to Play, even while it's building. The new setting applies from the next chunk of the build onwards." />
+                   x:Name="NoteText" Text="You can change these settings any time from the ••• menu next to Play, even while it's building. The new setting applies from the next chunk of the build onwards." />
 
-        <Button Style="{StaticResource PrimaryButton}" Content="Continue" FontSize="16" Height="42" Width="180"
+        <Button Style="{StaticResource PrimaryButton}" x:Name="ContinueButton" Content="Continue" FontSize="16" Height="42" Width="180"
                 HorizontalAlignment="Right" IsDefault="True" Click="Continue_Click" />
     </StackPanel>
 </Window>

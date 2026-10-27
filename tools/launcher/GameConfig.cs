@@ -86,6 +86,14 @@ namespace HordesOfAzeroth.Launcher
             Write(folder, changes);
         }
 
+        public static void SetLanguage(GameFolder folder, string language)
+        {
+            Write(folder, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+            {
+                ["bonkLanguage"] = language,
+            });
+        }
+
         static string BorderlessPath(GameFolder folder) => Path.Combine(folder.LauncherData, "borderless.txt");
 
         static string DesktopResolution()

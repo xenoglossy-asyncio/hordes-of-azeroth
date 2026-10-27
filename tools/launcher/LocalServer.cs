@@ -50,7 +50,7 @@ namespace HordesOfAzeroth.Launcher
 
             if (!IsPortOpen(DatabasePort))
             {
-                progress.Report("Starting the database");
+                progress.Report(Strings.S("Starting the database"));
                 m_database = StartHidden(Path.Combine(m_folder.MariaDb, "bin", "mariadbd.exe"), m_folder.MariaDb,
                     $"\"--defaults-file={Path.Combine(m_folder.Config, "mariadb.ini")}\"",
                     $"\"--basedir={m_folder.MariaDb}\"",
@@ -60,14 +60,14 @@ namespace HordesOfAzeroth.Launcher
 
             if (!IsPortOpen(LoginPort))
             {
-                progress.Report("Starting the login server");
+                progress.Report(Strings.S("Starting the login server"));
                 m_login = StartHidden(Path.Combine(m_folder.ServerRun, "realmd.exe"), m_folder.ServerRun);
                 await WaitForPortAsync(LoginPort, m_login, TimeSpan.FromSeconds(30), "the login server", cancel);
             }
 
             if (!IsPortOpen(WorldPort))
             {
-                progress.Report("Loading the world");
+                progress.Report(Strings.S("Loading the world"));
                 DateTime started = DateTime.UtcNow;
                 m_world = StartHidden(Path.Combine(m_folder.ServerRun, "mangosd.exe"), m_folder.ServerRun, redirectInput: true);
                 try

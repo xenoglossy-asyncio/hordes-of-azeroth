@@ -62,7 +62,7 @@
                                   Data="M7,3.5 V6 M10,2.5 V6 M13,3.5 V6" />
                         </Canvas>
                     </Viewbox>
-                    <TextBlock Text="Buy me a coffee" VerticalAlignment="Center" />
+                    <TextBlock x:Name="CoffeeText" Text="Buy me a coffee" VerticalAlignment="Center" />
                 </StackPanel>
             </Button>
 
@@ -108,11 +108,11 @@
                     <TextBlock FontSize="12" Foreground="{StaticResource Muted}" Margin="0,12,0,0">
                         <Run x:Name="InstalledText" />
                         <Run Text="  ·  " />
-                        <Hyperlink Style="{StaticResource BarLink}" Click="CheckForUpdates_Click">Check for updates</Hyperlink>
+                        <Hyperlink Style="{StaticResource BarLink}" Click="CheckForUpdates_Click"><Run x:Name="UpdateLinkText" Text="Check for updates"/></Hyperlink>
                         <Run Text="  ·  " />
-                        <Hyperlink Style="{StaticResource BarLink}" Click="OpenGameFolder_Click">Open game folder</Hyperlink>
+                        <Hyperlink Style="{StaticResource BarLink}" Click="OpenGameFolder_Click"><Run x:Name="FolderLinkText" Text="Open game folder"/></Hyperlink>
                         <Run Text="  ·  " />
-                        <Hyperlink Style="{StaticResource BarLink}" Click="ReportBug_Click" ToolTip="Saves a zip of your logs on the desktop and opens the bug report form. Attach the zip to your report.">Report a bug</Hyperlink>
+                        <Hyperlink x:Name="BugLink" Style="{StaticResource BarLink}" Click="ReportBug_Click" ToolTip="Saves a zip of your logs on the desktop and opens the bug report form. Attach the zip to your report."><Run x:Name="BugLinkText" Text="Report a bug"/></Hyperlink>
                     </TextBlock>
                 </StackPanel>
                 <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="0,22,36,0" VerticalAlignment="Top">
@@ -130,7 +130,7 @@
                         </Canvas>
                         <Button.ContextMenu>
                             <ContextMenu x:Name="OptionsMenu" Placement="Top" Opened="OptionsMenu_Opened" Closed="OptionsMenu_Closed">
-                                <MenuItem Header="GAME WINDOW" IsEnabled="False" FontSize="11" FontWeight="Bold" />
+                                <MenuItem x:Name="GameWindowItem" Header="GAME WINDOW" IsEnabled="False" FontSize="11" FontWeight="Bold" />
                                 <MenuItem x:Name="BorderlessItem" IsCheckable="True" Header="Borderless window" Click="BorderlessItem_Click" />
                                 <MenuItem x:Name="WindowedItem" IsCheckable="True" Header="Window" Click="WindowedItem_Click" />
                                 <MenuItem x:Name="FullscreenItem" IsCheckable="True" Header="Fullscreen" Click="FullscreenItem_Click" />
@@ -138,13 +138,15 @@
                 <MenuItem x:Name="VulkanItem" IsCheckable="True" Header="Vulkan graphics" Click="VulkanItem_Click" />
                                 <Separator />
                                 <MenuItem x:Name="BuildItem" IsCheckable="True" Header="Build monster paths while I play" Click="BuildItem_Click" />
-                                <MenuItem Header="Monster path build speed…" Click="BuildSpeedItem_Click" />
+                                <MenuItem x:Name="BuildSpeedItem" Header="Monster path build speed…" Click="BuildSpeedItem_Click" />
                                 <MenuItem x:Name="TrayItem" IsCheckable="True" Header="Keep running in the tray" Click="TrayItem_Click" />
                                 <Separator />
                                 <MenuItem x:Name="RepairItem" Header="Repair the game…" Click="RepairItem_Click"
                                           ToolTip="Checks every game file, puts back the ones that are missing or damaged and reloads the world. Your characters and unlocks stay." />
-                                <MenuItem Header="Open logs folder" Click="OpenLogs_Click" />
-                                <MenuItem Header="Save logs to the desktop" Click="SaveLogs_Click" />
+                                <MenuItem x:Name="OpenLogsItem" Header="Open logs folder" Click="OpenLogs_Click" />
+                                <MenuItem x:Name="SaveLogsItem" Header="Save logs to the desktop" Click="SaveLogs_Click" />
+                                <Separator />
+                                <MenuItem x:Name="LanguageItem" Click="LanguageItem_Click" />
                             </ContextMenu>
                         </Button.ContextMenu>
                     </Button>
