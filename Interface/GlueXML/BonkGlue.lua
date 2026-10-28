@@ -414,13 +414,13 @@ function BonkHero_RefreshTexts()
 	BonkFeatureBoxCaption:SetText(VanillaBonkLocale.L("Features"));
 	BonkListPanelTitle:SetText(VanillaBonkLocale.L("Characters"));
 	BonkAppearPanelTitle:SetText(VanillaBonkLocale.L("Appearance"));
-	BonkLanguageButton:SetText(GetCVar("bonkLanguage") == "zhCN" and "English" or "884{h]");
+	BonkLanguageButton:SetText(VanillaBonkLocale.LanguageCVar() == "zhCN" and "English" or "中文");
 	BonkHero_UpdateCount();
 end
 
 function BonkHero_ToggleLanguage()
-	pcall(SetCVar, "bonkLanguage", GetCVar("bonkLanguage") == "zhCN" and "enUS" or "zhCN");
-	VanillaBonkLocale.SetLanguage(GetCVar("bonkLanguage"));
+	pcall(SetCVar, "bonkLanguage", VanillaBonkLocale.LanguageCVar() == "zhCN" and "enUS" or "zhCN");
+	VanillaBonkLocale.SetLanguage(VanillaBonkLocale.LanguageCVar());
 	BonkHero_RefreshTexts();
 	PlaySound("igMainMenuOptionCheckBoxOn");
 end

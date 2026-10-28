@@ -179,12 +179,12 @@ local function BuildLanguageRow(box)
     row.value = row:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
     row.value:SetPoint("LEFT", row, "LEFT", 120, 0)
     local function Current()
-        return GetCVar("bonkLanguage") == "zhCN" and "884{h]" or "English"
+        return VanillaBonkLocale.LanguageCVar() == "zhCN" and "中文" or "English"
     end
     row.value:SetText(Current())
     row.change = UI.Button(row, 70, VanillaBonkLocale.L("Change"), function()
         PlaySound("igMainMenuOptionCheckBoxOn")
-        pcall(SetCVar, "bonkLanguage", GetCVar("bonkLanguage") == "zhCN" and "enUS" or "zhCN")
+        pcall(SetCVar, "bonkLanguage", VanillaBonkLocale.LanguageCVar() == "zhCN" and "enUS" or "zhCN")
         ReloadUI()
     end)
     row.change:SetPoint("RIGHT", row, "RIGHT", 0, 0)

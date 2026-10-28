@@ -234,9 +234,17 @@ function VanillaBonkLocale.TitleFont()
     return DEFAULT_TITLE_FONT
 end
 
-function VanillaBonkLocale.DetectLanguage()
+function VanillaBonkLocale.LanguageCVar()
     local ok, value = pcall(GetCVar, "bonkLanguage")
-    if ok and value == "zhCN" then
+    if ok then
+        return value
+    end
+    return nil
+end
+
+function VanillaBonkLocale.DetectLanguage()
+    local value = VanillaBonkLocale.LanguageCVar()
+    if value == "zhCN" then
         return "zhCN"
     end
     return BONK_LANGUAGE
