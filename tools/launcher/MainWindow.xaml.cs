@@ -133,6 +133,14 @@ namespace HordesOfAzeroth.Launcher
             RefreshState();
         }
 
+        void WriteLanguageFiles()
+        {
+            Directory.CreateDirectory(Path.Combine(m_folder.Root, "Interface", "GlueXML"));
+            Directory.CreateDirectory(Path.Combine(m_folder.Root, "Interface", "AddOns", "HordesOfAzeroth"));
+            File.WriteAllText(Path.Combine(m_folder.Root, "Interface", "GlueXML", "BonkLanguage.lua"), $"BONK_LANGUAGE = \"{m_settings.Language}\"{Environment.NewLine}");
+            File.WriteAllText(Path.Combine(m_folder.Root, "Interface", "AddOns", "HordesOfAzeroth", "BonkLanguage.lua"), $"BONK_LANGUAGE = \"{m_settings.Language}\"{Environment.NewLine}");
+        }
+
         void LanguageItem_Click(object sender, RoutedEventArgs e)
         {
             m_settings.Language = Strings.IsZh ? "enUS" : "zhCN";
@@ -141,6 +149,7 @@ namespace HordesOfAzeroth.Launcher
             try
             {
                 GameConfig.SetLanguage(m_folder, m_settings.Language);
+                WriteLanguageFiles();
             }
             catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException)
             {
@@ -993,6 +1002,13 @@ namespace HordesOfAzeroth.Launcher
         async Task PlayAsync()
         {
             SetState(LauncherState.Starting, Strings.S("Starting"), "");
+            try
+            {
+                WriteLanguageFiles();
+            }
+            catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException)
+            {
+            }
             Progress<string> progress = new Progress<string>(step => StatusDetail.Text = "   " + step);
             try
             {

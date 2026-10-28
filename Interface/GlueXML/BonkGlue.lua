@@ -419,7 +419,7 @@ function BonkHero_RefreshTexts()
 end
 
 function BonkHero_ToggleLanguage()
-	SetCVar("bonkLanguage", GetCVar("bonkLanguage") == "zhCN" and "enUS" or "zhCN");
+	pcall(SetCVar, "bonkLanguage", GetCVar("bonkLanguage") == "zhCN" and "enUS" or "zhCN");
 	VanillaBonkLocale.SetLanguage(GetCVar("bonkLanguage"));
 	BonkHero_RefreshTexts();
 	PlaySound("igMainMenuOptionCheckBoxOn");

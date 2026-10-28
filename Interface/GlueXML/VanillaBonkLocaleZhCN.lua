@@ -5137,4 +5137,4 @@ VanillaBonkLocaleZhCN.entities = {
   "Imp",
 }
 
-VanillaBonkLocale.SetLanguage(GetCVar("bonkLanguage"))
+VanillaBonkLocale.SetLanguage(VanillaBonkLocale.DetectLanguage())
