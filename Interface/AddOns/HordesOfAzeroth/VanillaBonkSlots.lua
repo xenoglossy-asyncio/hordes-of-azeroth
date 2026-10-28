@@ -104,7 +104,7 @@ loader:SetScript("OnEvent", function()
     local _, class = UnitClass("player")
     slots.why = CLASS_WEAPONS[class]
     for _, slot in ipairs(LOCKED_SLOTS[class] or {}) do
-        local button = getglobal(VanillaBonkLocale.L("Character") .. slot .. "Slot")
+        local button = getglobal("Character" .. slot .. "Slot")
         if button then
             slots.locked[button:GetName()] = true
             Guard(button)
