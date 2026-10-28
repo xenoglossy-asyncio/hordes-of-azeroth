@@ -21,10 +21,17 @@ BONK_CLASS_COLORS = {
 	MAGE = { 0.41, 0.8, 0.94 }, WARLOCK = { 0.58, 0.51, 0.79 }, DRUID = { 1.0, 0.49, 0.04 },
 };
 
-BONK_CLASS_TOKENS = {};
-for _, class in BONK_CLASSES do
-	BONK_CLASS_TOKENS[class.name] = class.token;
-end
+BONK_CLASS_TOKENS = {
+	["Warrior"] = "WARRIOR",
+	["Paladin"] = "PALADIN",
+	["Hunter"] = "HUNTER",
+	["Rogue"] = "ROGUE",
+	["Priest"] = "PRIEST",
+	["Shaman"] = "SHAMAN",
+	["Mage"] = "MAGE",
+	["Warlock"] = "WARLOCK",
+	["Druid"] = "DRUID",
+};
 
 BONK_IRONMAN_TIP = VanillaBonkLocale.L("This character does not share gold or unlocks with other characters.");
 
