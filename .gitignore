@@ -54,5 +54,6 @@
 
 # To track a new top-level project folder, add a line like:
 # !/addon-src/
+!/localization/
 
 tools/bench/results.json

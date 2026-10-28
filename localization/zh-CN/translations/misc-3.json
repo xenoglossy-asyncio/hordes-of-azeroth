@@ -1,0 +1,20 @@
+{
+"+3% critical strike chance.": "致命一击几率提高{1}%。",
+"+5% Haste.": "急速提高{1}%。",
+"+10% Power.": "力量提高{1}%。",
+"+8% Haste.": "急速提高{1}%。",
+"+10% movement speed.": "移动速度提高{1}%。",
+"+25% maximum health.": "最大生命值提高{1}%。",
+"Regain 0.4% of your health every second.": "每秒恢复{1}%生命值。",
+"+15% experience.": "经验值提高{1}%。",
+"+30% pickup range.": "拾取范围提高{1}%。",
+"+10% Area.": "范围提高{1}%。",
+"+10 Armor.": "护甲提高{1}点。",
+"+5% dodge chance.": "闪避几率提高{1}%。",
+"+4% critical strike chance.": "致命一击几率提高{1}%。",
+"Gain a Shield of 10% of your maximum health.": "获得一层护盾，可吸收相当于{1}%最大生命值的伤害。",
+"+5 Luck.": "幸运提高{1}点。",
+"+1 Count.": "数量提高{1}。",
+"Your hits have a 10% chance to heal you for 1% of your maximum health, up to 0.3% per second.": "你的攻击有{1}%几率为你恢复{2}%最大生命值，每秒最多{3}%。",
+"+10% Poison damage.": "毒性伤害提高{1}%。"
+}
